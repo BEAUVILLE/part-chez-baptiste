@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>CHEZ BAPTISTE — Appartement à Saly</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#0b1020;
+    --card:#020617;
+    --card-soft:#020617;
+    --accent:#facc15;
+    --accent-soft:#f97316;
+    --ink:#f9fafb;
+    --muted:#9ca3af;
+    --line:#1f2937;
+
+    /* Pastel Sénégal */
+    --sn-green:#00853F;
+    --sn-green-soft:#E8F5EC;
+    --sn-green-deep:#064E3B;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:0;
+    background:radial-gradient(circle at top,#111827 0,#020617 55%);
+    color:var(--ink);
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  .app{
+    max-width:980px;
+    margin:0 auto;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  header{
+    padding:14px 16px;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:center;
+  }
+  .brand{
+    font-weight:700;
+    font-size:18px;
+  }
+  .brand span{
+    color:var(--accent);
+  }
+  .tag{
+    font-size:11px;
+    border-radius:999px;
+    border:1px solid rgba(148,163,184,.6);
+    padding:4px 10px;
+    white-space:nowrap;
+    color:var(--muted);
+  }
+  main{flex:1;padding:0 12px 16px;}
+
+  .hero{
+    background:linear-gradient(135deg,#111827,#020617);
+    border-radius:18px;
+    padding:16px;
+    border:1px solid rgba(250,204,21,.4);
+    display:grid;
+    grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
+    gap:16px;
+    align-items:flex-start;
+    box-shadow:0 20px 40px rgba(0,0,0,.7);
+    margin-bottom:16px;
+  }
+  @media(max-width:900px){
+    .hero{grid-template-columns:1fr;}
+  }
+  .hero h1{
+    margin:0 0 6px;
+    font-size:22px;
+  }
+  .hero p{
+    margin:0 0 8px;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:6px;
+  }
+  .chip{
+    font-size:11px;
+    border-radius:999px;
+    border:1px solid rgba(148,163,184,.6);
+    padding:4px 8px;
+    color:var(--muted);
+  }
+
+  .hero-media{
+  margin-top:10px;
+}
+
+.hero-photo{
+  width:100%;
+  height:clamp(260px, 42vw, 420px);
+  border-radius:14px;
+  object-fit:cover;
+  display:block;
+  border:1px solid #1f2937;
+}
+  .hero-caption{
+    margin-top:4px;
+    font-size:11px;
+    color:var(--muted);
+  }
+
+  .price-block{
+    background:#020617;
+    border-radius:14px;
+    border:1px solid #1f2937;
+    padding:10px 12px;
+    font-size:13px;
+    color:#ffffff;
+  }
+  .price-block h2{
+    margin:0 0 4px;
+    font-size:16px;
+    font-weight:900;
+    color:var(--accent);
+  }
+  .tarifs{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin:8px 0;
+    font-size:15px;
+    font-weight:700;
+  }
+  .tarifs span{
+    display:flex;
+    justify-content:space-between;
+  }
+  .tarifs strong{
+    color:#22c55e;
+    font-size:16px;
+    font-weight:900;
+  }
+
+  .cta-col{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:14px;
+  }
+  .btn{
+    border:none;
+    border-radius:999px;
+    padding:9px 12px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:6px;
+    text-decoration:none;
+  }
+  .btn-wa{
+    background:#16a34a;
+    color:#ecfdf3;
+  }
+  .btn-call{
+    background:#0f172a;
+    color:#e5e7eb;
+    border:1px solid #1f2937;
+  }
+  .btn-video{
+    background:#111827;
+    color:#e5e7eb;
+    border:1px solid #334155;
+    font-size:13px;
+  }
+
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+    gap:12px;
+  }
+  @media(max-width:900px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:0 16px 32px rgba(0,0,0,.6);
+    padding:12px;
+  }
+  .card h2{
+    margin:0 0 4px;
+    font-size:16px;
+  }
+  .card small{
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  .form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:8px;
+  }
+  @media(max-width:640px){
+    .form-grid{
+      grid-template-columns:1fr;
+    }
+  }
+
+  .field label{
+    display:block;
+    font-size:11px;
+    color:var(--muted);
+    margin-bottom:2px;
+  }
+  .field input,
+  .field select{
+    width:100%;
+    padding:7px 9px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:#020617;
+    color:#f9fafb;
+    font-size:13px;
+  }
+  .field input[type="date"]{
+    color-scheme:dark;
+  }
+
+  .summary{
+    margin-top:8px;
+    font-size:14px;
+    color:var(--muted);
+  }
+  .summary strong{
+    color:var(--accent-soft);
+  }
+
+  footer{
+    padding:8px 14px 14px;
+    font-size:11px;
+    color:var(--muted);
+    text-align:center;
+  }
+
+  a.inline-link{
+    color:var(--accent-soft);
+    text-decoration:none;
+  }
+  a.inline-link:hover{
+    text-decoration:underline;
+  }
+
+  /* ==== DIGIY LOC PREMIUM : titres & labels bien lisibles ==== */
+  .digiy-title-strong {
+    font-size:18px;
+    font-weight:800;
+    color:#ffffff !important;
+  }
+  .digiy-label-strong {
+    font-size:14px;
+    font-weight:700;
+    color:#ffffff !important;
+  }
+  .digiy-black-strong {
+    font-size:16px;
+    font-weight:800;
+    color:#ffffff !important;
+  }
+
+  .card h2.digiy-title-strong + small{
+    color:#e5e7eb !important;
+    font-weight:600;
+  }
+  .hero-caption{
+    color:#e5e7eb !important;
+    font-weight:500;
+  }
+  input::placeholder,
+  select{
+    color:#cbd5e1 !important;
+    font-weight:500;
+  }
+
+  /* Wave highlight */
+  .pay-number {
+    font-size:24px;
+    font-weight:900;
+    color:#22c55e;
+    letter-spacing:1px;
+  }
+  .pay-note {
+    font-size:14px;
+    font-weight:700;
+    color:#22c55e;
+  }
+
+  /* ===== BLOC WAVE ===== */
+  .wave-card{
+    margin-top:14px;
+    padding:16px;
+    border-radius:16px;
+    background:#0f172a;
+    border:2px solid #22c55e;
+    box-shadow:0 0 22px rgba(34,197,94,0.28);
+  }
+
+  /* ===== BLOC RÉSA VERT SÉNÉGAL - ULTRA LISIBLE ===== */
+  .resa-card{
+    margin-top:4px;
+    border-radius:18px;
+    padding:24px;
+    background:linear-gradient(135deg,#00853F 0%,#006B32 100%);
+    border:3px solid #FCBF49;
+    box-shadow:0 20px 40px rgba(0,133,63,.5);
+    color:#ffffff;
+  }
+  
+  .resa-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:8px;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+  }
+  
+  .resa-title-block h2{
+    margin:0;
+    font-size:42px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    text-shadow:2px 2px 4px rgba(0,0,0,.3);
+    color:#ffffff;
+  }
+  
+  .resa-title-block small{
+    display:block;
+    margin-top:10px;
+    font-size:20px;
+    font-weight:800;
+    color:#FEF3C7;
+    text-shadow:1px 1px 2px rgba(0,0,0,.2);
+  }
+  
+  .resa-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(252,191,73,0.2);
+    border:2px solid #FCBF49;
+    color:#FEF3C7;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    font-weight:800;
+    white-space:nowrap;
+  }
+  
+  .resa-badge-dot{
+    width:10px;
+    height:10px;
+    border-radius:999px;
+    background:#FCBF49;
+    box-shadow:0 0 12px rgba(252,191,73,0.8);
+  }
+
+  .resa-steps{
+    margin-top:10px;
+    margin-bottom:12px;
+    font-size:15px;
+    font-weight:700;
+    color:#FEF3C7;
+  }
+  .resa-steps strong{
+    font-size:16px;
+    font-weight:900;
+  }
+  .resa-steps ul{
+    margin:6px 0 0 18px;
+    padding:0;
+  }
+  .resa-steps li{
+    margin-bottom:4px;
+    font-weight:600;
+  }
+
+  .resa-card .field label{
+    font-weight:900;
+    font-size:14px;
+    color:#FEF3C7 !important;
+    margin-bottom:4px;
+  }
+
+  .resa-summary-box{
+    margin-top:14px;
+    padding:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.15);
+    border:2px solid #FCBF49;
+    color:#FEF3C7;
+    font-size:16px;
+    font-weight:800;
+  }
+  .resa-summary-box strong{
+    color:#ffffff;
+    font-weight:900;
+  }
+
+  /* ===== BOUTON FLOTTANT RETOUR DIGIY LOC ===== */
+  .digiy-loc-back-home{
+    position:fixed;
+    right:14px;
+    bottom:14px;
+    z-index:9998;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 16px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:950;
+    font-size:14px;
+    color:#111;
+    background:linear-gradient(135deg,#facc15,#f97316);
+    border:1px solid rgba(250,204,21,0.65);
+    box-shadow:0 12px 28px rgba(250,204,21,0.28);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+
+  .digiy-loc-back-home:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 34px rgba(250,204,21,0.38);
+  }
+
+  .digiy-loc-back-home:active{
+    transform:scale(.98);
+  }
+
+  @media (max-width:640px){
+    .digiy-loc-back-home{
+      right:12px;
+      bottom:12px;
+      padding:11px 14px;
+      font-size:13px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">CHEZ BAPTISTE — <span>DIGIY LOC</span></div>
+    <div class="tag">Appartement à Saly · 4 personnes max · Quartier paisible</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Appartement CHEZ BAPTISTE — Saly</h1>
+        <p>
+          Appartement confortable dans un quartier paisible de Saly, sans bruyance, idéal pour les séjours
+          en famille ou entre amis. Jusqu'à 4 personnes, à quelques minutes des commodités et de la vie de Saly.
+        </p>
+        <div class="chips">
+          <span class="chip">4 personnes max</span>
+          <span class="chip">Quartier calme</span>
+          <span class="chip">Sénélec en sus</span>
+          <span class="chip">Réservation directe propriétaire</span>
+        </div>
+
+        <div class="hero-media">
+          <img src="https://orange-pig-270004.hostingersite.com/wp-content/uploads/2025/06/042-BAPTISTE.png"
+               alt="Appartement CHEZ BAPTISTE à Saly"
+               class="hero-photo">
+          <div class="hero-caption">
+            Vue de l'appartement CHEZ BAPTISTE — Saly (visuel DIGIY).
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="price-block">
+          <h2>Tarifs CHEZ BAPTISTE</h2>
+          <div class="tarifs">
+            <span><span>Nuit :</span><strong>30 000 F</strong></span>
+            <span><span>Semaine :</span><strong>175 000 F</strong></span>
+            <span><span>Mois :</span><strong>550 000 F</strong></span>
+          </div>
+          <div style="font-size:11px;margin-top:4px;color:var(--muted);">
+            ⚡ Sénélec en sus selon consommation électrique.
+          </div>
+        </div>
+
+        <div class="wave-card">
+          <div style="font-size:20px;font-weight:900;color:#ffffff;margin-bottom:8px;">
+            💳 Paiement direct propriétaire — Wave
+          </div>
+
+          <div class="pay-number">
+            +221 77 134 28 89
+          </div>
+
+          <div class="pay-note">
+            ✔ À utiliser dans votre application Wave
+          </div>
+
+          <div style="margin-top:10px;font-size:15px;font-weight:700;color:#ffffff;">
+            Propriétaire : Jean Baptiste Beauville
+          </div>
+        </div>
+
+        <div class="cta-col">
+          <a class="btn btn-wa" id="btnWa">
+            💬 Réserver par WhatsApp
+          </a>
+
+          <a class="btn btn-call" id="btnCall">
+            📞 Appeler le propriétaire
+          </a>
+
+          <button class="btn"
+                  style="background:#facc15;color:#111827;"
+                  type="button"
+                  id="btnSavePayMethod">
+            📝 Enregistrer mes infos (Wave)
+          </button>
+
+          <a class="btn btn-video"
+             href="https://drive.google.com/file/d/1oEVpt1R7fWBAJnKZlPu_fp2gqS-Z1kni/view?usp=sharing"
+             target="_blank" rel="noopener">
+            🎥 Voir la vidéo de présentation
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <article class="card resa-card">
+        <div class="resa-header">
+          <div class="resa-title-block">
+            <h2>Réserver Chez Baptiste</h2>
+            <small>
+              Choisissez vos dates, vos infos, puis envoyez en 1 clic sur WhatsApp
+            </small>
+          </div>
+          <div class="resa-badge">
+            <span class="resa-badge-dot"></span>
+            <span>0% commission · Paiement direct</span>
+          </div>
+        </div>
+
+        <div class="resa-steps">
+          <strong>Comment ça marche ?</strong>
+          <ul>
+            <li>Je choisis mes dates d'arrivée et de départ.</li>
+            <li>Je renseigne mon nom, mon téléphone et le nombre de personnes.</li>
+            <li>Je clique sur <strong>"Réserver par WhatsApp"</strong> pour parler directement avec le propriétaire.</li>
+          </ul>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label>Date d'arrivée</label>
+            <input type="date" id="dateIn">
+          </div>
+          <div class="field">
+            <label>Date de départ</label>
+            <input type="date" id="dateOut">
+          </div>
+          <div class="field">
+            <label>Nombre de personnes</label>
+            <select id="guests">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4" selected>4</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Votre nom</label>
+            <input type="text" id="clientName" placeholder="Votre nom">
+          </div>
+          <div class="field">
+            <label>Votre téléphone</label>
+            <input type="tel" id="clientPhone" placeholder="+221 ...">
+          </div>
+          <div class="field">
+            <label>Mode de paiement</label>
+            <input type="text" value="Wave (paiement direct au propriétaire)" disabled>
+          </div>
+        </div>
+
+        <div class="summary resa-summary-box" id="summary">
+          Sélectionnez vos dates d'arrivée et de départ pour voir le nombre de nuits
+          et une estimation en tarif nuit (30 000 F / nuit). Le tarif final sera validé
+          avec le propriétaire sur WhatsApp.
+        </div>
+      </article>
+
+      <article class="card">
+        <h2 class="digiy-title-strong">Infos pratiques & contacts</h2>
+        <small class="digiy-label-strong">Quelques points importants pour votre séjour.</small>
+
+        <ul style="margin:8px 0 0 16px; padding:0; font-size:13px;">
+          <li>Quartier paisible, sans bruyance.</li>
+          <li>Appartement pour 4 personnes maximum.</li>
+          <li>Tarifs : 30 000 F / nuit · 175 000 F / semaine · 550 000 F / mois.</li>
+          <li>Sénélec en sus selon consommation.</li>
+          <li>Réservation et confirmation par WhatsApp ou appel direct.</li>
+          <li class="digiy-black-strong">Propriétaire : Jean Baptiste Beauville</li>
+          <li>Paiement direct au propriétaire par Wave.</li>
+        </ul>
+
+        <div style="margin-top:10px;font-size:12px;line-height:1.6;">
+          WhatsApp principal :
+          <a class="inline-link"
+             href="https://wa.me/221771342889"
+             target="_blank" rel="noopener">
+            +221 77 134 28 89
+          </a><br>
+
+          WhatsApp / téléphone secondaire :
+          <a class="inline-link"
+             href="https://wa.me/221778765785"
+             target="_blank" rel="noopener">
+            +221 77 876 57 86
+          </a><br><br>
+
+          <strong class="digiy-label-strong">Numéro Wave (paiement) :</strong><br>
+          <span class="pay-number">+221 77 134 28 89</span><br>
+          <span class="pay-note">✔ À utiliser dans votre application Wave</span>
+          <br><br>
+
+          Appel direct :
+          <a class="inline-link"
+             href="tel:+221771342889">
+            📞 +221 77 134 28 89
+          </a><br><br>
+
+          Vidéo de présentation :
+          <a class="inline-link"
+             href="https://drive.google.com/file/d/1oEVpt1R7fWBAJnKZlPu_fp2gqS-Z1kni/view?usp=sharing"
+             target="_blank" rel="noopener">
+            🎥 Voir la vidéo
+          </a><br>
+
+          Visuel DIGIY :
+          <a class="inline-link"
+             href="https://orange-pig-270004.hostingersite.com/wp-content/uploads/2025/06/042-BAPTISTE.png"
+             target="_blank" rel="noopener">
+            📸 Voir la photo
+          </a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    CHEZ BAPTISTE — Saly · Module DIGIY LOC personnalisé · Contact WhatsApp : +221 77 134 28 89 / +221 77 876 57 85
+  </footer>
+</div>
+
+<a class="digiy-loc-back-home" href="https://loc.digiylyfe.com/#results" aria-label="Retour à la galerie DIGIY LOC">
+  ← Retour à la galerie LOC
+</a>
+
+<script>
+function formatMoney(x){
+  return (x||0).toLocaleString("fr-FR") + " F";
+}
+
+const OWNER_NAME       = "Jean Baptiste Beauville";
+const OWNER_WA_ID      = "221771342889";
+const OWNER_PHONE_MAIN = "+221771342889";
+const OWNER_PHONE_SEC  = "+221778765785";
+const WAVE_PHONE       = "+221771342889";
+
+const dateIn      = document.getElementById("dateIn");
+const dateOut     = document.getElementById("dateOut");
+const guests      = document.getElementById("guests");
+const clientName  = document.getElementById("clientName");
+const clientPhone = document.getElementById("clientPhone");
+const summary     = document.getElementById("summary");
+const btnWa       = document.getElementById("btnWa");
+const btnCall     = document.getElementById("btnCall");
+const btnSavePayMethod = document.getElementById("btnSavePayMethod");
+
+function getNights(){
+  if(!dateIn.value || !dateOut.value) return 0;
+  const d1 = new Date(dateIn.value);
+  const d2 = new Date(dateOut.value);
+  const diff = d2 - d1;
+  if(isNaN(diff) || diff <= 0) return 0;
+  return Math.round(diff / (1000*60*60*24));
+}
+
+function updateSummary(){
+  const nights = getNights();
+  const g = Number(guests.value||"1");
+  if(!nights){
+    summary.innerHTML = `
+      Sélectionnez vos dates d'arrivée et de départ pour voir le nombre de nuits
+      et une estimation en tarif nuit (30 000 F / nuit). Le tarif final sera validé
+      avec le propriétaire sur WhatsApp.
+    `;
+    return;
+  }
+  const totalNight = nights * 30000;
+  summary.innerHTML = `
+    <div>Séjour de <strong>${nights}</strong> nuit(s) pour <strong>${g}</strong> personne(s) (max 4).</div>
+    <div>Estimation en tarif nuit (30 000 F / nuit) : <strong>${formatMoney(totalNight)}</strong>.</div>
+    <div style="margin-top:4px;font-size:12px;">
+      Tarifs indicatifs : <strong>175 000 F</strong> la semaine · <strong>450 000 F</strong> le mois (Sénélec en sus).<br>
+      Le tarif final sera confirmé avec le propriétaire lors de l'échange WhatsApp.
+    </div>
+  `;
+}
+
+[dateIn, dateOut, guests].forEach(el=>{
+  el.addEventListener("change", updateSummary);
+});
+
+function getPayMethodLabel(){
+  return "Wave (" + WAVE_PHONE + ")";
+}
+
+btnWa.addEventListener("click", ()=>{
+  const nights = getNights();
+  const g = Number(guests.value||"1");
+  const name = clientName.value.trim() || "Client";
+  const phoneClient = clientPhone.value.trim() || "Non communiqué";
+
+  let txt = "Bonjour, je souhaite une réservation pour l'appartement CHEZ BAPTISTE à Saly.%0A";
+  txt += "- Nom : " + name + "%0A";
+  txt += "- Téléphone : " + phoneClient + "%0A";
+  if(dateIn.value && dateOut.value){
+    txt += "- Dates : du " + dateIn.value + " au " + dateOut.value + " (" + nights + " nuit(s))%0A";
+  }
+  txt += "- Nombre de personnes : " + g + "%0A";
+  txt += "- Mode de paiement prévu : " + getPayMethodLabel() + "%0A";
+  txt += "- Tarifs DIGIY LOC : Nuit 30 000 F / Semaine 175 000 F / Mois 550 000 F (Sénélec en sus).%0A";
+  txt += "%0AMerci de me confirmer la disponibilité.";
+  const url = "https://wa.me/" + OWNER_WA_ID + "?text=" + txt;
+  window.open(url, "_blank");
+});
+
+btnCall.addEventListener("click", ()=>{
+  window.location.href = "tel:" + OWNER_PHONE_MAIN;
+});
+
+btnSavePayMethod.addEventListener("click", ()=>{
+  const nights = getNights();
+  const g = Number(guests.value||"1");
+  const name = clientName.value.trim() || "Client";
+  const phoneClient = clientPhone.value.trim() || "Non communiqué";
+  const methodLabel = getPayMethodLabel();
+
+  const bookingData = {
+    logementId: "CHEZ-BAPTISTE-SN-LOC",
+    ownerName: OWNER_NAME,
+    ownerPhone: OWNER_PHONE_MAIN,
+    clientName: name,
+    clientPhone: phoneClient,
+    dateIn: dateIn.value || null,
+    dateOut: dateOut.value || null,
+    nights,
+    guests: g,
+    payMethod: "wave",
+    payMethodLabel: methodLabel,
+    createdAt: new Date().toISOString()
+  };
+
+  console.log("DIGIY LOC — booking enregistré (local, à connecter à la base) :", bookingData);
+
+  let txt = "Bonjour, je viens d'enregistrer mes infos pour CHEZ BAPTISTE à Saly.%0A";
+  txt += "- Nom : " + name + "%0A";
+  txt += "- Téléphone : " + phoneClient + "%0A";
+  if(dateIn.value && dateOut.value){
+    txt += "- Séjour : du " + dateIn.value + " au " + dateOut.value + " (" + nights + " nuit(s))%0A";
+  }
+  txt += "- Nombre de personnes : " + g + "%0A";
+  txt += "- Mode de paiement prévu : " + methodLabel + "%0A";
+  txt += "%0AJe ferai le règlement directement via mon application Wave.";
+  const url = "https://wa.me/" + OWNER_WA_ID + "?text=" + txt;
+  window.open(url, "_blank");
+});
+</script>
+<!-- DIGIY LOC PARTENAIRE CHEZ BAPTISTE — RETOUR GALERIE OFFICIELLE — 20260504 -->
+</body>
+</html>
