@@ -464,6 +464,181 @@
     font-weight:900;
   }
 
+
+  /* ===== DISPONIBILITÉ PUBLIQUE — LECTURE SEULE ===== */
+  .availability-card{
+    margin:14px 0 16px;
+    padding:16px;
+    border-radius:18px;
+    background:rgba(2,6,23,.42);
+    border:2px solid rgba(252,191,73,.85);
+    box-shadow:0 14px 28px rgba(0,0,0,.22);
+  }
+
+  .availability-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+
+  .availability-title{
+    margin:0;
+    font-size:24px;
+    font-weight:950;
+    line-height:1.05;
+    color:#ffffff;
+    text-shadow:1px 1px 2px rgba(0,0,0,.22);
+  }
+
+  .availability-help{
+    margin:8px 0 0;
+    font-size:14px;
+    line-height:1.45;
+    font-weight:750;
+    color:#FEF3C7;
+  }
+
+  .availability-state{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:34px;
+    padding:8px 12px;
+    border-radius:999px;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.28);
+    color:#ffffff;
+    font-size:12px;
+    font-weight:950;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    white-space:nowrap;
+  }
+
+  .availability-state.ok{
+    background:rgba(34,197,94,.20);
+    border-color:rgba(34,197,94,.55);
+    color:#DCFCE7;
+  }
+
+  .availability-state.warn{
+    background:rgba(250,204,21,.18);
+    border-color:rgba(250,204,21,.60);
+    color:#FEF3C7;
+  }
+
+  .availability-state.stop{
+    background:rgba(239,68,68,.18);
+    border-color:rgba(248,113,113,.58);
+    color:#FEE2E2;
+  }
+
+  .availability-list{
+    display:grid;
+    gap:8px;
+    margin-top:12px;
+  }
+
+  .availability-row{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr);
+    gap:10px;
+    align-items:center;
+    padding:10px 11px;
+    border-radius:14px;
+    background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.18);
+  }
+
+  .availability-chip{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:104px;
+    min-height:30px;
+    padding:7px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:950;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+
+  .availability-chip.reserved,
+  .availability-chip.closed{
+    background:#FEE2E2;
+    color:#7F1D1D;
+  }
+
+  .availability-chip.cleaning{
+    background:#DBEAFE;
+    color:#1E3A8A;
+  }
+
+  .availability-chip.pending{
+    background:#FEF3C7;
+    color:#78350F;
+  }
+
+  .availability-chip.free{
+    background:#DCFCE7;
+    color:#14532D;
+  }
+
+  .availability-dates{
+    min-width:0;
+    font-size:14px;
+    line-height:1.35;
+    font-weight:850;
+    color:#ffffff;
+  }
+
+  .availability-dates small{
+    display:block;
+    margin-top:2px;
+    color:#FEF3C7;
+    font-size:12px;
+    font-weight:750;
+  }
+
+  .date-check-line{
+    margin-top:12px;
+    padding:13px 14px;
+    border-radius:14px;
+    background:rgba(255,255,255,.14);
+    border:2px solid rgba(255,255,255,.22);
+    font-size:16px;
+    line-height:1.45;
+    font-weight:950;
+    color:#ffffff;
+  }
+
+  .date-check-line.ok{
+    background:rgba(34,197,94,.22);
+    border-color:rgba(34,197,94,.65);
+    color:#DCFCE7;
+  }
+
+  .date-check-line.warn{
+    background:rgba(250,204,21,.20);
+    border-color:rgba(250,204,21,.70);
+    color:#FEF3C7;
+  }
+
+  .date-check-line.stop{
+    background:rgba(239,68,68,.22);
+    border-color:rgba(248,113,113,.70);
+    color:#FEE2E2;
+  }
+
+  @media(max-width:640px){
+    .availability-title{font-size:21px}
+    .availability-row{grid-template-columns:1fr}
+    .availability-chip{width:max-content}
+  }
+
   /* ===== QR PUBLIC CHEZ BAPTISTE ===== */
   .qr-public-card{
     margin-top:14px;
@@ -683,6 +858,35 @@
           </ul>
         </div>
 
+        <div class="availability-card" id="availabilityCard">
+          <div class="availability-top">
+            <div>
+              <h3 class="availability-title">Disponibilité du planning</h3>
+              <p class="availability-help">
+                Le client voit les périodes déjà prises ou fermées avant d’envoyer sa demande.
+                La fiche publique lit le planning, mais seul le pro confirme.
+              </p>
+            </div>
+            <div class="availability-state warn" id="availabilityState">
+              Planning en lecture
+            </div>
+          </div>
+
+          <div class="availability-list" id="availabilityList">
+            <div class="availability-row">
+              <span class="availability-chip pending">Chargement</span>
+              <div class="availability-dates">
+                Lecture des disponibilités…
+                <small>Si aucune source n’est connectée, WhatsApp reste la confirmation terrain.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="date-check-line warn" id="dateCheckLine">
+            Choisissez vos dates pour vérifier la disponibilité visible.
+          </div>
+        </div>
+
         <div class="form-grid">
           <div class="field">
             <label>Date d'arrivée</label>
@@ -851,15 +1055,252 @@ const OWNER_PHONE_MAIN = "+221771342889";
 const OWNER_PHONE_SEC  = "+221778765785";
 const WAVE_PHONE       = "+221771342889";
 
+/*
+  DIGIY LOC — planning public en lecture seule.
+  Pour connecter le planning réel, posez un fichier JSON à côté de cette page :
+  ./planning-chez-baptiste.json
+
+  Format attendu :
+  {
+    "logementSlug": "chez-baptiste",
+    "updatedAt": "2026-05-20T00:00:00Z",
+    "periods": [
+      {"start":"2026-06-12","end":"2026-06-16","status":"reserved","label":"Réservé"},
+      {"start":"2026-06-17","end":"2026-06-18","status":"cleaning","label":"Nettoyage"}
+    ]
+  }
+
+  Important : cette fiche publique LIT seulement le planning.
+  Elle ne modifie pas le logiciel pro.
+*/
+const PLANNING_SOURCE_URL = "./planning-chez-baptiste.json";
+const DEFAULT_PUBLIC_PLANNING = {
+  logementSlug: "chez-baptiste",
+  updatedAt: null,
+  periods: []
+};
+
+let publicPlanning = DEFAULT_PUBLIC_PLANNING;
+let planningLoaded = false;
+
 const dateIn      = document.getElementById("dateIn");
 const dateOut     = document.getElementById("dateOut");
 const guests      = document.getElementById("guests");
 const clientName  = document.getElementById("clientName");
 const clientPhone = document.getElementById("clientPhone");
 const summary     = document.getElementById("summary");
+const availabilityState = document.getElementById("availabilityState");
+const availabilityList  = document.getElementById("availabilityList");
+const dateCheckLine     = document.getElementById("dateCheckLine");
 const btnWa       = document.getElementById("btnWa");
 const btnCall     = document.getElementById("btnCall");
 const btnSavePayMethod = document.getElementById("btnSavePayMethod");
+
+
+function parseDateOnly(value){
+  if(!value) return null;
+  const d = new Date(value + "T00:00:00");
+  if(isNaN(d.getTime())) return null;
+  return d;
+}
+
+function formatDateFr(value){
+  const d = parseDateOnly(value);
+  if(!d) return value || "";
+  return d.toLocaleDateString("fr-FR", { day:"2-digit", month:"short", year:"numeric" });
+}
+
+function setAvailabilityState(text, mode){
+  availabilityState.textContent = text;
+  availabilityState.className = "availability-state " + (mode || "warn");
+}
+
+function statusLabel(status, label){
+  if(label) return label;
+  const s = String(status || "").toLowerCase();
+  if(["reserved","booked","reserve","réservé"].includes(s)) return "Réservé";
+  if(["closed","ferme","fermé"].includes(s)) return "Fermé";
+  if(["cleaning","nettoyage"].includes(s)) return "Nettoyage";
+  if(["pending","wait","attente"].includes(s)) return "À confirmer";
+  if(["available","free","dispo","disponible"].includes(s)) return "Disponible";
+  return "À confirmer";
+}
+
+function statusClass(status){
+  const s = String(status || "").toLowerCase();
+  if(["reserved","booked","reserve","réservé"].includes(s)) return "reserved";
+  if(["closed","ferme","fermé"].includes(s)) return "closed";
+  if(["cleaning","nettoyage"].includes(s)) return "cleaning";
+  if(["available","free","dispo","disponible"].includes(s)) return "free";
+  return "pending";
+}
+
+function isBlockingStatus(status){
+  const s = String(status || "").toLowerCase();
+  return ["reserved","booked","reserve","réservé","closed","ferme","fermé","cleaning","nettoyage"].includes(s);
+}
+
+function getPlanningPeriods(){
+  const raw = publicPlanning && Array.isArray(publicPlanning.periods) ? publicPlanning.periods : [];
+  return raw
+    .filter(p => p && p.start && p.end)
+    .map(p => ({
+      start: String(p.start).slice(0,10),
+      end: String(p.end).slice(0,10),
+      status: p.status || "pending",
+      label: p.label || "",
+      note: p.note || ""
+    }))
+    .sort((a,b) => String(a.start).localeCompare(String(b.start)));
+}
+
+function rangesOverlap(startA, endA, startB, endB){
+  const a1 = parseDateOnly(startA);
+  const a2 = parseDateOnly(endA);
+  const b1 = parseDateOnly(startB);
+  const b2 = parseDateOnly(endB);
+  if(!a1 || !a2 || !b1 || !b2) return false;
+  return a1 < b2 && a2 > b1;
+}
+
+function getSelectedAvailability(){
+  if(!dateIn.value || !dateOut.value){
+    return { state:"missing", blocked:false, period:null };
+  }
+
+  const d1 = parseDateOnly(dateIn.value);
+  const d2 = parseDateOnly(dateOut.value);
+  if(!d1 || !d2 || d2 <= d1){
+    return { state:"invalid", blocked:false, period:null };
+  }
+
+  const found = getPlanningPeriods().find(p => {
+    return isBlockingStatus(p.status) && rangesOverlap(dateIn.value, dateOut.value, p.start, p.end);
+  });
+
+  if(found){
+    return { state:"blocked", blocked:true, period:found };
+  }
+
+  if(!planningLoaded){
+    return { state:"unknown", blocked:false, period:null };
+  }
+
+  return { state:"free", blocked:false, period:null };
+}
+
+function renderAvailabilityList(){
+  const periods = getPlanningPeriods();
+
+  if(!planningLoaded){
+    setAvailabilityState("À confirmer", "warn");
+  }else{
+    setAvailabilityState("Planning lu", "ok");
+  }
+
+  if(!periods.length){
+    availabilityList.innerHTML = `
+      <div class="availability-row">
+        <span class="availability-chip pending">À confirmer</span>
+        <div class="availability-dates">
+          Aucune période bloquée n’est publiée sur cette fiche pour le moment.
+          <small>Le propriétaire confirme toujours la réservation finale sur WhatsApp.</small>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  availabilityList.innerHTML = periods.slice(0, 8).map(p => {
+    const label = statusLabel(p.status, p.label);
+    const css = statusClass(p.status);
+    const note = p.note ? p.note : "Période lue depuis le planning public.";
+    return `
+      <div class="availability-row">
+        <span class="availability-chip ${css}">${label}</span>
+        <div class="availability-dates">
+          Du ${formatDateFr(p.start)} au ${formatDateFr(p.end)}
+          <small>${note}</small>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function checkSelectedDates(){
+  const result = getSelectedAvailability();
+
+  if(result.state === "missing"){
+    dateCheckLine.className = "date-check-line warn";
+    dateCheckLine.textContent = "Choisissez vos dates pour vérifier la disponibilité visible.";
+    btnWa.textContent = "💬 Réserver par WhatsApp";
+    return result;
+  }
+
+  if(result.state === "invalid"){
+    dateCheckLine.className = "date-check-line stop";
+    dateCheckLine.textContent = "La date de départ doit être après la date d’arrivée.";
+    btnWa.textContent = "💬 Corriger les dates";
+    return result;
+  }
+
+  if(result.blocked && result.period){
+    const label = statusLabel(result.period.status, result.period.label);
+    dateCheckLine.className = "date-check-line stop";
+    dateCheckLine.innerHTML = `
+      🔴 Ces dates touchent une période marquée <strong>${label}</strong>
+      du <strong>${formatDateFr(result.period.start)}</strong> au <strong>${formatDateFr(result.period.end)}</strong>.
+      Vous pouvez quand même écrire au propriétaire pour vérifier ou proposer d’autres dates.
+    `;
+    btnWa.textContent = "💬 Vérifier sur WhatsApp";
+    return result;
+  }
+
+  if(result.state === "unknown"){
+    dateCheckLine.className = "date-check-line warn";
+    dateCheckLine.innerHTML = `
+      🟡 Planning public pas encore connecté ici. Envoyez la demande WhatsApp :
+      le propriétaire confirmera la vraie disponibilité.
+    `;
+    btnWa.textContent = "💬 Demander disponibilité";
+    return result;
+  }
+
+  dateCheckLine.className = "date-check-line ok";
+  dateCheckLine.innerHTML = `
+    🟢 Aucune période bloquée n’apparaît sur ces dates.
+    La réservation reste confirmée par le propriétaire sur WhatsApp.
+  `;
+  btnWa.textContent = "💬 Demander à réserver";
+  return result;
+}
+
+async function loadPublicPlanning(){
+  try{
+    const res = await fetch(PLANNING_SOURCE_URL, { cache:"no-store" });
+    if(!res.ok) throw new Error("planning non trouvé");
+    const json = await res.json();
+
+    if(Array.isArray(json)){
+      publicPlanning = { logementSlug:"chez-baptiste", updatedAt:null, periods:json };
+    }else{
+      publicPlanning = {
+        logementSlug: json.logementSlug || "chez-baptiste",
+        updatedAt: json.updatedAt || null,
+        periods: Array.isArray(json.periods) ? json.periods : []
+      };
+    }
+
+    planningLoaded = true;
+  }catch(_){
+    publicPlanning = DEFAULT_PUBLIC_PLANNING;
+    planningLoaded = false;
+  }
+
+  renderAvailabilityList();
+  checkSelectedDates();
+}
+
 
 function getNights(){
   if(!dateIn.value || !dateOut.value) return 0;
@@ -883,6 +1324,7 @@ function updateSummary(){
       et une estimation en tarif nuit (30 000 F / nuit). Le tarif final sera validé
       avec le propriétaire sur WhatsApp.
     `;
+    checkSelectedDates();
     return;
   }
 
@@ -896,6 +1338,8 @@ function updateSummary(){
       Le tarif final sera confirmé avec le propriétaire lors de l'échange WhatsApp.
     </div>
   `;
+
+  checkSelectedDates();
 }
 
 [dateIn, dateOut, guests].forEach(el => {
@@ -911,6 +1355,7 @@ btnWa.addEventListener("click", () => {
   const g = Number(guests.value || "1");
   const name = clientName.value.trim() || "Client";
   const phoneClient = clientPhone.value.trim() || "Non communiqué";
+  const availability = checkSelectedDates();
 
   let txt = "Bonjour, je souhaite une réservation pour l'appartement CHEZ BAPTISTE à Saly.%0A";
   txt += "- Nom : " + name + "%0A";
@@ -918,6 +1363,15 @@ btnWa.addEventListener("click", () => {
 
   if(dateIn.value && dateOut.value){
     txt += "- Dates : du " + dateIn.value + " au " + dateOut.value + " (" + nights + " nuit(s))%0A";
+
+    if(availability.blocked && availability.period){
+      txt += "- Planning public : période marquée " + statusLabel(availability.period.status, availability.period.label) + " du " + availability.period.start + " au " + availability.period.end + "%0A";
+      txt += "- Demande : merci de confirmer ou de proposer d'autres dates.%0A";
+    }else if(availability.state === "free"){
+      txt += "- Planning public : aucune période bloquée visible sur ces dates.%0A";
+    }else{
+      txt += "- Planning public : disponibilité à confirmer.%0A";
+    }
   }
 
   txt += "- Nombre de personnes : " + g + "%0A";
@@ -939,6 +1393,7 @@ btnSavePayMethod.addEventListener("click", () => {
   const name = clientName.value.trim() || "Client";
   const phoneClient = clientPhone.value.trim() || "Non communiqué";
   const methodLabel = getPayMethodLabel();
+  const availability = checkSelectedDates();
 
   const bookingData = {
     logementId: "CHEZ-BAPTISTE-SN-LOC",
@@ -952,6 +1407,9 @@ btnSavePayMethod.addEventListener("click", () => {
     guests: g,
     payMethod: "wave",
     payMethodLabel: methodLabel,
+    availabilityState: availability.state,
+    availabilityBlocked: availability.blocked,
+    availabilityPeriod: availability.period || null,
     createdAt: new Date().toISOString()
   };
 
@@ -972,8 +1430,11 @@ btnSavePayMethod.addEventListener("click", () => {
   const url = "https://wa.me/" + OWNER_WA_ID + "?text=" + txt;
   window.open(url, "_blank");
 });
+
+loadPublicPlanning();
 </script>
 
 <!-- DIGIY LOC PARTENAIRE CHEZ BAPTISTE — QR PUBLIC AJOUTÉ — 20260512 -->
 </body>
 </html>
+
