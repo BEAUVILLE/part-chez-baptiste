@@ -345,6 +345,85 @@
     color:#22c55e;
   }
 
+
+  /* ===== LECTEUR VOCAL DIGIY LOC ===== */
+  .audio-card{
+    margin-top:14px;
+    padding:16px;
+    border-radius:18px;
+    background:linear-gradient(135deg,rgba(250,204,21,.16),rgba(249,115,22,.10),rgba(15,23,42,.96));
+    border:2px solid rgba(250,204,21,.72);
+    box-shadow:0 16px 34px rgba(250,204,21,.18);
+  }
+
+  .audio-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 10px;
+    border-radius:999px;
+    background:rgba(250,204,21,.16);
+    border:1px solid rgba(250,204,21,.55);
+    color:#fef3c7;
+    font-size:12px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+
+  .audio-card h2{
+    margin:10px 0 6px;
+    font-size:22px;
+    line-height:1.05;
+    color:#ffffff;
+    font-weight:950;
+  }
+
+  .audio-card p{
+    margin:0;
+    color:#f8fafc;
+    font-size:14px;
+    line-height:1.55;
+    font-weight:650;
+  }
+
+  .audio-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:12px;
+  }
+
+  .btn-audio{
+    background:linear-gradient(135deg,#facc15,#f97316);
+    color:#111827;
+    font-weight:950;
+    border:1px solid rgba(250,204,21,.85);
+  }
+
+  .btn-stop{
+    background:#020617;
+    color:#e5e7eb;
+    border:1px solid #334155;
+  }
+
+  .btn-sms{
+    background:#2563eb;
+    color:#eff6ff;
+  }
+
+  .audio-note{
+    margin-top:10px;
+    padding:9px 10px;
+    border-radius:12px;
+    background:rgba(2,6,23,.65);
+    border:1px solid rgba(148,163,184,.35);
+    color:#fef3c7;
+    font-size:13px;
+    line-height:1.45;
+    font-weight:800;
+  }
+
   /* ===== BLOC WAVE ===== */
   .wave-card{
     margin-top:14px;
@@ -610,6 +689,33 @@
           </div>
         </div>
 
+
+        <section class="audio-card" aria-label="Lecteur vocal DIGIY LOC">
+          <div class="audio-kicker">🎧 Fiche qui parle</div>
+
+          <h2>Écouter avant de décider</h2>
+
+          <p>
+            Une courte voix explique le logement, les tarifs, la vidéo disponible,
+            puis la demande directe par WhatsApp ou par SMS.
+          </p>
+
+          <div class="audio-actions">
+            <button class="btn btn-audio" type="button" id="btnAudio">
+              🎧 Écouter la fiche
+            </button>
+
+            <button class="btn btn-stop" type="button" id="btnStopAudio">
+              ⏹ Arrêter
+            </button>
+          </div>
+
+          <div class="audio-note">
+            🎥 Il existe aussi une vidéo de présentation. Le client peut écouter,
+            regarder, puis envoyer sa demande simplement.
+          </div>
+        </section>
+
         <div class="wave-card">
           <div style="font-size:20px;font-weight:900;color:#ffffff;margin-bottom:8px;">
             💳 Paiement direct propriétaire — Wave
@@ -630,7 +736,11 @@
 
         <div class="cta-col">
           <a class="btn btn-wa" id="btnWa">
-            💬 Réserver par WhatsApp
+            💬 Demander par WhatsApp
+          </a>
+
+          <a class="btn btn-sms" id="btnSms">
+            📩 Demander par SMS
           </a>
 
           <a class="btn btn-call" id="btnCall">
@@ -652,7 +762,7 @@
             target="_blank"
             rel="noopener"
           >
-            🎥 Voir la vidéo de présentation
+🎥 Vidéo disponible — voir la présentation
           </a>
         </div>
       </div>
@@ -664,7 +774,7 @@
           <div class="resa-title-block">
             <h2>Réserver Chez Baptiste</h2>
             <small>
-              Choisissez vos dates, vos infos, puis envoyez en 1 clic sur WhatsApp
+              Choisissez vos dates, vos infos, puis envoyez en 1 clic par WhatsApp ou SMS
             </small>
           </div>
 
@@ -679,7 +789,7 @@
           <ul>
             <li>Je choisis mes dates d'arrivée et de départ.</li>
             <li>Je renseigne mon nom, mon téléphone et le nombre de personnes.</li>
-            <li>Je clique sur <strong>"Réserver par WhatsApp"</strong> pour parler directement avec le propriétaire.</li>
+            <li>Je clique sur <strong>"Demander par WhatsApp"</strong> ou <strong>"Demander par SMS"</strong> pour parler directement avec le propriétaire.</li>
           </ul>
         </div>
 
@@ -736,9 +846,10 @@
           <li>Appartement pour 4 personnes maximum.</li>
           <li>Tarifs : 30 000 F / nuit · 175 000 F / semaine · 550 000 F / mois.</li>
           <li>Sénélec en sus selon consommation.</li>
-          <li>Réservation et confirmation par WhatsApp ou appel direct.</li>
+          <li>Réservation et confirmation par WhatsApp, SMS ou appel direct.</li>
           <li class="digiy-black-strong">Propriétaire : Jean Baptiste Beauville</li>
           <li>Paiement direct au propriétaire par Wave.</li>
+          <li>Une vidéo de présentation est disponible pour découvrir le logement avant de demander.</li>
         </ul>
 
         <div style="margin-top:10px;font-size:12px;line-height:1.6;">
@@ -766,6 +877,14 @@
           <span class="pay-number">+221 77 134 28 89</span><br>
           <span class="pay-note">✔ À utiliser dans votre application Wave</span>
           <br><br>
+
+          Demande par SMS :
+          <a
+            class="inline-link"
+            href="sms:+221771342889"
+          >
+            📩 +221 77 134 28 89
+          </a><br><br>
 
           Appel direct :
           <a
@@ -858,7 +977,10 @@ const clientName  = document.getElementById("clientName");
 const clientPhone = document.getElementById("clientPhone");
 const summary     = document.getElementById("summary");
 const btnWa       = document.getElementById("btnWa");
+const btnSms      = document.getElementById("btnSms");
 const btnCall     = document.getElementById("btnCall");
+const btnAudio    = document.getElementById("btnAudio");
+const btnStopAudio = document.getElementById("btnStopAudio");
 const btnSavePayMethod = document.getElementById("btnSavePayMethod");
 
 function getNights(){
@@ -906,28 +1028,97 @@ function getPayMethodLabel(){
   return "Wave (" + WAVE_PHONE + ")";
 }
 
-btnWa.addEventListener("click", () => {
+function buildBookingMessage(){
   const nights = getNights();
   const g = Number(guests.value || "1");
   const name = clientName.value.trim() || "Client";
   const phoneClient = clientPhone.value.trim() || "Non communiqué";
 
-  let txt = "Bonjour, je souhaite une réservation pour l'appartement CHEZ BAPTISTE à Saly.%0A";
-  txt += "- Nom : " + name + "%0A";
-  txt += "- Téléphone : " + phoneClient + "%0A";
+  let txt = "Bonjour, je souhaite faire une demande pour l'appartement CHEZ BAPTISTE à Saly.\n";
+  txt += "- Nom : " + name + "\n";
+  txt += "- Téléphone : " + phoneClient + "\n";
 
   if(dateIn.value && dateOut.value){
-    txt += "- Dates : du " + dateIn.value + " au " + dateOut.value + " (" + nights + " nuit(s))%0A";
+    txt += "- Dates : du " + dateIn.value + " au " + dateOut.value + " (" + nights + " nuit(s))\n";
+  }else{
+    txt += "- Dates : à préciser ensemble\n";
   }
 
-  txt += "- Nombre de personnes : " + g + "%0A";
-  txt += "- Mode de paiement prévu : " + getPayMethodLabel() + "%0A";
-  txt += "- Tarifs DIGIY LOC : Nuit 30 000 F / Semaine 175 000 F / Mois 550 000 F (Sénélec en sus).%0A";
-  txt += "%0AMerci de me confirmer la disponibilité.";
+  txt += "- Nombre de personnes : " + g + "\n";
+  txt += "- Mode de paiement prévu : " + getPayMethodLabel() + "\n";
+  txt += "- Tarifs DIGIY LOC : Nuit 30 000 F / Semaine 175 000 F / Mois 550 000 F (Sénélec en sus).\n";
+  txt += "- J'ai vu qu'une vidéo de présentation est disponible.\n";
+  txt += "\nMerci de me confirmer la disponibilité.";
 
-  const url = "https://wa.me/" + OWNER_WA_ID + "?text=" + txt;
+  return txt;
+}
+
+btnWa.addEventListener("click", () => {
+  const url = "https://wa.me/" + OWNER_WA_ID + "?text=" + encodeURIComponent(buildBookingMessage());
   window.open(url, "_blank");
 });
+
+btnSms.addEventListener("click", () => {
+  const body = encodeURIComponent(buildBookingMessage());
+  const separator = /iPad|iPhone|iPod/.test(navigator.userAgent) ? "&" : "?";
+  window.location.href = "sms:" + OWNER_PHONE_MAIN + separator + "body=" + body;
+});
+
+
+const DIGIY_AUDIO_TEXT = `
+Bienvenue chez Baptiste à Saly.
+Cette fiche présente un appartement confortable, dans un quartier paisible, sans bruyance, pour quatre personnes maximum.
+Le tarif est de trente mille francs la nuit, cent soixante quinze mille francs la semaine, et cinq cent cinquante mille francs le mois.
+La Sénélec est en plus, selon la consommation électrique.
+Une vidéo de présentation est aussi disponible sur cette fiche, pour regarder le logement avant de faire la demande.
+Pour demander une disponibilité, vous pouvez choisir vos dates, renseigner votre nom et votre téléphone, puis envoyer la demande directement par WhatsApp ou par SMS.
+Le paiement se fait directement au propriétaire par Wave, au plus deux cent vingt et un, soixante dix sept, cent trente quatre, vingt huit, quatre vingt neuf.
+DIGIY LOC garde l'esprit simple : contact direct, zéro commission, propriétaire joignable, client rassuré.
+`;
+
+function pickFrenchVoice(){
+  const voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  return (
+    voices.find(v => /^fr/i.test(v.lang || "") && /Thomas|Paul|Daniel|Google français|Microsoft Henri/i.test(v.name || "")) ||
+    voices.find(v => /^fr/i.test(v.lang || "")) ||
+    voices[0] ||
+    null
+  );
+}
+
+function speakDigiyAudio(){
+  if(!("speechSynthesis" in window)){
+    alert("La lecture audio n'est pas disponible sur ce navigateur.");
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(DIGIY_AUDIO_TEXT.trim());
+  const voice = pickFrenchVoice();
+
+  if(voice) utterance.voice = voice;
+
+  utterance.lang = "fr-FR";
+  utterance.rate = 0.86;
+  utterance.pitch = 1.03;
+  utterance.volume = 1;
+
+  speechSynthesis.speak(utterance);
+}
+
+if("speechSynthesis" in window){
+  speechSynthesis.onvoiceschanged = () => pickFrenchVoice();
+}
+
+btnAudio.addEventListener("click", speakDigiyAudio);
+
+btnStopAudio.addEventListener("click", () => {
+  if("speechSynthesis" in window){
+    speechSynthesis.cancel();
+  }
+});
+
 
 btnCall.addEventListener("click", () => {
   window.location.href = "tel:" + OWNER_PHONE_MAIN;
@@ -977,5 +1168,7 @@ btnSavePayMethod.addEventListener("click", () => {
 <!-- DIGIY LOC PARTENAIRE CHEZ BAPTISTE — QR PUBLIC AJOUTÉ — 20260512 -->
 </body>
 </html>
+
+
 
 
