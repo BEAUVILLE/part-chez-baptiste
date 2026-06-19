@@ -636,6 +636,80 @@
       font-size:13px;
     }
   }
+
+  /* ===== EMPREINTE OFFICIELLE DIGIYLYFE ===== */
+  .digiy-official-stamp{
+    margin-top:12px;
+    padding:12px;
+    border-radius:16px;
+    background:linear-gradient(135deg,rgba(250,204,21,.18),rgba(34,197,94,.10),rgba(2,6,23,.92));
+    border:2px solid rgba(250,204,21,.68);
+    box-shadow:0 14px 30px rgba(250,204,21,.12);
+  }
+
+  .digiy-official-topline{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    margin-bottom:8px;
+  }
+
+  .digiy-official-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 10px;
+    border-radius:999px;
+    background:rgba(250,204,21,.18);
+    border:1px solid rgba(250,204,21,.65);
+    color:#fef3c7;
+    font-size:11px;
+    font-weight:950;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+
+  .digiy-official-badge strong{
+    color:#ffffff;
+  }
+
+  .digiy-official-stamp p{
+    margin:0;
+    color:#f8fafc;
+    font-size:13px;
+    line-height:1.5;
+    font-weight:700;
+  }
+
+  .digiy-official-stamp b{
+    color:#facc15;
+    font-weight:950;
+  }
+
+  .digiy-qr-signature{
+    margin-top:12px;
+    padding:10px;
+    border-radius:14px;
+    background:linear-gradient(135deg,rgba(0,133,63,.18),rgba(250,204,21,.12));
+    border:1px solid rgba(250,204,21,.55);
+    color:#f8fafc;
+    font-size:13px;
+    line-height:1.5;
+    font-weight:800;
+  }
+
+  .digiy-qr-signature strong{
+    color:#facc15;
+    font-weight:950;
+  }
+
+  .digiy-footer-seal{
+    margin-top:8px;
+    color:#facc15;
+    font-weight:900;
+  }
+
 </style>
 </head>
 
@@ -660,6 +734,19 @@
           <span class="chip">Quartier calme</span>
           <span class="chip">Sénélec en sus</span>
           <span class="chip">Réservation directe propriétaire</span>
+        </div>
+
+        <div class="digiy-official-stamp" aria-label="Empreinte officielle DIGIYLYFE">
+          <div class="digiy-official-topline">
+            <span class="digiy-official-badge">▣ <strong>QR officiel DIGIYLYFE</strong></span>
+            <span class="digiy-official-badge">0% commission</span>
+            <span class="digiy-official-badge">Paiement direct</span>
+          </div>
+          <p>
+            Cette fiche ouvre une route directe entre le client et le propriétaire :
+            photos, vidéo, réservation, WhatsApp, SMS, appel et Wave.
+            <b>La valeur du business reste dans la main du pro local.</b>
+          </p>
         </div>
 
         <div class="hero-media">
@@ -916,10 +1003,11 @@
         </div>
 
         <div class="qr-public-card">
-          <h2>QR CHEZ BAPTISTE</h2>
+          <h2>QR OFFICIEL DIGIYLYFE — CHEZ BAPTISTE</h2>
           <p>
             Scanne ce QR sur papier, ou clique dessus si tu reçois cette fiche sur téléphone.
-            Il ouvre cette fiche publique, sans PIN.
+            Il ouvre la fiche publique officielle DIGIYLYFE du logement : photos, vidéo,
+            tarifs, réservation directe, WhatsApp, SMS, appel et paiement Wave au propriétaire.
           </p>
 
           <div class="qr-public-box">
@@ -941,6 +1029,12 @@
           <div class="qr-public-link">
             https://part-chez-baptiste.digiylyfe.com/
           </div>
+
+          <div class="digiy-qr-signature">
+            <strong>Empreinte DIGIYLYFE :</strong> un QR simple ouvre un lien.
+            Un QR DIGIY ouvre une route professionnelle : fiche, contact, réservation,
+            paiement direct et 0% commission.
+          </div>
         </div>
       </article>
     </section>
@@ -948,6 +1042,7 @@
 
   <footer>
     CHEZ BAPTISTE — Saly · Module DIGIY LOC personnalisé · Contact WhatsApp : +221 77 134 28 89 / +221 77 876 57 85
+    <div class="digiy-footer-seal">Propulsé par DIGIYLYFE — Le Club Entreprises du Terrain · QR officiel · Réservation directe · 0% commission</div>
   </footer>
 </div>
 
@@ -1073,7 +1168,9 @@ La Sénélec est en plus, selon la consommation électrique.
 Une vidéo de présentation est aussi disponible sur cette fiche, pour regarder le logement avant de faire la demande.
 Pour demander une disponibilité, vous pouvez choisir vos dates, renseigner votre nom et votre téléphone, puis envoyer la demande directement par WhatsApp ou par SMS.
 Le paiement se fait directement au propriétaire par Wave, au plus deux cent vingt et un, soixante dix sept, cent trente quatre, vingt huit, quatre vingt neuf.
+Cette fiche et son QR portent l'empreinte DIGIYLYFE : une route directe, officielle, partageable et utile.
 DIGIY LOC garde l'esprit simple : contact direct, zéro commission, propriétaire joignable, client rassuré.
+La valeur du business reste dans la main du professionnel local.
 `;
 
 function pickFrenchVoice(){
@@ -1169,6 +1266,11 @@ btnSavePayMethod.addEventListener("click", () => {
   <script src="https://pro-action-digiy.digiylyfe.com/assets/js/digiy-retour-voix.js?v=retour-voix-20260606-v4" defer></script>
 </body>
 </html>
+
+
+
+
+
 
 
 
