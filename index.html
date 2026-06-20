@@ -710,6 +710,43 @@
     font-weight:900;
   }
 
+
+  /* ===== LANGUE FR / EN — DIGIY LOC ===== */
+  .topTools{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+  .lang-switch-loc{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    padding:4px;
+    border-radius:999px;
+    border:1px solid rgba(250,204,21,.45);
+    background:rgba(250,204,21,.10);
+  }
+  .lang-switch-loc button{
+    border:0;
+    min-height:34px;
+    padding:0 11px;
+    border-radius:999px;
+    background:transparent;
+    color:#fef3c7;
+    font-weight:950;
+    cursor:pointer;
+  }
+  .lang-switch-loc button.active{
+    background:linear-gradient(135deg,#facc15,#f97316);
+    color:#111827;
+  }
+  @media(max-width:640px){
+    header{align-items:flex-start;flex-direction:column;}
+    .topTools{width:100%;justify-content:space-between;}
+  }
+
 </style>
 </head>
 
@@ -717,7 +754,13 @@
 <div class="app">
   <header>
     <div class="brand">CHEZ BAPTISTE — <span>DIGIY LOC</span></div>
-    <div class="tag">Appartement à Saly · 4 personnes max · Quartier paisible</div>
+    <div class="topTools">
+      <div class="tag" data-loc-key="top_tag">Appartement à Saly · 4 personnes max · Quartier paisible</div>
+      <div class="lang-switch-loc" aria-label="Changer la langue">
+        <button id="locLangFr" type="button" class="active">FR</button>
+        <button id="locLangEn" type="button">EN</button>
+      </div>
+    </div>
   </header>
 
   <main>
@@ -1262,10 +1305,433 @@ btnSavePayMethod.addEventListener("click", () => {
 });
 </script>
 
+
+<script>
+(function(){
+  "use strict";
+
+  const LANG = {
+    fr: {
+      title: "CHEZ BAPTISTE — Appartement à Saly",
+      description: "Appartement confortable à Saly : 4 personnes max, quartier paisible, tarifs nuit/semaine/mois, réservation directe propriétaire, WhatsApp, SMS, appel, vidéo et paiement Wave direct.",
+      brand: 'CHEZ BAPTISTE — <span>DIGIY LOC</span>',
+      top_tag: "Appartement à Saly · 4 personnes max · Quartier paisible",
+      hero_title: "Appartement CHEZ BAPTISTE — Saly",
+      hero_intro: "Appartement confortable dans un quartier paisible de Saly, sans bruyance, idéal pour les séjours en famille ou entre amis. Jusqu'à 4 personnes, à quelques minutes des commodités et de la vie de Saly.",
+      chips: ["4 personnes max","Quartier calme","Sénélec en sus","Réservation directe propriétaire"],
+      official_badges: ["▣ QR officiel DIGIYLYFE","0% commission","Paiement direct"],
+      official_text: "Cette fiche ouvre une route directe entre le client et le propriétaire : photos, vidéo, réservation, WhatsApp, SMS, appel et Wave. <b>La valeur du business reste dans la main du pro local.</b>",
+      caption: "Vue de l'appartement CHEZ BAPTISTE — Saly (visuel DIGIY).",
+      tariffs_title: "Tarifs CHEZ BAPTISTE",
+      tariff_labels: ["Nuit :","Semaine :","Mois :"],
+      senelec: "⚡ Sénélec en sus selon consommation électrique.",
+      audio_kicker: "🎧 Fiche qui parle",
+      audio_title: "Écouter avant de décider",
+      audio_intro: "Une courte voix explique le logement, les tarifs, la vidéo disponible, puis la demande directe par WhatsApp ou par SMS.",
+      audio_play: "🎧 Écouter la fiche",
+      audio_stop: "⏹ Arrêter",
+      audio_note: "🎥 Il existe aussi une vidéo de présentation. Le client peut écouter, regarder, puis envoyer sa demande simplement.",
+      wave_title: "💳 Paiement direct propriétaire — Wave",
+      wave_note: "✔ À utiliser dans votre application Wave",
+      owner_line: "Propriétaire : Jean Baptiste Beauville",
+      cta_wa: "💬 Demander par WhatsApp",
+      cta_sms: "📩 Demander par SMS",
+      cta_call: "📞 Appeler le propriétaire",
+      cta_save: "📝 Enregistrer mes infos (Wave)",
+      cta_video: "🎥 Vidéo disponible — voir la présentation",
+      resa_title: "Réserver Chez Baptiste",
+      resa_sub: "Choisissez vos dates, vos infos, puis envoyez en 1 clic par WhatsApp ou SMS",
+      resa_badge: "0% commission · Paiement direct",
+      steps_html: "<strong>Comment ça marche ?</strong><ul><li>Je choisis mes dates d'arrivée et de départ.</li><li>Je renseigne mon nom, mon téléphone et le nombre de personnes.</li><li>Je clique sur <strong>“Demander par WhatsApp”</strong> ou <strong>“Demander par SMS”</strong> pour parler directement avec le propriétaire.</li></ul>",
+      labels: ["Date d'arrivée","Date de départ","Nombre de personnes","Votre nom","Votre téléphone","Mode de paiement"],
+      ph_name: "Votre nom",
+      ph_phone: "+221 ...",
+      pay_input: "Wave (paiement direct au propriétaire)",
+      no_dates: "Sélectionnez vos dates d'arrivée et de départ pour voir le nombre de nuits et une estimation en tarif nuit (30 000 F / nuit). Le tarif final sera validé avec le propriétaire sur WhatsApp.",
+      summary_template: (nights, guests, total) => `<div>Séjour de <strong>${nights}</strong> nuit(s) pour <strong>${guests}</strong> personne(s) (max 4).</div><div>Estimation en tarif nuit (30 000 F / nuit) : <strong>${total}</strong>.</div><div style="margin-top:4px;font-size:12px;">Tarifs indicatifs : <strong>175 000 F</strong> la semaine · <strong>550 000 F</strong> le mois (Sénélec en sus).<br>Le tarif final sera confirmé avec le propriétaire lors de l'échange WhatsApp.</div>`,
+      info_title: "Infos pratiques & contacts",
+      info_sub: "Quelques points importants pour votre séjour.",
+      info_list: [
+        "Quartier paisible, sans bruyance.",
+        "Appartement pour 4 personnes maximum.",
+        "Tarifs : 30 000 F / nuit · 175 000 F / semaine · 550 000 F / mois.",
+        "Sénélec en sus selon consommation.",
+        "Réservation et confirmation par WhatsApp, SMS ou appel direct.",
+        "Propriétaire : Jean Baptiste Beauville",
+        "Paiement direct au propriétaire par Wave.",
+        "Une vidéo de présentation est disponible pour découvrir le logement avant de demander."
+      ],
+      info_contacts_html: `WhatsApp principal : <a class="inline-link" href="https://wa.me/221771342889" target="_blank" rel="noopener">+221 77 134 28 89</a><br>
+WhatsApp / téléphone secondaire : <a class="inline-link" href="https://wa.me/221778765785" target="_blank" rel="noopener">+221 77 876 57 85</a><br><br>
+<strong class="digiy-label-strong">Numéro Wave (paiement) :</strong><br><span class="pay-number">+221 77 134 28 89</span><br><span class="pay-note">✔ À utiliser dans votre application Wave</span><br><br>
+Demande par SMS : <a class="inline-link" href="sms:+221771342889">📩 +221 77 134 28 89</a><br><br>
+Appel direct : <a class="inline-link" href="tel:+221771342889">📞 +221 77 134 28 89</a><br><br>
+Vidéo de présentation : <a class="inline-link" href="https://drive.google.com/file/d/1oEVpt1R7fWBAJnKZlPu_fp2gqS-Z1kni/view?usp=sharing" target="_blank" rel="noopener">🎥 Voir la vidéo</a><br>
+Visuel DIGIY : <a class="inline-link" href="https://orange-pig-270004.hostingersite.com/wp-content/uploads/2025/06/042-BAPTISTE.png" target="_blank" rel="noopener">📸 Voir la photo</a>`,
+      qr_title: "QR OFFICIEL DIGIYLYFE — CHEZ BAPTISTE",
+      qr_text: "Scanne ce QR sur papier, ou clique dessus si tu reçois cette fiche sur téléphone. Il ouvre la fiche publique officielle DIGIYLYFE du logement : photos, vidéo, tarifs, réservation directe, WhatsApp, SMS, appel et paiement Wave au propriétaire.",
+      qr_signature: "<strong>Empreinte DIGIYLYFE :</strong> un QR simple ouvre un lien. Un QR DIGIY ouvre une route professionnelle : fiche, contact, réservation, paiement direct et 0% commission.",
+      footer: "CHEZ BAPTISTE — Saly · Module DIGIY LOC personnalisé · Contact WhatsApp : +221 77 134 28 89 / +221 77 876 57 85",
+      footer_seal: "Propulsé par DIGIYLYFE — Le Club Entreprises du Terrain · QR officiel · Réservation directe · 0% commission",
+      back_home: "← Retour à la galerie LOC",
+      sms_body_label: "body",
+      copied: "Lien copié",
+      audio_text: `Bienvenue chez Baptiste à Saly.
+Cette fiche présente un appartement confortable, dans un quartier paisible, sans bruyance, pour quatre personnes maximum.
+Le tarif est de trente mille francs la nuit, cent soixante quinze mille francs la semaine, et cinq cent cinquante mille francs le mois.
+La Sénélec est en plus, selon la consommation électrique.
+Une vidéo de présentation est aussi disponible sur cette fiche, pour regarder le logement avant de faire la demande.
+Pour demander une disponibilité, vous pouvez choisir vos dates, renseigner votre nom et votre téléphone, puis envoyer la demande directement par WhatsApp ou par SMS.
+Le paiement se fait directement au propriétaire par Wave, au plus deux cent vingt et un, soixante dix sept, cent trente quatre, vingt huit, quatre vingt neuf.
+Cette fiche et son QR portent l'empreinte DIGIYLYFE : une route directe, officielle, partageable et utile.
+DIGIY LOC garde l'esprit simple : contact direct, zéro commission, propriétaire joignable, client rassuré.
+La valeur du business reste dans la main du professionnel local.`,
+      booking_message: (name, phone, dates, guests, pay) => {
+        let txt = "Bonjour, je souhaite faire une demande pour l'appartement CHEZ BAPTISTE à Saly.\n";
+        txt += "- Nom : " + name + "\n";
+        txt += "- Téléphone : " + phone + "\n";
+        txt += dates ? "- Dates : " + dates + "\n" : "- Dates : à préciser ensemble\n";
+        txt += "- Nombre de personnes : " + guests + "\n";
+        txt += "- Mode de paiement prévu : " + pay + "\n";
+        txt += "- Tarifs DIGIY LOC : Nuit 30 000 F / Semaine 175 000 F / Mois 550 000 F (Sénélec en sus).\n";
+        txt += "- J'ai vu qu'une vidéo de présentation est disponible.\n\n";
+        txt += "Merci de me confirmer la disponibilité.";
+        return txt;
+      },
+      saved_message: (name, phone, stay, guests, pay) => {
+        let txt = "Bonjour, je viens d'enregistrer mes infos pour CHEZ BAPTISTE à Saly.\n";
+        txt += "- Nom : " + name + "\n";
+        txt += "- Téléphone : " + phone + "\n";
+        if(stay) txt += "- Séjour : " + stay + "\n";
+        txt += "- Nombre de personnes : " + guests + "\n";
+        txt += "- Mode de paiement prévu : " + pay + "\n\n";
+        txt += "Je ferai le règlement directement via mon application Wave.";
+        return txt;
+      }
+    },
+    en: {
+      title: "CHEZ BAPTISTE — Apartment in Saly",
+      description: "Comfortable apartment in Saly: up to 4 guests, quiet area, nightly/weekly/monthly rates, direct owner booking, WhatsApp, SMS, call, video and direct Wave payment.",
+      brand: 'CHEZ BAPTISTE — <span>DIGIY LOC</span>',
+      top_tag: "Apartment in Saly · Up to 4 guests · Quiet area",
+      hero_title: "CHEZ BAPTISTE Apartment — Saly",
+      hero_intro: "Comfortable apartment in a quiet area of Saly, with no noise disturbance, ideal for family or friends stays. Up to 4 guests, just a few minutes from Saly’s amenities and local life.",
+      chips: ["Up to 4 guests","Quiet area","Electricity billed separately","Direct owner booking"],
+      official_badges: ["▣ Official DIGIYLYFE QR","0% commission","Direct payment"],
+      official_text: "This page opens a direct route between the guest and the owner: photos, video, booking, WhatsApp, SMS, call and Wave. <b>The value of the business stays in the hands of the local pro.</b>",
+      caption: "View of the CHEZ BAPTISTE apartment — Saly (DIGIY visual).",
+      tariffs_title: "CHEZ BAPTISTE Rates",
+      tariff_labels: ["Night:","Week:","Month:"],
+      senelec: "⚡ Electricity billed separately according to consumption.",
+      audio_kicker: "🎧 Speaking page",
+      audio_title: "Listen before deciding",
+      audio_intro: "A short voice explains the apartment, the rates, the available video, then the direct request by WhatsApp or SMS.",
+      audio_play: "🎧 Listen to the page",
+      audio_stop: "⏹ Stop",
+      audio_note: "🎥 A presentation video is also available. Guests can listen, watch, then send a simple request.",
+      wave_title: "💳 Direct owner payment — Wave",
+      wave_note: "✔ Use this number in your Wave app",
+      owner_line: "Owner: Jean Baptiste Beauville",
+      cta_wa: "💬 Request by WhatsApp",
+      cta_sms: "📩 Request by SMS",
+      cta_call: "📞 Call the owner",
+      cta_save: "📝 Save my info (Wave)",
+      cta_video: "🎥 Video available — view presentation",
+      resa_title: "Book Chez Baptiste",
+      resa_sub: "Choose your dates and details, then send the request in one click by WhatsApp or SMS",
+      resa_badge: "0% commission · Direct payment",
+      steps_html: "<strong>How does it work?</strong><ul><li>Choose your arrival and departure dates.</li><li>Enter your name, phone number and number of guests.</li><li>Tap <strong>“Request by WhatsApp”</strong> or <strong>“Request by SMS”</strong> to speak directly with the owner.</li></ul>",
+      labels: ["Arrival date","Departure date","Number of guests","Your name","Your phone","Payment method"],
+      ph_name: "Your name",
+      ph_phone: "+221 ...",
+      pay_input: "Wave (direct payment to owner)",
+      no_dates: "Select your arrival and departure dates to see the number of nights and an estimate at the nightly rate (30,000 F / night). The final rate will be confirmed with the owner on WhatsApp.",
+      summary_template: (nights, guests, total) => `<div>Stay of <strong>${nights}</strong> night(s) for <strong>${guests}</strong> guest(s) (max 4).</div><div>Estimated nightly rate (30,000 F / night): <strong>${total}</strong>.</div><div style="margin-top:4px;font-size:12px;">Indicative rates: <strong>175,000 F</strong> per week · <strong>550,000 F</strong> per month (electricity billed separately).<br>The final rate will be confirmed with the owner during the WhatsApp exchange.</div>`,
+      info_title: "Useful information & contacts",
+      info_sub: "A few important points for your stay.",
+      info_list: [
+        "Quiet area, no noise disturbance.",
+        "Apartment for up to 4 guests.",
+        "Rates: 30,000 F / night · 175,000 F / week · 550,000 F / month.",
+        "Electricity billed separately according to consumption.",
+        "Booking and confirmation by WhatsApp, SMS or direct call.",
+        "Owner: Jean Baptiste Beauville",
+        "Direct payment to the owner by Wave.",
+        "A presentation video is available to view the apartment before requesting."
+      ],
+      info_contacts_html: `Main WhatsApp: <a class="inline-link" href="https://wa.me/221771342889" target="_blank" rel="noopener">+221 77 134 28 89</a><br>
+Secondary WhatsApp / phone: <a class="inline-link" href="https://wa.me/221778765785" target="_blank" rel="noopener">+221 77 876 57 85</a><br><br>
+<strong class="digiy-label-strong">Wave number (payment):</strong><br><span class="pay-number">+221 77 134 28 89</span><br><span class="pay-note">✔ Use this number in your Wave app</span><br><br>
+SMS request: <a class="inline-link" href="sms:+221771342889">📩 +221 77 134 28 89</a><br><br>
+Direct call: <a class="inline-link" href="tel:+221771342889">📞 +221 77 134 28 89</a><br><br>
+Presentation video: <a class="inline-link" href="https://drive.google.com/file/d/1oEVpt1R7fWBAJnKZlPu_fp2gqS-Z1kni/view?usp=sharing" target="_blank" rel="noopener">🎥 Watch the video</a><br>
+DIGIY visual: <a class="inline-link" href="https://orange-pig-270004.hostingersite.com/wp-content/uploads/2025/06/042-BAPTISTE.png" target="_blank" rel="noopener">📸 View the photo</a>`,
+      qr_title: "OFFICIAL DIGIYLYFE QR — CHEZ BAPTISTE",
+      qr_text: "Scan this QR on paper, or tap it if you receive this page on a phone. It opens the official DIGIYLYFE public page for the apartment: photos, video, rates, direct booking, WhatsApp, SMS, call and Wave payment to the owner.",
+      qr_signature: "<strong>DIGIYLYFE mark:</strong> a simple QR opens a link. A DIGIY QR opens a professional route: page, contact, booking, direct payment and 0% commission.",
+      footer: "CHEZ BAPTISTE — Saly · Custom DIGIY LOC module · WhatsApp contact: +221 77 134 28 89 / +221 77 876 57 85",
+      footer_seal: "Powered by DIGIYLYFE — The Field Business Club · Official QR · Direct booking · 0% commission",
+      back_home: "← Back to LOC gallery",
+      copied: "Link copied",
+      audio_text: `Welcome to Chez Baptiste in Saly.
+This page presents a comfortable apartment in a quiet area, with no noise disturbance, for up to four guests.
+The rate is thirty thousand francs per night, one hundred and seventy five thousand francs per week, and five hundred and fifty thousand francs per month.
+Electricity is billed separately according to consumption.
+A presentation video is also available on this page, so you can view the apartment before sending a request.
+To ask for availability, choose your dates, enter your name and phone number, then send the request directly by WhatsApp or SMS.
+Payment is made directly to the owner by Wave, at plus two hundred and twenty one, seventy seven, one hundred thirty four, twenty eight, eighty nine.
+This page and its QR carry the DIGIYLYFE mark: a direct, official, shareable and useful route.
+DIGIY LOC keeps things simple: direct contact, zero commission, reachable owner, reassured guest.
+The value of the business stays in the hands of the local professional.`,
+      booking_message: (name, phone, dates, guests, pay) => {
+        let txt = "Hello, I would like to request availability for the CHEZ BAPTISTE apartment in Saly.\n";
+        txt += "- Name: " + name + "\n";
+        txt += "- Phone: " + phone + "\n";
+        txt += dates ? "- Dates: " + dates + "\n" : "- Dates: to be confirmed together\n";
+        txt += "- Number of guests: " + guests + "\n";
+        txt += "- Planned payment method: " + pay + "\n";
+        txt += "- DIGIY LOC rates: Night 30,000 F / Week 175,000 F / Month 550,000 F (electricity billed separately).\n";
+        txt += "- I saw that a presentation video is available.\n\n";
+        txt += "Please confirm availability.";
+        return txt;
+      },
+      saved_message: (name, phone, stay, guests, pay) => {
+        let txt = "Hello, I have saved my information for CHEZ BAPTISTE in Saly.\n";
+        txt += "- Name: " + name + "\n";
+        txt += "- Phone: " + phone + "\n";
+        if(stay) txt += "- Stay: " + stay + "\n";
+        txt += "- Number of guests: " + guests + "\n";
+        txt += "- Planned payment method: " + pay + "\n\n";
+        txt += "I will pay directly through my Wave app.";
+        return txt;
+      }
+    }
+  };
+
+  let currentLang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "fr";
+  const OWNER_WA_ID = "221771342889";
+  const OWNER_PHONE_MAIN = "+221771342889";
+  const WAVE_PHONE = "+221771342889";
+
+  function qs(sel){ return document.querySelector(sel); }
+  function qsa(sel){ return Array.from(document.querySelectorAll(sel)); }
+  function pack(){ return LANG[currentLang] || LANG.fr; }
+  function money(x){
+    return (x || 0).toLocaleString(currentLang === "en" ? "en-US" : "fr-FR") + " F";
+  }
+  function getNightsLang(){
+    const dateIn = qs("#dateIn");
+    const dateOut = qs("#dateOut");
+    if(!dateIn?.value || !dateOut?.value) return 0;
+    const d1 = new Date(dateIn.value);
+    const d2 = new Date(dateOut.value);
+    const diff = d2 - d1;
+    if(isNaN(diff) || diff <= 0) return 0;
+    return Math.round(diff / (1000 * 60 * 60 * 24));
+  }
+  function getPayMethodLabelLang(){
+    return currentLang === "en" ? "Wave (" + WAVE_PHONE + ") direct owner payment" : "Wave (" + WAVE_PHONE + ")";
+  }
+  function bookingDatesLang(){
+    const dateIn = qs("#dateIn");
+    const dateOut = qs("#dateOut");
+    const nights = getNightsLang();
+    if(dateIn?.value && dateOut?.value){
+      return currentLang === "en"
+        ? "from " + dateIn.value + " to " + dateOut.value + " (" + nights + " night(s))"
+        : "du " + dateIn.value + " au " + dateOut.value + " (" + nights + " nuit(s))";
+    }
+    return "";
+  }
+  function renderSummaryLang(){
+    const p = pack();
+    const summary = qs("#summary");
+    if(!summary) return;
+    const nights = getNightsLang();
+    const guests = Number(qs("#guests")?.value || "1");
+    if(!nights){
+      summary.innerHTML = p.no_dates;
+      return;
+    }
+    summary.innerHTML = p.summary_template(nights, guests, money(nights * 30000));
+  }
+  function buildBookingMessageLang(){
+    const p = pack();
+    const name = (qs("#clientName")?.value || "").trim() || (currentLang === "en" ? "Guest" : "Client");
+    const phone = (qs("#clientPhone")?.value || "").trim() || (currentLang === "en" ? "Not provided" : "Non communiqué");
+    const guests = Number(qs("#guests")?.value || "1");
+    return p.booking_message(name, phone, bookingDatesLang(), guests, getPayMethodLabelLang());
+  }
+  function buildSavedMessageLang(){
+    const p = pack();
+    const name = (qs("#clientName")?.value || "").trim() || (currentLang === "en" ? "Guest" : "Client");
+    const phone = (qs("#clientPhone")?.value || "").trim() || (currentLang === "en" ? "Not provided" : "Non communiqué");
+    const guests = Number(qs("#guests")?.value || "1");
+    return p.saved_message(name, phone, bookingDatesLang(), guests, getPayMethodLabelLang());
+  }
+
+  function applyLang(lang){
+    currentLang = lang === "en" ? "en" : "fr";
+    const p = pack();
+    document.documentElement.lang = currentLang;
+    document.title = p.title;
+    let meta = qs('meta[name="description"]');
+    if(meta) meta.setAttribute("content", p.description);
+
+    const url = new URL(location.href);
+    if(currentLang === "en") url.searchParams.set("lang","en");
+    else url.searchParams.delete("lang");
+    history.replaceState({}, "", url.pathname + url.search + url.hash);
+
+    qs("#locLangFr")?.classList.toggle("active", currentLang === "fr");
+    qs("#locLangEn")?.classList.toggle("active", currentLang === "en");
+
+    const brand = qs("header .brand");
+    if(brand) brand.innerHTML = p.brand;
+    const topTag = qs("[data-loc-key='top_tag']");
+    if(topTag) topTag.textContent = p.top_tag;
+
+    qs(".hero h1").textContent = p.hero_title;
+    const heroIntro = qs(".hero > div:first-child > p");
+    if(heroIntro) heroIntro.textContent = p.hero_intro;
+    qsa(".hero .chips .chip").slice(0,4).forEach((el,i)=>{ if(p.chips[i]) el.textContent = p.chips[i]; });
+    qsa(".digiy-official-badge").forEach((el,i)=>{ if(p.official_badges[i]) el.innerHTML = p.official_badges[i].replace("DIGIYLYFE","<strong>DIGIYLYFE</strong>"); });
+    const offText = qs(".digiy-official-stamp p");
+    if(offText) offText.innerHTML = p.official_text;
+    const cap = qs(".hero-caption");
+    if(cap) cap.textContent = p.caption;
+
+    qs(".price-block h2").textContent = p.tariffs_title;
+    qsa(".tarifs > span > span:first-child").forEach((el,i)=>{ if(p.tariff_labels[i]) el.textContent = p.tariff_labels[i]; });
+    const senelec = qs(".price-block div[style]");
+    if(senelec) senelec.textContent = p.senelec;
+
+    qs(".audio-kicker").textContent = p.audio_kicker;
+    qs(".audio-card h2").textContent = p.audio_title;
+    qs(".audio-card p").textContent = p.audio_intro;
+    qs("#btnAudio").textContent = p.audio_play;
+    qs("#btnStopAudio").textContent = p.audio_stop;
+    qs(".audio-note").textContent = p.audio_note;
+
+    const waveTitle = qs(".wave-card > div:first-child");
+    if(waveTitle) waveTitle.textContent = p.wave_title;
+    qs(".wave-card .pay-note").textContent = p.wave_note;
+    const waveOwner = qs(".wave-card > div:last-child");
+    if(waveOwner) waveOwner.textContent = p.owner_line;
+
+    qs("#btnWa").textContent = p.cta_wa;
+    qs("#btnSms").textContent = p.cta_sms;
+    qs("#btnCall").textContent = p.cta_call;
+    qs("#btnSavePayMethod").textContent = p.cta_save;
+    const videoBtn = qs(".btn-video");
+    if(videoBtn) videoBtn.textContent = p.cta_video;
+
+    qs(".resa-title-block h2").textContent = p.resa_title;
+    qs(".resa-title-block small").textContent = p.resa_sub;
+    qs(".resa-badge span:last-child").textContent = p.resa_badge;
+    qs(".resa-steps").innerHTML = p.steps_html;
+    qsa(".form-grid .field label").forEach((el,i)=>{ if(p.labels[i]) el.textContent = p.labels[i]; });
+    qs("#clientName")?.setAttribute("placeholder", p.ph_name);
+    qs("#clientPhone")?.setAttribute("placeholder", p.ph_phone);
+    const payInput = qsa(".form-grid input[disabled]")[0];
+    if(payInput) payInput.value = p.pay_input;
+    renderSummaryLang();
+
+    const infoCard = qsa(".layout article.card").find(el => !el.classList.contains("resa-card"));
+    if(infoCard){
+      const h2 = infoCard.querySelector("h2");
+      const small = infoCard.querySelector("small");
+      if(h2) h2.textContent = p.info_title;
+      if(small) small.textContent = p.info_sub;
+      const lis = Array.from(infoCard.querySelectorAll("ul li"));
+      lis.forEach((li,i)=>{
+        if(p.info_list[i]){
+          li.textContent = p.info_list[i];
+          if(i === 5) li.className = "digiy-black-strong";
+        }
+      });
+      const contactDiv = infoCard.querySelector('div[style*="margin-top:10px"]');
+      if(contactDiv) contactDiv.innerHTML = p.info_contacts_html;
+    }
+
+    qs(".qr-public-card h2").textContent = p.qr_title;
+    qs(".qr-public-card p").textContent = p.qr_text;
+    qs(".digiy-qr-signature").innerHTML = p.qr_signature;
+
+    const footer = qs("footer");
+    if(footer){
+      const seal = footer.querySelector(".digiy-footer-seal");
+      footer.childNodes[0].nodeValue = "\n    " + p.footer + "\n    ";
+      if(seal) seal.textContent = p.footer_seal;
+    }
+    const back = qs(".digiy-loc-back-home");
+    if(back) back.textContent = p.back_home;
+  }
+
+  function openWaLang(){
+    window.open("https://wa.me/" + OWNER_WA_ID + "?text=" + encodeURIComponent(buildBookingMessageLang()), "_blank");
+  }
+  function openSmsLang(){
+    const body = encodeURIComponent(buildBookingMessageLang());
+    const separator = /iPad|iPhone|iPod/.test(navigator.userAgent) ? "&" : "?";
+    window.location.href = "sms:" + OWNER_PHONE_MAIN + separator + "body=" + body;
+  }
+  function speakLang(){
+    if(!("speechSynthesis" in window)){
+      alert(currentLang === "en" ? "Voice reading is not available on this browser." : "La lecture audio n'est pas disponible sur ce navigateur.");
+      return;
+    }
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(pack().audio_text.trim());
+    const voices = speechSynthesis.getVoices();
+    const wanted = currentLang === "en" ? /^en/i : /^fr/i;
+    const voice = voices.find(v => wanted.test(v.lang || "")) || voices[0] || null;
+    if(voice) u.voice = voice;
+    u.lang = currentLang === "en" ? "en-US" : "fr-FR";
+    u.rate = currentLang === "en" ? 0.88 : 0.86;
+    u.pitch = 1.03;
+    u.volume = 1;
+    speechSynthesis.speak(u);
+  }
+  function savePayLang(){
+    const url = "https://wa.me/" + OWNER_WA_ID + "?text=" + encodeURIComponent(buildSavedMessageLang());
+    window.open(url, "_blank");
+  }
+
+  qs("#locLangFr")?.addEventListener("click", () => applyLang("fr"));
+  qs("#locLangEn")?.addEventListener("click", () => applyLang("en"));
+
+  ["#dateIn","#dateOut","#guests"].forEach(sel=>{
+    qs(sel)?.addEventListener("change", () => setTimeout(renderSummaryLang, 0));
+  });
+
+  [["#btnWa", openWaLang], ["#btnSms", openSmsLang], ["#btnAudio", speakLang], ["#btnSavePayMethod", savePayLang]].forEach(([sel, fn])=>{
+    qs(sel)?.addEventListener("click", function(e){
+      if(currentLang !== "en") return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      fn();
+    }, true);
+  });
+
+  applyLang(currentLang);
+})();
+</script>
+
+
 <!-- DIGIY LOC PARTENAIRE CHEZ BAPTISTE — QR PUBLIC AJOUTÉ — 20260512 -->
   <script src="https://pro-action-digiy.digiylyfe.com/assets/js/digiy-retour-voix.js?v=retour-voix-20260606-v4" defer></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
