@@ -599,6 +599,67 @@
     word-break:break-all;
   }
 
+
+
+  /* ===== CARTE QR IMPRIMABLE / PARTAGEABLE ===== */
+  .digiy-print-card-section{
+    margin-top:14px;
+    padding:16px;
+    border-radius:16px;
+    background:linear-gradient(135deg,rgba(250,204,21,.15),rgba(0,133,63,.10),rgba(2,6,23,.96));
+    border:2px solid rgba(250,204,21,.62);
+    box-shadow:0 0 24px rgba(250,204,21,0.16);
+    text-align:center;
+  }
+
+  .digiy-print-card-section h2{
+    margin:0 0 6px;
+    font-size:20px;
+    font-weight:950;
+    color:#facc15;
+  }
+
+  .digiy-print-card-section p{
+    margin:0 0 12px;
+    color:#f8fafc;
+    font-size:13px;
+    line-height:1.55;
+    font-weight:700;
+  }
+
+  .digiy-print-card-frame{
+    display:block;
+    overflow:hidden;
+    border-radius:18px;
+    border:1px solid rgba(250,204,21,.62);
+    background:#020617;
+    box-shadow:0 16px 34px rgba(0,0,0,.42);
+    line-height:0;
+  }
+
+  .digiy-print-card-frame img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+
+  .digiy-print-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    margin-top:12px;
+  }
+
+  .digiy-print-note{
+    margin-top:10px;
+    font-size:12px;
+    line-height:1.45;
+    color:#fef3c7;
+    font-weight:850;
+  }
+
+
   /* ===== BOUTON FLOTTANT RETOUR DIGIY LOC ===== */
   .digiy-loc-back-home{
     position:fixed;
@@ -1166,6 +1227,43 @@
             paiement direct et 0% commission.
           </div>
         </div>
+
+        <div class="digiy-print-card-section" aria-label="Carte QR imprimable CHEZ BAPTISTE">
+          <h2>Carte QR imprimable & partageable</h2>
+          <p>
+            Cette carte peut être envoyée par WhatsApp ou imprimée en flyer, autocollant,
+            carte plastifiée, affiche comptoir ou support de chambre. Un seul QR : une fiche vivante.
+          </p>
+
+          <a
+            class="digiy-print-card-frame"
+            href="carte-chez-baptiste-qr.png"
+            target="_blank"
+            rel="noopener"
+            aria-label="Ouvrir la carte QR imprimable CHEZ BAPTISTE"
+          >
+            <img
+              src="carte-chez-baptiste-qr.png"
+              alt="Carte QR CHEZ BAPTISTE — réservation directe DIGIYLYFE"
+              loading="lazy"
+            >
+          </a>
+
+          <div class="digiy-print-actions">
+            <a class="btn btn-wa" href="carte-chez-baptiste-qr.png" target="_blank" rel="noopener">
+              🖼️ Ouvrir la carte
+            </a>
+            <a class="btn btn-call" href="https://part-chez-baptiste.digiylyfe.com/" target="_blank" rel="noopener">
+              🔗 Ouvrir la fiche
+            </a>
+          </div>
+
+          <div class="digiy-print-note">
+            Papier ou téléphone : le lien reste le même. Le client scanne, garde la fiche,
+            contacte directement et revient sans dépendre d’une plateforme.
+          </div>
+        </div>
+
       </article>
     </section>
   </main>
@@ -1810,6 +1908,42 @@ The value of the business stays in the hands of the local professional.`,
   <script src="https://pro-action-digiy.digiylyfe.com/assets/js/digiy-retour-voix.js?v=retour-voix-20260606-v4" defer></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
