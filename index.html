@@ -651,6 +651,21 @@
     margin-top:12px;
   }
 
+
+  .digiy-print-actions .btn{
+    min-width:150px;
+    min-height:42px;
+    font-weight:900;
+  }
+
+  .digiy-share-help{
+    margin-top:8px;
+    font-size:12px;
+    color:#e5e7eb;
+    line-height:1.45;
+    font-weight:700;
+  }
+
   .digiy-print-note{
     margin-top:10px;
     font-size:12px;
@@ -1250,12 +1265,30 @@
           </a>
 
           <div class="digiy-print-actions">
-            <a class="btn btn-wa" href="carte-chez-baptiste-qr.png" target="_blank" rel="noopener">
-              🖼️ Ouvrir la carte
+            <button class="btn btn-wa" type="button" id="btnShareCard">
+              📤 Partager la carte
+            </button>
+            <a class="btn btn-sms" id="btnWhatsAppCard" href="https://wa.me/?text=CHEZ%20BAPTISTE%20Saly%20%E2%80%94%20carte%20QR%20directe%20%3A%20https%3A%2F%2Fpart-chez-baptiste.digiylyfe.com%2Fcarte-chez-baptiste-qr.png" target="_blank" rel="noopener">
+              💬 Envoyer WhatsApp
             </a>
-            <a class="btn btn-call" href="https://part-chez-baptiste.digiylyfe.com/" target="_blank" rel="noopener">
-              🔗 Ouvrir la fiche
+            <a class="btn btn-call" href="carte-chez-baptiste-qr.png" target="_blank" rel="noopener">
+              🖼️ Ouvrir
             </a>
+            <a class="btn btn-call" href="carte-chez-baptiste-qr.png" download="carte-chez-baptiste-qr.png">
+              ⬇️ Télécharger
+            </a>
+            <button class="btn btn-video" type="button" id="btnCopyCardLink">
+              🔗 Copier le lien
+            </button>
+            <button class="btn btn-video" type="button" id="btnPrintCard">
+              🖨️ Imprimer
+            </button>
+          </div>
+
+
+          <div class="digiy-share-help">
+            Sur téléphone, “Partager la carte” peut envoyer directement l’image dans WhatsApp.
+            Si le partage image n’est pas disponible, le lien direct de la carte est copié/ouvert.
           </div>
 
           <div class="digiy-print-note">
@@ -1906,8 +1939,117 @@ The value of the business stays in the hands of the local professional.`,
 
 <!-- DIGIY LOC PARTENAIRE CHEZ BAPTISTE — QR PUBLIC AJOUTÉ — 20260512 -->
   <script src="https://pro-action-digiy.digiylyfe.com/assets/js/digiy-retour-voix.js?v=retour-voix-20260606-v4" defer></script>
+
+
+<script>
+(function(){
+  "use strict";
+
+  const CARD_PATH = "carte-chez-baptiste-qr.png";
+  const CARD_URL = new URL(CARD_PATH, window.location.href).href;
+  const PAGE_URL = "https://part-chez-baptiste.digiylyfe.com/";
+  const SHARE_TITLE = "CHEZ BAPTISTE — Carte QR directe";
+  const SHARE_TEXT = "CHEZ BAPTISTE — Saly\nCarte QR officielle DIGIYLYFE pour réservation directe, WhatsApp, prix direct pro et 0% commission.\n" + PAGE_URL;
+
+  function toast(message){
+    try{
+      const old = document.getElementById("digiyShareToast");
+      if(old) old.remove();
+      const el = document.createElement("div");
+      el.id = "digiyShareToast";
+      el.textContent = message;
+      el.style.cssText = "position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:99999;background:#020617;color:#fef3c7;border:1px solid rgba(250,204,21,.75);border-radius:999px;padding:10px 14px;font-weight:950;font-size:13px;box-shadow:0 14px 34px rgba(0,0,0,.45);text-align:center;max-width:90vw;";
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),2600);
+    }catch(e){ alert(message); }
+  }
+
+  async function copyText(text, message){
+    try{
+      await navigator.clipboard.writeText(text);
+      toast(message || "Lien copié.");
+    }catch(e){
+      window.prompt("Copie ce lien :", text);
+    }
+  }
+
+  async function shareCard(){
+    try{
+      if(navigator.share){
+        try{
+          const response = await fetch(CARD_URL, {cache:"no-store"});
+          const blob = await response.blob();
+          const file = new File([blob], "carte-chez-baptiste-qr.png", {type: blob.type || "image/png"});
+          if(navigator.canShare && navigator.canShare({files:[file]})){
+            await navigator.share({title: SHARE_TITLE, text: SHARE_TEXT, files:[file]});
+            return;
+          }
+        }catch(fileError){
+          // Le navigateur ne permet pas toujours le partage direct de fichier : fallback lien.
+        }
+        await navigator.share({title: SHARE_TITLE, text: SHARE_TEXT, url: CARD_URL});
+        return;
+      }
+      await copyText(CARD_URL, "Lien de la carte copié.");
+    }catch(e){
+      await copyText(CARD_URL, "Lien de la carte copié.");
+    }
+  }
+
+  function printCard(){
+    const w = window.open("", "_blank", "noopener,noreferrer");
+    if(!w){
+      window.open(CARD_URL, "_blank", "noopener");
+      return;
+    }
+    w.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Carte QR CHEZ BAPTISTE</title><style>body{margin:0;padding:24px;background:#fff;display:grid;place-items:center;min-height:100vh}img{width:100%;max-width:1000px;height:auto} @media print{body{padding:0}img{max-width:100%;width:100%}}</style></head><body><img src="${CARD_URL}" alt="Carte QR CHEZ BAPTISTE" onload="setTimeout(()=>window.print(),300)"></body></html>`);
+    w.document.close();
+  }
+
+  document.getElementById("btnShareCard")?.addEventListener("click", shareCard);
+  document.getElementById("btnCopyCardLink")?.addEventListener("click", () => copyText(CARD_URL, "Lien direct de la carte copié."));
+  document.getElementById("btnPrintCard")?.addEventListener("click", printCard);
+})();
+</script>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
