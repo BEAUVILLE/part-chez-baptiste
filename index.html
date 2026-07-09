@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -544,135 +545,6 @@
     font-weight:900;
   }
 
-  /* ===== QR PUBLIC CHEZ BAPTISTE ===== */
-  .qr-public-card{
-    margin-top:14px;
-    padding:16px;
-    border-radius:16px;
-    background:#020617;
-    border:2px solid #facc15;
-    box-shadow:0 0 22px rgba(250,204,21,0.22);
-    text-align:center;
-  }
-
-  .qr-public-card h2{
-    margin:0 0 6px;
-    font-size:20px;
-    font-weight:900;
-    color:#facc15;
-  }
-
-  .qr-public-card p{
-    margin:0 0 12px;
-    color:#e5e7eb;
-    font-size:13px;
-    line-height:1.55;
-    font-weight:600;
-  }
-
-  .qr-public-box{
-    display:grid;
-    place-items:center;
-    background:#ffffff;
-    border-radius:18px;
-    padding:16px;
-  }
-
-  .qr-public-box a{
-    display:block;
-    line-height:0;
-  }
-
-  .qr-public-box img{
-    width:220px;
-    height:220px;
-    max-width:100%;
-    object-fit:contain;
-    border-radius:12px;
-  }
-
-  .qr-public-link{
-    margin-top:10px;
-    font-size:12px;
-    color:#facc15;
-    font-weight:800;
-    word-break:break-all;
-  }
-
-
-
-  /* ===== CARTE QR IMPRIMABLE / PARTAGEABLE ===== */
-  .digiy-print-card-section{
-    margin-top:14px;
-    padding:16px;
-    border-radius:16px;
-    background:linear-gradient(135deg,rgba(250,204,21,.15),rgba(0,133,63,.10),rgba(2,6,23,.96));
-    border:2px solid rgba(250,204,21,.62);
-    box-shadow:0 0 24px rgba(250,204,21,0.16);
-    text-align:center;
-  }
-
-  .digiy-print-card-section h2{
-    margin:0 0 6px;
-    font-size:20px;
-    font-weight:950;
-    color:#facc15;
-  }
-
-  .digiy-print-card-section p{
-    margin:0 0 12px;
-    color:#f8fafc;
-    font-size:13px;
-    line-height:1.55;
-    font-weight:700;
-  }
-
-  .digiy-print-card-frame{
-    display:block;
-    overflow:hidden;
-    border-radius:18px;
-    border:1px solid rgba(250,204,21,.62);
-    background:#020617;
-    box-shadow:0 16px 34px rgba(0,0,0,.42);
-    line-height:0;
-  }
-
-  .digiy-print-card-frame img{
-    width:100%;
-    height:auto;
-    display:block;
-  }
-
-  .digiy-print-actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    justify-content:center;
-    margin-top:12px;
-  }
-
-
-  .digiy-print-actions .btn{
-    min-width:150px;
-    min-height:42px;
-    font-weight:900;
-  }
-
-  .digiy-share-help{
-    margin-top:8px;
-    font-size:12px;
-    color:#e5e7eb;
-    line-height:1.45;
-    font-weight:700;
-  }
-
-  .digiy-print-note{
-    margin-top:10px;
-    font-size:12px;
-    line-height:1.45;
-    color:#fef3c7;
-    font-weight:850;
-  }
 
 
   /* ===== BOUTON FLOTTANT RETOUR DIGIY LOC ===== */
@@ -901,6 +773,75 @@
   @media(max-width:640px){
     .digiy-main-link{width:100%;}
     .digiy-mother-band{margin-top:8px;}
+  }
+
+
+
+  /* ===== CARTE QR IMPRIMABLE — AFFICHAGE COMPLET ===== */
+  .digiy-print-card-section{
+    margin-top:14px;
+    padding:16px;
+    border-radius:16px;
+    background:#020617;
+    border:2px solid #facc15;
+    box-shadow:0 0 22px rgba(250,204,21,0.18);
+  }
+  .digiy-print-card-section h2{
+    margin:0 0 6px;
+    font-size:20px;
+    font-weight:900;
+    color:#facc15;
+  }
+  .digiy-print-card-section p{
+    margin:0 0 12px;
+    color:#e5e7eb;
+    font-size:13px;
+    line-height:1.55;
+    font-weight:600;
+  }
+  .digiy-print-card-frame{
+    display:block;
+    width:100%;
+    background:#ffffff;
+    border-radius:18px;
+    padding:12px;
+    text-decoration:none;
+    overflow:visible;
+  }
+  .digiy-print-card-frame img{
+    display:block;
+    width:100%;
+    max-width:100%;
+    height:auto;
+    border-radius:12px;
+    object-fit:contain;
+    margin:0 auto;
+  }
+  .digiy-print-actions{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin-top:12px;
+  }
+  .digiy-print-actions .btn{
+    width:100%;
+  }
+  .digiy-share-help, .digiy-print-note{
+    margin-top:10px;
+    padding:10px;
+    border-radius:12px;
+    background:rgba(2,6,23,.65);
+    border:1px solid rgba(148,163,184,.35);
+    color:#fef3c7;
+    font-size:13px;
+    line-height:1.45;
+    font-weight:700;
+  }
+  .digiy-print-note{
+    color:#e5e7eb;
+  }
+  @media(max-width:640px){
+    .digiy-print-actions{grid-template-columns:1fr;}
   }
 
 </style>
@@ -1208,45 +1149,10 @@
           </a>
         </div>
 
-        <div class="qr-public-card">
-          <h2>QR OFFICIEL DIGIYLYFE — CHEZ BAPTISTE</h2>
-          <p>
-            Scanne ce QR sur papier, ou clique dessus si tu reçois cette fiche sur téléphone.
-            Il ouvre la fiche publique officielle DIGIYLYFE du logement : photos, vidéo,
-            tarifs, réservation directe, WhatsApp, SMS, appel et paiement Wave au propriétaire.
-          </p>
-
-          <div class="qr-public-box">
-            <a
-              href="https://part-chez-baptiste.digiylyfe.com/"
-              target="_blank"
-              rel="noopener"
-              aria-label="Ouvrir la fiche publique CHEZ BAPTISTE — Saly"
-            >
-              <img
-                src="https://quickchart.io/qr?size=280&text=https%3A%2F%2Fpart-chez-baptiste.digiylyfe.com%2F"
-                alt="QR CHEZ BAPTISTE — Saly"
-                width="280"
-                height="280"
-              >
-            </a>
-          </div>
-
-          <div class="qr-public-link">
-            https://part-chez-baptiste.digiylyfe.com/
-          </div>
-
-          <div class="digiy-qr-signature">
-            <strong>Empreinte DIGIYLYFE.COM :</strong> un QR simple ouvre un lien.
-            Un QR DIGIY ouvre une route professionnelle : fiche, contact, réservation,
-            paiement direct et 0% commission.
-          </div>
-        </div>
-
         <div class="digiy-print-card-section" aria-label="Carte QR imprimable CHEZ BAPTISTE">
-          <h2>Carte QR imprimable & partageable</h2>
+          <h2>Carte QR officielle — imprimable & partageable</h2>
           <p>
-            Cette carte peut être envoyée par WhatsApp ou imprimée en flyer, autocollant,
+            Cette carte est le seul support QR affiché ici : elle peut être envoyée par WhatsApp ou imprimée en flyer, autocollant,
             carte plastifiée, affiche comptoir ou support de chambre. Un seul QR : une fiche vivante.
           </p>
 
@@ -1872,9 +1778,6 @@ The value of the business stays in the hands of the local professional.`,
       if(contactDiv) contactDiv.innerHTML = p.info_contacts_html;
     }
 
-    qs(".qr-public-card h2").textContent = p.qr_title;
-    qs(".qr-public-card p").textContent = p.qr_text;
-    qs(".digiy-qr-signature").innerHTML = p.qr_signature;
 
     const footer = qs("footer");
     if(footer){
@@ -2002,7 +1905,76 @@ The value of the business stays in the hands of the local professional.`,
       window.open(CARD_URL, "_blank", "noopener");
       return;
     }
-    w.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Carte QR CHEZ BAPTISTE</title><style>body{margin:0;padding:24px;background:#fff;display:grid;place-items:center;min-height:100vh}img{width:100%;max-width:1000px;height:auto} @media print{body{padding:0}img{max-width:100%;width:100%}}</style></head><body><img src="${CARD_URL}" alt="Carte QR CHEZ BAPTISTE" onload="setTimeout(()=>window.print(),300)"></body></html>`);
+    w.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Carte QR CHEZ BAPTISTE</title><style>body{margin:0;padding:24px;background:#fff;display:grid;place-items:center;min-height:100vh}img{width:100%;max-width:1000px;height:auto} @media print{body{padding:0}img{max-width:100%;width:100%}}
+
+  /* ===== CARTE QR IMPRIMABLE — AFFICHAGE COMPLET ===== */
+  .digiy-print-card-section{
+    margin-top:14px;
+    padding:16px;
+    border-radius:16px;
+    background:#020617;
+    border:2px solid #facc15;
+    box-shadow:0 0 22px rgba(250,204,21,0.18);
+  }
+  .digiy-print-card-section h2{
+    margin:0 0 6px;
+    font-size:20px;
+    font-weight:900;
+    color:#facc15;
+  }
+  .digiy-print-card-section p{
+    margin:0 0 12px;
+    color:#e5e7eb;
+    font-size:13px;
+    line-height:1.55;
+    font-weight:600;
+  }
+  .digiy-print-card-frame{
+    display:block;
+    width:100%;
+    background:#ffffff;
+    border-radius:18px;
+    padding:12px;
+    text-decoration:none;
+    overflow:visible;
+  }
+  .digiy-print-card-frame img{
+    display:block;
+    width:100%;
+    max-width:100%;
+    height:auto;
+    border-radius:12px;
+    object-fit:contain;
+    margin:0 auto;
+  }
+  .digiy-print-actions{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin-top:12px;
+  }
+  .digiy-print-actions .btn{
+    width:100%;
+  }
+  .digiy-share-help, .digiy-print-note{
+    margin-top:10px;
+    padding:10px;
+    border-radius:12px;
+    background:rgba(2,6,23,.65);
+    border:1px solid rgba(148,163,184,.35);
+    color:#fef3c7;
+    font-size:13px;
+    line-height:1.45;
+    font-weight:700;
+  }
+  .digiy-print-note{
+    color:#e5e7eb;
+  }
+  @media(max-width:640px){
+    .digiy-print-actions{grid-template-columns:1fr;}
+  }
+
+</style></head><body><img src="${CARD_URL}" alt="Carte QR CHEZ BAPTISTE" onload="setTimeout(()=>window.print(),300)"></body></html>`);
     w.document.close();
   }
 
@@ -2014,6 +1986,41 @@ The value of the business stays in the hands of the local professional.`,
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
