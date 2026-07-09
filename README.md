@@ -1,27 +1,16 @@
-from pathlib import Path
+[README.md](https://github.com/user-attachments/files/29835661/README.md)# CHEZ BAPTISTE — DIGIYLYFE.COM marque posée
 
-readme = """# README — CHEZ BAPTISTE / DIGIY LOC
+Version corrigée de la fiche CHEZ BAPTISTE.
 
-## Rôle du fichier
+## Modifications
 
-Ce dossier contient la fiche partenaire **CHEZ BAPTISTE — Appartement à Saly**, utilisée comme fiche publique personnalisée dans le rail **DIGIY LOC**.
+- Ajout du lien cliquable `DIGIYLYFE.COM` dans la barre haute.
+- Ajout d’un bandeau “Marque mère · DIGIYLYFE.COM” dans le hero.
+- Ajout d’un badge cliquable `DIGIYLYFE.COM` dans l’empreinte officielle.
+- Renforcement de la signature QR et footer avec `DIGIYLYFE.COM`.
+- Meta title/description renforcées pour la marque mère.
 
-Cette fiche sert à présenter le logement au client avec :
+## Publication
 
-- présentation du logement ;
-- photo principale ;
-- tarifs nuit / semaine / mois ;
-- paiement direct propriétaire par Wave ;
-- réservation par WhatsApp ;
-- appel direct propriétaire ;
-- vidéo de présentation ;
-- retour vers la galerie officielle LOC.
+Remplacer l’ancien `index.html` du dépôt par celui-ci.
 
----
-
-## Fichier principal
-
-Le fichier principal à utiliser est :
-
-```txt
-index.html
