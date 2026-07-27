@@ -26,7 +26,6 @@
       --green-soft:#e8f5ef;
       --gold:#f5b800;
       --gold-soft:#fff6cf;
-      --danger:#b42318;
       --shadow:0 18px 55px rgba(18,51,39,.14);
       --radius:22px;
     }
@@ -205,26 +204,17 @@
     .small-actions a:hover{transform:translateY(-1px);filter:brightness(1.03)}
     .small-actions .video-action{background:linear-gradient(135deg,#f97316,#e11d48);border-color:transparent;color:#fff;box-shadow:0 10px 24px rgba(225,29,72,.20)}
     .small-actions .card-action{background:linear-gradient(135deg,#facc15,#f59e0b);border-color:#e7a800;color:#332500;box-shadow:0 10px 24px rgba(245,184,0,.20)}
-.small-actions .payment-action{
-  grid-column:1/-1;
-  min-height:54px;
-  background:linear-gradient(135deg,#087452,#05593f);
-  border-color:transparent;
-  color:#fff;
-  box-shadow:0 12px 26px rgba(8,116,82,.22);
-}
-.international-note{
-  margin-top:10px;
-  padding:10px 12px;
-  border-radius:13px;
-  background:#eef5ff;
-  border:1px solid #cfe0ff;
-  color:#29466f;
-  font-size:12px;
-  line-height:1.45;
-  font-weight:780;
-}
-
+    .international-note{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:13px;
+      background:#eef5ff;
+      border:1px solid #cfe0ff;
+      color:#29466f;
+      font-size:12px;
+      line-height:1.45;
+      font-weight:780;
+    }
 
     details.more{
       margin-top:16px;
@@ -426,19 +416,18 @@
         </article>
 
         <article class="compact-card">
-  <h2 data-i18n="paymentTitle">Paiement direct</h2>
-  <div data-i18n="paymentCopy" style="color:var(--muted);font-size:13px;line-height:1.5;font-weight:720">Après confirmation de la disponibilité, réglez directement le propriétaire par Wave.</div>
-  <div class="wave-number">+221 77 134 28 89</div>
-  <div class="owner-line" data-i18n="owner">Propriétaire : Jean Baptiste Beauville</div>
-  <div class="international-note" data-i18n="internationalNote">🌍 Depuis l’étranger : la page de paiement propose aussi Sendwave vers le Sénégal.</div>
-  <div class="small-actions">
-    <a href="sms:+221771342889">📩 <span data-i18n="sms">SMS</span></a>
-    <a href="tel:+221778765785">📞 <span data-i18n="secondPhone">2e numéro</span></a>
-    <a class="video-action" href="https://drive.google.com/file/d/1oEVpt1R7fWBAJnKZlPu_fp2gqS-Z1kni/view?usp=sharing" target="_blank" rel="noopener">▶️ <span data-i18n="video">Voir la vidéo</span></a>
-    <a class="card-action" href="https://part-chez-baptiste.digiylyfe.com/carte-chez-baptiste-qr.png" target="_blank" rel="noopener">🪪 <span data-i18n="businessCard">Carte de visite</span></a>
-    <a class="payment-action" id="paymentPageLink" href="paiement-wave.html">💳 <span data-i18n="openPayment">Ouvrir la page de paiement Wave / Sendwave</span></a>
-  </div>
-</article>
+          <h2 data-i18n="paymentTitle">Paiement direct</h2>
+          <div data-i18n="paymentCopy" style="color:var(--muted);font-size:13px;line-height:1.5;font-weight:720">Après confirmation de la disponibilité, réglez directement le propriétaire par Wave.</div>
+          <div class="wave-number">+221 77 134 28 89</div>
+          <div class="owner-line" data-i18n="owner">Propriétaire : Jean Baptiste Beauville</div>
+          <div class="international-note" data-i18n="internationalNote">🌍 Depuis l’étranger : le paiement se fait également par Sendwave vers le Sénégal.</div>
+          <div class="small-actions">
+            <a href="sms:+221771342889">📩 <span data-i18n="sms">SMS</span></a>
+            <a href="tel:+221778765785">📞 <span data-i18n="secondPhone">2e numéro</span></a>
+            <a class="video-action" href="https://drive.google.com/file/d/1oEVpt1R7fWBAJnKZlPu_fp2gqS-Z1kni/view?usp=sharing" target="_blank" rel="noopener">▶️ <span data-i18n="video">Voir la vidéo</span></a>
+            <a class="card-action" href="https://part-chez-baptiste.digiylyfe.com/carte-chez-baptiste-qr.png" target="_blank" rel="noopener">🪪 <span data-i18n="businessCard">Carte de visite</span></a>
+          </div>
+        </article>
       </section>
 
       <details class="more">
@@ -510,7 +499,11 @@
 
     const OWNER_WA = "221771342889";
     const MAX_GUESTS = 4;
+    const PRICE_NIGHT = 30000;
+    const PRICE_WEEK = 175000;
+    const PRICE_MONTH = 550000;
 
+    // ===== TRADUCTIONS =====
     const translations = {
       fr:{
         pageTitle:"Chez Baptiste — Appartement à Saly | DIGIY LOC",
@@ -524,7 +517,7 @@
         estimateEmpty:"Choisissez vos dates pour obtenir une estimation.",estimateNote:"tarif final confirmé par le propriétaire",
         requestWhatsApp:"Demander sur WhatsApp",call:"Appeler",availabilityNote:"La demande ne bloque pas automatiquement le logement. Les dates et le tarif final sont confirmés directement avec le propriétaire.",
         knowTitle:"À savoir",knowOne:"Appartement pour 4 personnes maximum.",knowTwo:"Quartier paisible, sans bruyance.",knowThree:"Sénélec facturée en plus selon la consommation.",knowFour:"Confirmation directe par WhatsApp, SMS ou appel.",
-        paymentTitle:"Paiement direct",paymentCopy:"Après confirmation de la disponibilité, réglez directement le propriétaire par Wave.",internationalNote:"🌍 Depuis l’étranger : la page de paiement propose aussi Sendwave vers le Sénégal.",openPayment:"Ouvrir la page de paiement Wave / Sendwave",owner:"Propriétaire : Jean Baptiste Beauville",sms:"SMS",secondPhone:"2e numéro",video:"Voir la vidéo",businessCard:"Carte de visite QR",
+        paymentTitle:"Paiement direct",paymentCopy:"Après confirmation de la disponibilité, réglez directement le propriétaire par Wave.",internationalNote:"🌍 Depuis l’étranger : le paiement se fait également par Sendwave vers le Sénégal.",owner:"Propriétaire : Jean Baptiste Beauville",sms:"SMS",secondPhone:"2e numéro",video:"Voir la vidéo",businessCard:"Carte de visite QR",
         moreTitle:"Tarifs et fonctionnement",moreBody:"<strong>Tarifs indicatifs :</strong> 30 000 FCFA la nuit, 175 000 FCFA la semaine et 550 000 FCFA le mois. La Sénélec reste en sus selon la consommation. Le calendrier prépare une demande : le propriétaire confirme ensuite la disponibilité et le montant final.",
         footer:"Chez Baptiste — Saly · Fiche DIGIY LOC · Contact direct · Paiement direct · 0 % commission.",
         calendarTitle:"Choisir des dates",calendarHelp:"Premier clic : arrivée + 1 nuit. Deuxième clic : prolongez le séjour.",confirmDates:"Choisir ces dates",
@@ -545,7 +538,7 @@
         estimateEmpty:"Choose your dates to see an estimate.",estimateNote:"final price confirmed by the owner",
         requestWhatsApp:"Ask on WhatsApp",call:"Call",availabilityNote:"This enquiry does not automatically block the apartment. Dates and the final price are confirmed directly with the owner.",
         knowTitle:"Good to know",knowOne:"Apartment for up to 4 guests.",knowTwo:"Peaceful area, without disturbance.",knowThree:"Electricity is charged separately based on consumption.",knowFour:"Direct confirmation by WhatsApp, SMS or phone.",
-        paymentTitle:"Direct payment",paymentCopy:"After availability is confirmed, pay the owner directly by Wave.",internationalNote:"🌍 From abroad: the payment page also offers Sendwave to Senegal.",openPayment:"Open Wave / Sendwave payment page",owner:"Owner: Jean Baptiste Beauville",sms:"SMS",secondPhone:"2nd number",video:"Watch video",businessCard:"QR business card",
+        paymentTitle:"Direct payment",paymentCopy:"After availability is confirmed, pay the owner directly by Wave.",internationalNote:"🌍 From abroad: payment can also be made via Sendwave to Senegal.",owner:"Owner: Jean Baptiste Beauville",sms:"SMS",secondPhone:"2nd number",video:"Watch video",businessCard:"QR business card",
         moreTitle:"Rates and how it works",moreBody:"<strong>Indicative rates:</strong> 30,000 FCFA per night, 175,000 FCFA per week and 550,000 FCFA per month. Electricity remains extra according to consumption. The calendar prepares an enquiry; the owner then confirms availability and the final amount.",
         footer:"Chez Baptiste — Saly · DIGIY LOC listing · Direct contact · Direct payment · 0% commission.",
         calendarTitle:"Choose dates",calendarHelp:"First tap: check-in + 1 night. Second tap: extend the stay.",confirmDates:"Choose these dates",
@@ -556,29 +549,30 @@
       }
     };
 
+    // ===== DOM =====
     const $ = id => document.getElementById(id);
     const els = {
       langButtons:[...document.querySelectorAll(".lang-btn")],
       calendar:$('calendarDialog'),calendarClose:$('calendarClose'),calendarMonths:$('calendarMonths'),calendarScroll:$('calendarScroll'),prevMonth:$('prevMonth'),nextMonth:$('nextMonth'),rangeSummary:$('rangeSummary'),calendarConfirm:$('calendarConfirm'),
       dateTrigger:$('dateTrigger'),heroDateBtn:$('heroDateBtn'),mobileDateBtn:$('mobileDateBtn'),dateValue:$('dateValue'),
       guestDialog:$('guestDialog'),guestTrigger:$('guestTrigger'),guestClose:$('guestClose'),guestConfirm:$('guestConfirm'),guestSummary:$('guestSummary'),guestValue:$('guestValue'),adultMinus:$('adultMinus'),adultPlus:$('adultPlus'),childMinus:$('childMinus'),childPlus:$('childPlus'),adultValue:$('adultValue'),childValue:$('childValue'),
-      estimateCopy:$('estimateCopy'),estimatePrice:$('estimatePrice'),bookingWhatsApp:$('bookingWhatsApp'),paymentPageLink:$('paymentPageLink')
+      estimateCopy:$('estimateCopy'),estimatePrice:$('estimatePrice'),bookingWhatsApp:$('bookingWhatsApp')
     };
 
+    // ===== ÉTAT =====
     let currentLang = 'fr';
     let selectedStart = null;
     let selectedEnd = null;
-    let selectionPhase = 'start';
-    let cursorMonth = startOfMonth(new Date());
+    let cursorMonth = new Date();
+    cursorMonth.setDate(1);
     let adults = 2;
     let children = 0;
 
-    function t(key){return translations[currentLang][key] ?? key}
+    // ===== UTILITAIRES =====
+    function t(key){return translations[currentLang]?.[key] ?? key}
     function dateAtNoon(y,m,d){return new Date(y,m,d,12,0,0,0)}
-    function startOfMonth(date){return dateAtNoon(date.getFullYear(),date.getMonth(),1)}
-    function addMonths(date,n){return dateAtNoon(date.getFullYear(),date.getMonth()+n,1)}
     function addDays(date,n){return dateAtNoon(date.getFullYear(),date.getMonth(),date.getDate()+n)}
-    function today(){const n=new Date();return dateAtNoon(n.getFullYear(),n.getMonth(),n.getDate())}
+    function addMonths(date,n){return dateAtNoon(date.getFullYear(),date.getMonth()+n,1)}
     function iso(date){if(!date)return'';return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`}
     function parseISO(value){const [y,m,d]=value.split('-').map(Number);return dateAtNoon(y,m-1,d)}
     function sameDay(a,b){return !!a&&!!b&&iso(a)===iso(b)}
@@ -587,12 +581,23 @@
       const end=Date.UTC(b.getFullYear(),b.getMonth(),b.getDate());
       return Math.round((end-start)/86400000);
     }
+    function today(){const n=new Date();return dateAtNoon(n.getFullYear(),n.getMonth(),n.getDate())}
     function nights(){return selectedStart&&selectedEnd?Math.max(0,dayDiff(selectedStart,selectedEnd)):0}
     function locale(){return currentLang==='fr'?'fr-FR':'en-GB'}
     function formatShort(date){return new Intl.DateTimeFormat(locale(),{weekday:'short',day:'numeric',month:'short'}).format(date).replace(/\.$/,'')}
     function formatLong(date){return new Intl.DateTimeFormat(locale(),{weekday:'short',day:'numeric',month:'short',year:'numeric'}).format(date).replace(/\.$/,'')}
     function monthName(date){return new Intl.DateTimeFormat(locale(),{month:'long',year:'numeric'}).format(date)}
     function plural(n,one,many){return `${n} ${n===1?one:many}`}
+    function money(value){return new Intl.NumberFormat('fr-FR').format(value)+' FCFA'}
+
+    function estimatePrice(n){
+      let remaining=n,total=0;
+      const months=Math.floor(remaining/30);total+=months*PRICE_MONTH;remaining%=30;
+      const weeks=Math.floor(remaining/7);total+=weeks*PRICE_WEEK;remaining%=7;
+      total+=remaining*PRICE_NIGHT;
+      return total;
+    }
+
     function openDialog(dialog){
       if(!dialog)return;
       document.body.classList.add('modal-open');
@@ -610,15 +615,7 @@
       }
     }
 
-    function estimatePrice(n){
-      let remaining=n,total=0;
-      const months=Math.floor(remaining/30);total+=months*550000;remaining%=30;
-      const weeks=Math.floor(remaining/7);total+=weeks*175000;remaining%=7;
-      total+=remaining*30000;
-      return total;
-    }
-    function money(value){return new Intl.NumberFormat('fr-FR').format(value)+' FCFA'}
-
+    // ===== MISE À JOUR DES AFFICHAGES =====
     function updateGuests(){
       const total=adults+children;
       const text=`${plural(adults,t('adultOne'),t('adultMany'))} · ${plural(children,t('childOne'),t('childMany'))}`;
@@ -631,7 +628,6 @@
       els.adultPlus.disabled=total>=MAX_GUESTS;
       els.childPlus.disabled=total>=MAX_GUESTS;
       updateWhatsApp();
-      updatePaymentLink();
     }
 
     function updateDates(){
@@ -651,59 +647,6 @@
         els.estimatePrice.innerHTML=`${money(estimatePrice(n))}<small>${t('estimateNote')}</small>`;
       }
       updateWhatsApp();
-      updatePaymentLink();
-    }
-
-    function renderCalendar(){
-      const weekdayBase=dateAtNoon(2024,0,1);
-      const weekdays=Array.from({length:7},(_,i)=>new Intl.DateTimeFormat(locale(),{weekday:'short'}).format(addDays(weekdayBase,i)).replace(/\.$/,''));
-      const min=today();
-      els.prevMonth.disabled=cursorMonth<=startOfMonth(min);
-      let html='';
-      for(let offset=0;offset<2;offset++){
-        const month=addMonths(cursorMonth,offset);
-        const last=dateAtNoon(month.getFullYear(),month.getMonth()+1,0);
-        const mondayOffset=(month.getDay()+6)%7;
-        html+=`<section class="month"><h3 class="month-title">${monthName(month)}</h3><div class="weekdays">${weekdays.map(w=>`<div class="weekday">${w}</div>`).join('')}</div><div class="days">`;
-        for(let i=0;i<mondayOffset;i++)html+='<span class="day empty"></span>';
-        for(let d=1;d<=last.getDate();d++){
-          const date=dateAtNoon(month.getFullYear(),month.getMonth(),d);
-          const disabled=date<min;
-          const start=sameDay(date,selectedStart),end=sameDay(date,selectedEnd);
-          const between=selectedStart&&selectedEnd&&date>selectedStart&&date<selectedEnd;
-          const classes=['day',start?'range-start':'',end?'range-end':'',between?'in-range':'',sameDay(date,min)?'today':''].filter(Boolean).join(' ');
-          const selected=start||end?'true':'false';
-          html+=`<button class="${classes}" type="button" data-date="${iso(date)}" aria-selected="${selected}" ${disabled?'disabled':''}>${d}</button>`;
-        }
-        html+='</div></section>';
-      }
-      els.calendarMonths.innerHTML=html;
-      els.calendarMonths.querySelectorAll('button[data-date]').forEach(btn=>btn.addEventListener('click',()=>chooseDate(parseISO(btn.dataset.date))));
-      updateDates();
-    }
-
-    function chooseDate(date){
-      if(selectionPhase==='start'||!selectedStart){
-        selectedStart=date;
-        selectedEnd=addDays(date,1);
-        selectionPhase='end';
-      }else if(date<=selectedStart){
-        selectedStart=date;
-        selectedEnd=addDays(date,1);
-        selectionPhase='end';
-      }else{
-        selectedEnd=date;
-        selectionPhase='start';
-      }
-      renderCalendar();
-    }
-
-    function openCalendar(){
-      cursorMonth=startOfMonth(selectedStart||today());
-      selectionPhase=selectedStart&&selectedEnd?'start':'end';
-      renderCalendar();
-      openDialog(els.calendar);
-      requestAnimationFrame(()=>{els.calendarScroll.scrollTop=0});
     }
 
     function updateWhatsApp(){
@@ -715,63 +658,140 @@
       els.bookingWhatsApp.href=`https://wa.me/${OWNER_WA}?text=${encodeURIComponent(message)}`;
     }
 
+    // ===== CALENDRIER =====
+    function renderCalendar(){
+      const weekdayBase=dateAtNoon(2024,0,1);
+      const weekdays=Array.from({length:7},(_,i)=>new Intl.DateTimeFormat(locale(),{weekday:'short'}).format(addDays(weekdayBase,i)).replace(/\.$/,''));
+      const min=today();
+      const startMonth=cursorMonth;
+      els.prevMonth.disabled=startMonth<=startOfMonth(min);
+      let html='';
+      for(let offset=0;offset<2;offset++){
+        const month=addMonths(startMonth,offset);
+        const first=month;
+        const last=dateAtNoon(month.getFullYear(),month.getMonth()+1,0);
+        const mondayOffset=(first.getDay()+6)%7;
+        html+=`<section class="month"><h3 class="month-title">${monthName(month)}</h3><div class="weekdays">${weekdays.map(w=>`<div class="weekday">${w}</div>`).join('')}</div><div class="days">`;
+        for(let i=0;i<mondayOffset;i++)html+='<span class="day empty"></span>';
+        for(let d=1;d<=last.getDate();d++){
+          const date=dateAtNoon(month.getFullYear(),month.getMonth(),d);
+          const disabled=date<min;
+          const start=sameDay(date,selectedStart);
+          const end=sameDay(date,selectedEnd);
+          const between=selectedStart&&selectedEnd&&date>selectedStart&&date<selectedEnd;
+          const classes=['day',start?'range-start':'',end?'range-end':'',between?'in-range':'',sameDay(date,min)?'today':''].filter(Boolean).join(' ');
+          html+=`<button class="${classes}" type="button" data-date="${iso(date)}" ${disabled?'disabled':''}>${d}</button>`;
+        }
+        html+='</div></section>';
+      }
+      els.calendarMonths.innerHTML=html;
 
-function updatePaymentLink(){
-  if(!els.paymentPageLink) return;
-  const params=new URLSearchParams();
-  params.set('lang',currentLang);
-  params.set('adults',String(adults));
-  params.set('children',String(children));
-  const n=nights();
-  if(selectedStart&&selectedEnd&&n>0){
-    params.set('arrival',iso(selectedStart));
-    params.set('departure',iso(selectedEnd));
-    params.set('nights',String(n));
-    params.set('amount',String(estimatePrice(n)));
-  }
-  els.paymentPageLink.href=`paiement-wave.html?${params.toString()}`;
-}
+      // Attacher les écouteurs d'événements
+      els.calendarMonths.querySelectorAll('button[data-date]').forEach(btn=>{
+        btn.addEventListener('click',function(e){
+          e.preventDefault();
+          const date=parseISO(this.dataset.date);
+          if(!date)return;
+          if(!selectedStart || (selectedStart && selectedEnd)){
+            selectedStart=date;
+            selectedEnd=null;
+          }else if(selectedStart && !selectedEnd){
+            if(date<selectedStart){
+              selectedEnd=selectedStart;
+              selectedStart=date;
+            }else{
+              selectedEnd=date;
+            }
+          }
+          renderCalendar();
+          updateDates();
+        });
+      });
+      updateDates();
+    }
 
+    function openCalendar(){
+      cursorMonth=startOfMonth(selectedStart||today());
+      renderCalendar();
+      openDialog(els.calendar);
+      requestAnimationFrame(()=>{els.calendarScroll.scrollTop=0});
+    }
+
+    function startOfMonth(date){return dateAtNoon(date.getFullYear(),date.getMonth(),1)}
+
+    // ===== LANGUE =====
     function applyLanguage(lang){
       currentLang=lang;
       document.documentElement.lang=lang;
       document.title=t('pageTitle');
-      document.querySelectorAll('[data-i18n]').forEach(node=>{const key=node.dataset.i18n;if(translations[lang][key]!==undefined)node.textContent=translations[lang][key]});
-      document.querySelectorAll('[data-i18n-html]').forEach(node=>{const key=node.dataset.i18nHtml;if(translations[lang][key]!==undefined)node.innerHTML=translations[lang][key]});
-      els.langButtons.forEach(btn=>{const active=btn.dataset.lang===lang;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active))});
+      document.querySelectorAll('[data-i18n]').forEach(node=>{
+        const key=node.dataset.i18n;
+        if(translations[lang][key]!==undefined)node.textContent=translations[lang][key];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(node=>{
+        const key=node.dataset.i18nHtml;
+        if(translations[lang][key]!==undefined)node.innerHTML=translations[lang][key];
+      });
+      els.langButtons.forEach(btn=>{
+        const active=btn.dataset.lang===lang;
+        btn.classList.toggle('active',active);
+        btn.setAttribute('aria-pressed',String(active));
+      });
       updateGuests();
       renderCalendar();
       updateDates();
-      updatePaymentLink();
+      updateWhatsApp();
       try{localStorage.setItem('chezBaptisteLang',lang)}catch(_e){}
     }
 
+    // ===== ÉVÉNEMENTS =====
     els.langButtons.forEach(btn=>btn.addEventListener('click',()=>applyLanguage(btn.dataset.lang)));
-    [els.dateTrigger,els.heroDateBtn,els.mobileDateBtn].forEach(btn=>btn.addEventListener('click',openCalendar));
+
+    [els.dateTrigger,els.heroDateBtn,els.mobileDateBtn].forEach(btn=>{
+      if(btn)btn.addEventListener('click',openCalendar);
+    });
+
     els.calendarClose.addEventListener('click',()=>closeDialog(els.calendar));
     els.calendarConfirm.addEventListener('click',()=>{updateDates();closeDialog(els.calendar)});
-    els.prevMonth.addEventListener('click',()=>{const candidate=addMonths(cursorMonth,-1);if(candidate>=startOfMonth(today()))cursorMonth=candidate;renderCalendar()});
-    els.nextMonth.addEventListener('click',()=>{cursorMonth=addMonths(cursorMonth,1);renderCalendar()});
+
+    els.prevMonth.addEventListener('click',()=>{
+      const candidate=addMonths(cursorMonth,-1);
+      if(candidate>=startOfMonth(today())){
+        cursorMonth=candidate;
+        renderCalendar();
+      }
+    });
+    els.nextMonth.addEventListener('click',()=>{
+      cursorMonth=addMonths(cursorMonth,1);
+      renderCalendar();
+    });
 
     els.guestTrigger.addEventListener('click',()=>{updateGuests();openDialog(els.guestDialog)});
     els.guestClose.addEventListener('click',()=>closeDialog(els.guestDialog));
     els.guestConfirm.addEventListener('click',()=>{updateGuests();closeDialog(els.guestDialog)});
+
     els.adultMinus.addEventListener('click',()=>{adults=Math.max(1,adults-1);updateGuests()});
     els.adultPlus.addEventListener('click',()=>{if(adults+children<MAX_GUESTS)adults++;updateGuests()});
     els.childMinus.addEventListener('click',()=>{children=Math.max(0,children-1);updateGuests()});
     els.childPlus.addEventListener('click',()=>{if(adults+children<MAX_GUESTS)children++;updateGuests()});
 
-    [els.calendar,els.guestDialog].forEach(dialog=>dialog.addEventListener('click',event=>{if(event.target===dialog)closeDialog(dialog)}));
+    [els.calendar,els.guestDialog].forEach(dialog=>{
+      if(!dialog)return;
+      dialog.addEventListener('click',event=>{
+        if(event.target===dialog)closeDialog(dialog);
+      });
+    });
 
-document.addEventListener('keydown',event=>{
-  if(event.key!=='Escape') return;
-  [els.calendar,els.guestDialog].forEach(dialog=>{
-    if(dialog && !dialog.hidden) closeDialog(dialog);
-  });
-});
+    document.addEventListener('keydown',event=>{
+      if(event.key!=='Escape')return;
+      [els.calendar,els.guestDialog].forEach(dialog=>{
+        if(dialog && !dialog.hidden) closeDialog(dialog);
+      });
+    });
 
-
-    let saved='fr';try{saved=localStorage.getItem('chezBaptisteLang')||'fr'}catch(_e){}
+    // ===== INIT =====
+    let saved='fr';
+    try{saved=localStorage.getItem('chezBaptisteLang')||'fr'}catch(_e){}
     applyLanguage(saved==='en'?'en':'fr');
   })();
   </script>
