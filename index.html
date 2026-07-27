@@ -26,6 +26,7 @@
       --green-soft:#e8f5ef;
       --gold:#f5b800;
       --gold-soft:#fff6cf;
+      --red:#b91c1c;
       --shadow:0 18px 55px rgba(18,51,39,.14);
       --radius:22px;
     }
@@ -261,9 +262,24 @@
     .weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr)}
     .weekdays{padding-bottom:7px;border-bottom:1px solid #edf1ef;color:#727e78;font-size:12px;font-weight:900;text-align:center}
     .weekday{padding:7px 0}
-    .day{position:relative;min-height:49px;border:0;background:transparent;color:#14221c;font-size:16px;font-weight:850}
-    .day:not(:disabled):hover{background:#eef7f3;border-radius:12px}
+    .day{
+      position:relative;
+      min-height:49px;
+      border:0;
+      background:transparent;
+      color:#14221c;
+      font-size:16px;
+      font-weight:850;
+    }
+    .day:not(:disabled):not(.blocked):hover{background:#eef7f3;border-radius:12px}
     .day:disabled{color:#b9c0bc;cursor:not-allowed}
+    .day.blocked{
+      color:#b91c1c;
+      text-decoration:line-through;
+      cursor:not-allowed;
+      opacity:0.7;
+    }
+    .day.blocked:hover{background:#fde8e8;border-radius:12px}
     .day.empty{visibility:hidden}
     .day.in-range{background:#e5f4ee;border-radius:0}
     .day.range-start,.day.range-end{background:linear-gradient(135deg,var(--green),var(--green-dark));color:#fff;border-radius:12px;z-index:1}
@@ -283,6 +299,20 @@
     .step-btn{width:40px;height:40px;border:1px solid #b9cbc2;border-radius:999px;background:#fff;color:var(--green-dark);font-size:23px;line-height:1}
     .step-btn:disabled{opacity:.35;cursor:not-allowed}
     .step-value{min-width:24px;text-align:center;font-size:18px;font-weight:950}
+
+    .blocked-list{
+      margin-top:10px;
+      padding:12px;
+      border-radius:14px;
+      background:#fef2f2;
+      border:1px solid #fecaca;
+      color:#991b1b;
+      font-size:12px;
+      font-weight:800;
+      line-height:1.5;
+    }
+    .blocked-list strong{color:#b91c1c;}
+    .blocked-list .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#b91c1c;margin-right:6px;}
 
     .mobile-bar{display:none}
 
@@ -503,6 +533,11 @@
     const PRICE_WEEK = 175000;
     const PRICE_MONTH = 550000;
 
+    // ===== DATES OCCUPÉES (appartement occupé jusqu'au 31 juillet 2026) =====
+    const BLOCKED = [
+      { s: "2026-07-01", e: "2026-07-31", l: "du 1er au 31 juillet 2026" }
+    ];
+
     // ===== TRADUCTIONS =====
     const translations = {
       fr:{
@@ -524,7 +559,8 @@
         guestTitle:"Voyageurs",adults:"Adultes",adultsNote:"13 ans ou plus",children:"Enfants",childrenNote:"De 0 à 12 ans",confirmGuests:"Valider",
         adultOne:"adulte",adultMany:"adultes",childOne:"enfant",childMany:"enfants",nightOne:"nuit",nightMany:"nuits",
         estimateFor:"Estimation pour",stay:"Séjour",travellers:"Voyageurs",whatsappIntro:"Bonjour, je souhaite vérifier la disponibilité de Chez Baptiste à Saly.",
-        mobilePerNight:"par nuit"
+        mobilePerNight:"par nuit",
+        blockedListLabel:"📌 Périodes occupées :"
       },
       en:{
         pageTitle:"Chez Baptiste — Apartment in Saly | DIGIY LOC",
@@ -545,7 +581,8 @@
         guestTitle:"Guests",adults:"Adults",adultsNote:"Age 13 or older",children:"Children",childrenNote:"Age 0 to 12",confirmGuests:"Apply",
         adultOne:"adult",adultMany:"adults",childOne:"child",childMany:"children",nightOne:"night",nightMany:"nights",
         estimateFor:"Estimate for",stay:"Stay",travellers:"Guests",whatsappIntro:"Hello, I would like to check the availability of Chez Baptiste in Saly.",
-        mobilePerNight:"per night"
+        mobilePerNight:"per night",
+        blockedListLabel:"📌 Blocked periods:"
       }
     };
 
@@ -596,6 +633,17 @@
       const weeks=Math.floor(remaining/7);total+=weeks*PRICE_WEEK;remaining%=7;
       total+=remaining*PRICE_NIGHT;
       return total;
+    }
+
+    function isBlocked(date){
+      const d = iso(date);
+      return BLOCKED.some(b => d >= b.s && d <= b.e);
+    }
+
+    function isPast(date){
+      const d = new Date(date);
+      d.setHours(0,0,0,0);
+      return d < today();
     }
 
     function openDialog(dialog){
@@ -675,11 +723,18 @@
         for(let i=0;i<mondayOffset;i++)html+='<span class="day empty"></span>';
         for(let d=1;d<=last.getDate();d++){
           const date=dateAtNoon(month.getFullYear(),month.getMonth(),d);
-          const disabled=date<min;
+          const disabled = isPast(date) || isBlocked(date);
           const start=sameDay(date,selectedStart);
           const end=sameDay(date,selectedEnd);
           const between=selectedStart&&selectedEnd&&date>selectedStart&&date<selectedEnd;
-          const classes=['day',start?'range-start':'',end?'range-end':'',between?'in-range':'',sameDay(date,min)?'today':''].filter(Boolean).join(' ');
+          const classes=['day',
+            start?'range-start':'',
+            end?'range-end':'',
+            between?'in-range':'',
+            sameDay(date,min)?'today':'',
+            disabled?'disabled':'',
+            isBlocked(date)?'blocked':''
+          ].filter(Boolean).join(' ');
           html+=`<button class="${classes}" type="button" data-date="${iso(date)}" ${disabled?'disabled':''}>${d}</button>`;
         }
         html+='</div></section>';
@@ -691,7 +746,7 @@
         btn.addEventListener('click',function(e){
           e.preventDefault();
           const date=parseISO(this.dataset.date);
-          if(!date)return;
+          if(!date || this.disabled)return;
           if(!selectedStart || (selectedStart && selectedEnd)){
             selectedStart=date;
             selectedEnd=null;
@@ -707,6 +762,20 @@
           updateDates();
         });
       });
+
+      // Ajouter la liste des périodes bloquées sous le calendrier
+      const blockedHtml = BLOCKED.map(b => `<span class="dot"></span> ${b.l}`).join('<br>');
+      const blockedEl = document.createElement('div');
+      blockedEl.className = 'blocked-list';
+      blockedEl.innerHTML = `<strong>${t('blockedListLabel')}</strong><br>${blockedHtml}`;
+      // On insère après le calendrier
+      const container = els.calendarMonths.closest('.calendar-container');
+      if(container){
+        const existing = container.querySelector('.blocked-list');
+        if(existing) existing.remove();
+        container.appendChild(blockedEl);
+      }
+
       updateDates();
     }
 
@@ -797,7 +866,6 @@
   </script>
 </body>
 </html>
-
 
 
 
