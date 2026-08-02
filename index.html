@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#073c2b">
+  <meta name="digiy-build" content="saly-mobile-compact-20260802">
   <meta name="description" content="Chez Baptiste à Saly : appartement calme pour 4 personnes maximum, réservation directe, calendrier de séjour, WhatsApp, Wave et 0 % commission DIGIY.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://part-chez-baptiste.digiylyfe.com/">
@@ -349,6 +350,7 @@
       .mobile-bar button{min-height:48px;padding:0 18px;border:0;border-radius:13px;background:var(--green);color:#fff;font-weight:950}
     }
   </style>
+  <link rel="stylesheet" href="./mobile-compact.css?v=20260802-1">
 </head>
 <body>
   <div class="page">
@@ -533,12 +535,10 @@
     const PRICE_WEEK = 175000;
     const PRICE_MONTH = 550000;
 
-    // ===== DATES OCCUPÉES (appartement occupé jusqu'au 31 juillet 2026) =====
     const BLOCKED = [
       { s: "2026-07-01", e: "2026-07-31", l: "du 1er au 31 juillet 2026" }
     ];
 
-    // ===== TRADUCTIONS =====
     const translations = {
       fr:{
         pageTitle:"Chez Baptiste — Appartement à Saly | DIGIY LOC",
@@ -586,7 +586,6 @@
       }
     };
 
-    // ===== DOM =====
     const $ = id => document.getElementById(id);
     const els = {
       langButtons:[...document.querySelectorAll(".lang-btn")],
@@ -596,7 +595,6 @@
       estimateCopy:$('estimateCopy'),estimatePrice:$('estimatePrice'),bookingWhatsApp:$('bookingWhatsApp')
     };
 
-    // ===== ÉTAT =====
     let currentLang = 'fr';
     let selectedStart = null;
     let selectedEnd = null;
@@ -605,7 +603,6 @@
     let adults = 2;
     let children = 0;
 
-    // ===== UTILITAIRES =====
     function t(key){return translations[currentLang]?.[key] ?? key}
     function dateAtNoon(y,m,d){return new Date(y,m,d,12,0,0,0)}
     function addDays(date,n){return dateAtNoon(date.getFullYear(),date.getMonth(),date.getDate()+n)}
@@ -663,7 +660,6 @@
       }
     }
 
-    // ===== MISE À JOUR DES AFFICHAGES =====
     function updateGuests(){
       const total=adults+children;
       const text=`${plural(adults,t('adultOne'),t('adultMany'))} · ${plural(children,t('childOne'),t('childMany'))}`;
@@ -706,7 +702,6 @@
       els.bookingWhatsApp.href=`https://wa.me/${OWNER_WA}?text=${encodeURIComponent(message)}`;
     }
 
-    // ===== CALENDRIER =====
     function renderCalendar(){
       const weekdayBase=dateAtNoon(2024,0,1);
       const weekdays=Array.from({length:7},(_,i)=>new Intl.DateTimeFormat(locale(),{weekday:'short'}).format(addDays(weekdayBase,i)).replace(/\.$/,''));
@@ -741,7 +736,6 @@
       }
       els.calendarMonths.innerHTML=html;
 
-      // Attacher les écouteurs d'événements
       els.calendarMonths.querySelectorAll('button[data-date]').forEach(btn=>{
         btn.addEventListener('click',function(e){
           e.preventDefault();
@@ -763,12 +757,10 @@
         });
       });
 
-      // Ajouter la liste des périodes bloquées sous le calendrier
       const blockedHtml = BLOCKED.map(b => `<span class="dot"></span> ${b.l}`).join('<br>');
       const blockedEl = document.createElement('div');
       blockedEl.className = 'blocked-list';
       blockedEl.innerHTML = `<strong>${t('blockedListLabel')}</strong><br>${blockedHtml}`;
-      // On insère après le calendrier
       const container = els.calendarMonths.closest('.calendar-container');
       if(container){
         const existing = container.querySelector('.blocked-list');
@@ -788,7 +780,6 @@
 
     function startOfMonth(date){return dateAtNoon(date.getFullYear(),date.getMonth(),1)}
 
-    // ===== LANGUE =====
     function applyLanguage(lang){
       currentLang=lang;
       document.documentElement.lang=lang;
@@ -813,7 +804,6 @@
       try{localStorage.setItem('chezBaptisteLang',lang)}catch(_e){}
     }
 
-    // ===== ÉVÉNEMENTS =====
     els.langButtons.forEach(btn=>btn.addEventListener('click',()=>applyLanguage(btn.dataset.lang)));
 
     [els.dateTrigger,els.heroDateBtn,els.mobileDateBtn].forEach(btn=>{
@@ -858,369 +848,11 @@
       });
     });
 
-    // ===== INIT =====
     let saved='fr';
     try{saved=localStorage.getItem('chezBaptisteLang')||'fr'}catch(_e){}
     applyLanguage(saved==='en'?'en':'fr');
   })();
   </script>
+  <script src="./mobile-compact.js?v=20260802-1" defer></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
