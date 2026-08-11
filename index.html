@@ -79,8 +79,8 @@
     .brand{min-width:0;text-align:center}
     .brand strong{display:block;font-size:17px;line-height:1.05}
     .brand span{display:block;margin-top:3px;color:var(--muted);font-size:11px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .lang-switch{display:inline-flex;gap:3px;padding:3px;border:1px solid var(--line);border-radius:12px;background:#fff}
-    .lang-btn{min-width:40px;min-height:36px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-weight:950}
+    .lang-switch{display:inline-flex;gap:3px;padding:3px;border:1px solid var(--line);border-radius:12px;background:#fff;max-width:100%;overflow-x:auto;scrollbar-width:none}.lang-switch::-webkit-scrollbar{display:none}
+    .lang-btn{min-width:34px;min-height:36px;padding:0 7px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-size:11px;font-weight:950}
     .lang-btn.active{background:var(--green);color:#fff}
 
     main{padding:14px}
@@ -325,7 +325,7 @@
     }
     @media(max-width:620px){
       .page{padding-bottom:105px}
-      .topbar{padding:9px 10px}.brand span{max-width:150px}.back-link{font-size:12px;padding:0 9px}
+      .topbar{padding:9px 10px;flex-wrap:wrap}.brand span{max-width:150px}.back-link{font-size:12px;padding:0 9px}.lang-switch{order:3;width:100%;justify-content:space-between}.lang-btn{flex:1;min-width:32px;padding:0 3px}
       main{padding:10px}
       .hero-media{min-height:315px}
       .hero-copy{padding:17px}
@@ -349,6 +349,13 @@
       .mobile-price small{display:block;color:var(--muted);font-size:10px}
       .mobile-bar button{min-height:48px;padding:0 18px;border:0;border-radius:13px;background:var(--green);color:#fff;font-weight:950}
     }
+
+    html[dir="rtl"] body{direction:rtl}
+    html[dir="rtl"] .back-link{direction:ltr}
+    html[dir="rtl"] .booking-field{text-align:right}
+    html[dir="rtl"] .clean-list{padding:0}
+    html[dir="rtl"] .clean-list li{flex-direction:row-reverse;justify-content:flex-end}
+    html[dir="rtl"] .section-title,html[dir="rtl"] .estimate{direction:rtl}
   </style>
   <link rel="stylesheet" href="./mobile-compact.css?v=20260802-1">
 </head>
@@ -361,8 +368,14 @@
         <span data-i18n="brandSub">Appartement à Saly · Réservation directe</span>
       </div>
       <div class="lang-switch" role="group" aria-label="Language">
-        <button class="lang-btn active" type="button" data-lang="fr" aria-pressed="true">FR</button>
-        <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button class="lang-btn active" type="button" data-lang="fr" aria-pressed="true" title="Français">FR</button>
+        <button class="lang-btn" type="button" data-lang="en" aria-pressed="false" title="English">EN</button>
+        <button class="lang-btn" type="button" data-lang="es" aria-pressed="false" title="Español">ES</button>
+        <button class="lang-btn" type="button" data-lang="pt" aria-pressed="false" title="Português">PT</button>
+        <button class="lang-btn" type="button" data-lang="de" aria-pressed="false" title="Deutsch">DE</button>
+        <button class="lang-btn" type="button" data-lang="it" aria-pressed="false" title="Italiano">IT</button>
+        <button class="lang-btn" type="button" data-lang="nl" aria-pressed="false" title="Nederlands">NL</button>
+        <button class="lang-btn" type="button" data-lang="ar" aria-pressed="false" title="العربية">AR</button>
       </div>
     </header>
 
@@ -583,7 +596,386 @@
         estimateFor:"Estimate for",stay:"Stay",travellers:"Guests",whatsappIntro:"Hello, I would like to check the availability of Chez Baptiste in Saly.",
         mobilePerNight:"per night",
         blockedListLabel:"📌 Blocked periods:"
-      }
+      },
+      "es":{"pageTitle":"Chez Baptiste — Apartamento en Saly | DIGIY LOC",
+      "back":"DIGIY LOC",
+      "brandSub":"Apartamento en Saly · Reserva directa",
+      "verified":"Ficha verificada por DIGIY",
+      "score":"8,5",
+      "scoreLabel":"Muy bien",
+      "location":"Saly Joseph · Senegal",
+      "intro":"Apartamento cómodo en una zona tranquila de Saly, ideal para una estancia en familia o con amigos.",
+      "capacity":"👥 Máximo 4 personas",
+      "quiet":"🌿 Zona tranquila",
+      "direct":"🤝 Contacto directo",
+      "from":"Desde",
+      "perNight":"/ noche",
+      "packages":"175 000 FCFA / semana · 550 000 FCFA / mes · Electricidad aparte",
+      "chooseDates":"Elegir mis fechas",
+      "bookingTitle":"Consultar disponibilidad",
+      "bookingSub":"Elige tus noches y el número de viajeros. El propietario confirma directamente.",
+      "commission":"0 % comisión DIGIY",
+      "datesLabel":"Fechas de estancia",
+      "datesPlaceholder":"Elegir las noches",
+      "guestsLabel":"Viajeros",
+      "estimateEmpty":"Elige tus fechas para obtener una estimación.",
+      "estimateNote":"precio final confirmado por el propietario",
+      "requestWhatsApp":"Preguntar por WhatsApp",
+      "call":"Llamar",
+      "availabilityNote":"La solicitud no bloquea automáticamente el alojamiento. Las fechas y el precio final se confirman directamente con el propietario.",
+      "knowTitle":"Información útil",
+      "knowOne":"Apartamento para un máximo de 4 personas.",
+      "knowTwo":"Zona tranquila y sin molestias.",
+      "knowThree":"La electricidad se factura aparte según el consumo.",
+      "knowFour":"Confirmación directa por WhatsApp, SMS o llamada.",
+      "paymentTitle":"Pago directo",
+      "paymentCopy":"Tras confirmar la disponibilidad, paga directamente al propietario por Wave.",
+      "internationalNote":"🌍 Desde el extranjero: también puedes pagar mediante Sendwave a Senegal.",
+      "owner":"Propietario: Jean Baptiste Beauville",
+      "sms":"SMS",
+      "secondPhone":"2.º número",
+      "video":"Ver el vídeo",
+      "businessCard":"Tarjeta de visita QR",
+      "moreTitle":"Tarifas y funcionamiento",
+      "moreBody":"<strong>Tarifas orientativas:</strong> 30 000 FCFA por noche, 175 000 FCFA por semana y 550 000 FCFA por mes. La electricidad se paga aparte según el consumo. El calendario prepara una solicitud; después el propietario confirma la disponibilidad y el importe final.",
+      "footer":"Chez Baptiste — Saly · Ficha DIGIY LOC · Contacto directo · Pago directo · 0 % comisión.",
+      "calendarTitle":"Elegir fechas",
+      "calendarHelp":"Primer clic: llegada + 1 noche. Segundo clic: amplía la estancia.",
+      "confirmDates":"Elegir estas fechas",
+      "guestTitle":"Viajeros",
+      "adults":"Adultos",
+      "adultsNote":"13 años o más",
+      "children":"Niños",
+      "childrenNote":"De 0 a 12 años",
+      "confirmGuests":"Validar",
+      "adultOne":"adulto",
+      "adultMany":"adultos",
+      "childOne":"niño",
+      "childMany":"niños",
+      "nightOne":"noche",
+      "nightMany":"noches",
+      "estimateFor":"Estimación para",
+      "stay":"Estancia",
+      "travellers":"Viajeros",
+      "whatsappIntro":"Hola, quisiera comprobar la disponibilidad de Chez Baptiste en Saly.",
+      "mobilePerNight":"por noche",
+      "blockedListLabel":"📌 Periodos ocupados:"},
+      "pt":{"pageTitle":"Chez Baptiste — Apartamento em Saly | DIGIY LOC",
+      "back":"DIGIY LOC",
+      "brandSub":"Apartamento em Saly · Reserva direta",
+      "verified":"Anúncio verificado pela DIGIY",
+      "score":"8,5",
+      "scoreLabel":"Muito bom",
+      "location":"Saly Joseph · Senegal",
+      "intro":"Apartamento confortável numa zona tranquila de Saly, ideal para uma estadia em família ou com amigos.",
+      "capacity":"👥 Até 4 pessoas",
+      "quiet":"🌿 Zona tranquila",
+      "direct":"🤝 Contacto direto",
+      "from":"A partir de",
+      "perNight":"/ noite",
+      "packages":"175 000 FCFA / semana · 550 000 FCFA / mês · Eletricidade à parte",
+      "chooseDates":"Escolher as minhas datas",
+      "bookingTitle":"Consultar disponibilidade",
+      "bookingSub":"Escolha as noites e o número de hóspedes. O proprietário confirma diretamente.",
+      "commission":"0 % comissão DIGIY",
+      "datesLabel":"Datas da estadia",
+      "datesPlaceholder":"Escolher as noites",
+      "guestsLabel":"Hóspedes",
+      "estimateEmpty":"Escolha as datas para obter uma estimativa.",
+      "estimateNote":"preço final confirmado pelo proprietário",
+      "requestWhatsApp":"Perguntar no WhatsApp",
+      "call":"Ligar",
+      "availabilityNote":"O pedido não bloqueia automaticamente o alojamento. As datas e o preço final são confirmados diretamente com o proprietário.",
+      "knowTitle":"A saber",
+      "knowOne":"Apartamento para até 4 pessoas.",
+      "knowTwo":"Zona tranquila e sem perturbações.",
+      "knowThree":"A eletricidade é cobrada à parte conforme o consumo.",
+      "knowFour":"Confirmação direta por WhatsApp, SMS ou chamada.",
+      "paymentTitle":"Pagamento direto",
+      "paymentCopy":"Depois de confirmada a disponibilidade, pague diretamente ao proprietário por Wave.",
+      "internationalNote":"🌍 A partir do estrangeiro: o pagamento também pode ser feito por Sendwave para o Senegal.",
+      "owner":"Proprietário: Jean Baptiste Beauville",
+      "sms":"SMS",
+      "secondPhone":"2.º número",
+      "video":"Ver o vídeo",
+      "businessCard":"Cartão de visita QR",
+      "moreTitle":"Tarifas e funcionamento",
+      "moreBody":"<strong>Tarifas indicativas:</strong> 30 000 FCFA por noite, 175 000 FCFA por semana e 550 000 FCFA por mês. A eletricidade é cobrada à parte conforme o consumo. O calendário prepara um pedido; depois o proprietário confirma a disponibilidade e o valor final.",
+      "footer":"Chez Baptiste — Saly · Ficha DIGIY LOC · Contacto direto · Pagamento direto · 0 % comissão.",
+      "calendarTitle":"Escolher datas",
+      "calendarHelp":"Primeiro toque: chegada + 1 noite. Segundo toque: prolongue a estadia.",
+      "confirmDates":"Escolher estas datas",
+      "guestTitle":"Hóspedes",
+      "adults":"Adultos",
+      "adultsNote":"13 anos ou mais",
+      "children":"Crianças",
+      "childrenNote":"Dos 0 aos 12 anos",
+      "confirmGuests":"Validar",
+      "adultOne":"adulto",
+      "adultMany":"adultos",
+      "childOne":"criança",
+      "childMany":"crianças",
+      "nightOne":"noite",
+      "nightMany":"noites",
+      "estimateFor":"Estimativa para",
+      "stay":"Estadia",
+      "travellers":"Hóspedes",
+      "whatsappIntro":"Olá, gostaria de verificar a disponibilidade do Chez Baptiste em Saly.",
+      "mobilePerNight":"por noite",
+      "blockedListLabel":"📌 Períodos ocupados:"},
+      "de":{"pageTitle":"Chez Baptiste — Apartment in Saly | DIGIY LOC",
+      "back":"DIGIY LOC",
+      "brandSub":"Apartment in Saly · Direktbuchung",
+      "verified":"Von DIGIY geprüft",
+      "score":"8,5",
+      "scoreLabel":"Sehr gut",
+      "location":"Saly Joseph · Senegal",
+      "intro":"Komfortables Apartment in einer ruhigen Gegend von Saly, ideal für einen Aufenthalt mit Familie oder Freunden.",
+      "capacity":"👥 Maximal 4 Personen",
+      "quiet":"🌿 Ruhige Gegend",
+      "direct":"🤝 Direkter Kontakt",
+      "from":"Ab",
+      "perNight":"/ Nacht",
+      "packages":"175 000 FCFA / Woche · 550 000 FCFA / Monat · Strom extra",
+      "chooseDates":"Meine Daten wählen",
+      "bookingTitle":"Verfügbarkeit anfragen",
+      "bookingSub":"Wählen Sie Ihre Nächte und die Anzahl der Gäste. Der Eigentümer bestätigt direkt.",
+      "commission":"0 % DIGIY-Provision",
+      "datesLabel":"Aufenthaltsdaten",
+      "datesPlaceholder":"Nächte wählen",
+      "guestsLabel":"Gäste",
+      "estimateEmpty":"Wählen Sie Ihre Daten für eine Kostenschätzung.",
+      "estimateNote":"Endpreis wird vom Eigentümer bestätigt",
+      "requestWhatsApp":"Über WhatsApp anfragen",
+      "call":"Anrufen",
+      "availabilityNote":"Die Anfrage blockiert die Unterkunft nicht automatisch. Daten und Endpreis werden direkt mit dem Eigentümer bestätigt.",
+      "knowTitle":"Gut zu wissen",
+      "knowOne":"Apartment für maximal 4 Personen.",
+      "knowTwo":"Ruhige Gegend ohne Störungen.",
+      "knowThree":"Strom wird je nach Verbrauch separat berechnet.",
+      "knowFour":"Direkte Bestätigung per WhatsApp, SMS oder Telefon.",
+      "paymentTitle":"Direkte Zahlung",
+      "paymentCopy":"Nach Bestätigung der Verfügbarkeit zahlen Sie den Eigentümer direkt per Wave.",
+      "internationalNote":"🌍 Aus dem Ausland: Die Zahlung kann auch per Sendwave nach Senegal erfolgen.",
+      "owner":"Eigentümer: Jean Baptiste Beauville",
+      "sms":"SMS",
+      "secondPhone":"2. Nummer",
+      "video":"Video ansehen",
+      "businessCard":"QR-Visitenkarte",
+      "moreTitle":"Preise und Ablauf",
+      "moreBody":"<strong>Richtpreise:</strong> 30 000 FCFA pro Nacht, 175 000 FCFA pro Woche und 550 000 FCFA pro Monat. Strom wird je nach Verbrauch separat berechnet. Der Kalender erstellt eine Anfrage; anschließend bestätigt der Eigentümer Verfügbarkeit und Endbetrag.",
+      "footer":"Chez Baptiste — Saly · DIGIY LOC-Eintrag · Direkter Kontakt · Direkte Zahlung · 0 % Provision.",
+      "calendarTitle":"Daten wählen",
+      "calendarHelp":"Erster Klick: Anreise + 1 Nacht. Zweiter Klick: Aufenthalt verlängern.",
+      "confirmDates":"Diese Daten wählen",
+      "guestTitle":"Gäste",
+      "adults":"Erwachsene",
+      "adultsNote":"Ab 13 Jahren",
+      "children":"Kinder",
+      "childrenNote":"0 bis 12 Jahre",
+      "confirmGuests":"Übernehmen",
+      "adultOne":"Erwachsener",
+      "adultMany":"Erwachsene",
+      "childOne":"Kind",
+      "childMany":"Kinder",
+      "nightOne":"Nacht",
+      "nightMany":"Nächte",
+      "estimateFor":"Schätzung für",
+      "stay":"Aufenthalt",
+      "travellers":"Gäste",
+      "whatsappIntro":"Hallo, ich möchte die Verfügbarkeit von Chez Baptiste in Saly prüfen.",
+      "mobilePerNight":"pro Nacht",
+      "blockedListLabel":"📌 Belegte Zeiträume:"},
+      "it":{"pageTitle":"Chez Baptiste — Appartamento a Saly | DIGIY LOC",
+      "back":"DIGIY LOC",
+      "brandSub":"Appartamento a Saly · Prenotazione diretta",
+      "verified":"Scheda verificata DIGIY",
+      "score":"8,5",
+      "scoreLabel":"Molto buono",
+      "location":"Saly Joseph · Senegal",
+      "intro":"Appartamento confortevole in una zona tranquilla di Saly, ideale per un soggiorno in famiglia o con amici.",
+      "capacity":"👥 Massimo 4 persone",
+      "quiet":"🌿 Zona tranquilla",
+      "direct":"🤝 Contatto diretto",
+      "from":"A partire da",
+      "perNight":"/ notte",
+      "packages":"175 000 FCFA / settimana · 550 000 FCFA / mese · Elettricità esclusa",
+      "chooseDates":"Scegli le mie date",
+      "bookingTitle":"Richiedi disponibilità",
+      "bookingSub":"Scegli le notti e il numero di ospiti. Il proprietario conferma direttamente.",
+      "commission":"0 % commissioni DIGIY",
+      "datesLabel":"Date del soggiorno",
+      "datesPlaceholder":"Scegli le notti",
+      "guestsLabel":"Ospiti",
+      "estimateEmpty":"Scegli le date per ottenere una stima.",
+      "estimateNote":"prezzo finale confermato dal proprietario",
+      "requestWhatsApp":"Chiedi su WhatsApp",
+      "call":"Chiama",
+      "availabilityNote":"La richiesta non blocca automaticamente l’alloggio. Le date e il prezzo finale vengono confermati direttamente con il proprietario.",
+      "knowTitle":"Da sapere",
+      "knowOne":"Appartamento per un massimo di 4 persone.",
+      "knowTwo":"Zona tranquilla e senza disturbi.",
+      "knowThree":"L’elettricità viene fatturata separatamente in base ai consumi.",
+      "knowFour":"Conferma diretta tramite WhatsApp, SMS o telefono.",
+      "paymentTitle":"Pagamento diretto",
+      "paymentCopy":"Dopo la conferma della disponibilità, paga direttamente il proprietario tramite Wave.",
+      "internationalNote":"🌍 Dall’estero: il pagamento può essere effettuato anche tramite Sendwave verso il Senegal.",
+      "owner":"Proprietario: Jean Baptiste Beauville",
+      "sms":"SMS",
+      "secondPhone":"2° numero",
+      "video":"Guarda il video",
+      "businessCard":"Biglietto da visita QR",
+      "moreTitle":"Tariffe e funzionamento",
+      "moreBody":"<strong>Tariffe indicative:</strong> 30 000 FCFA a notte, 175 000 FCFA a settimana e 550 000 FCFA al mese. L’elettricità resta esclusa e viene calcolata in base ai consumi. Il calendario prepara una richiesta; il proprietario conferma poi disponibilità e importo finale.",
+      "footer":"Chez Baptiste — Saly · Scheda DIGIY LOC · Contatto diretto · Pagamento diretto · 0 % commissioni.",
+      "calendarTitle":"Scegli le date",
+      "calendarHelp":"Primo clic: arrivo + 1 notte. Secondo clic: prolunga il soggiorno.",
+      "confirmDates":"Scegli queste date",
+      "guestTitle":"Ospiti",
+      "adults":"Adulti",
+      "adultsNote":"13 anni o più",
+      "children":"Bambini",
+      "childrenNote":"Da 0 a 12 anni",
+      "confirmGuests":"Conferma",
+      "adultOne":"adulto",
+      "adultMany":"adulti",
+      "childOne":"bambino",
+      "childMany":"bambini",
+      "nightOne":"notte",
+      "nightMany":"notti",
+      "estimateFor":"Stima per",
+      "stay":"Soggiorno",
+      "travellers":"Ospiti",
+      "whatsappIntro":"Buongiorno, vorrei verificare la disponibilità di Chez Baptiste a Saly.",
+      "mobilePerNight":"a notte",
+      "blockedListLabel":"📌 Periodi occupati:"},
+      "nl":{"pageTitle":"Chez Baptiste — Appartement in Saly | DIGIY LOC",
+      "back":"DIGIY LOC",
+      "brandSub":"Appartement in Saly · Direct boeken",
+      "verified":"Door DIGIY geverifieerd",
+      "score":"8,5",
+      "scoreLabel":"Zeer goed",
+      "location":"Saly Joseph · Senegal",
+      "intro":"Comfortabel appartement in een rustige buurt van Saly, ideaal voor een verblijf met familie of vrienden.",
+      "capacity":"👥 Maximaal 4 personen",
+      "quiet":"🌿 Rustige buurt",
+      "direct":"🤝 Direct contact",
+      "from":"Vanaf",
+      "perNight":"/ nacht",
+      "packages":"175 000 FCFA / week · 550 000 FCFA / maand · Elektriciteit extra",
+      "chooseDates":"Mijn data kiezen",
+      "bookingTitle":"Beschikbaarheid aanvragen",
+      "bookingSub":"Kies je nachten en het aantal gasten. De eigenaar bevestigt rechtstreeks.",
+      "commission":"0 % DIGIY-commissie",
+      "datesLabel":"Verblijfsdata",
+      "datesPlaceholder":"Kies de nachten",
+      "guestsLabel":"Gasten",
+      "estimateEmpty":"Kies je data voor een prijsraming.",
+      "estimateNote":"definitieve prijs bevestigd door de eigenaar",
+      "requestWhatsApp":"Vraag via WhatsApp",
+      "call":"Bellen",
+      "availabilityNote":"De aanvraag blokkeert de accommodatie niet automatisch. Data en definitieve prijs worden rechtstreeks met de eigenaar bevestigd.",
+      "knowTitle":"Goed om te weten",
+      "knowOne":"Appartement voor maximaal 4 personen.",
+      "knowTwo":"Rustige buurt zonder overlast.",
+      "knowThree":"Elektriciteit wordt apart berekend op basis van verbruik.",
+      "knowFour":"Directe bevestiging via WhatsApp, SMS of telefoon.",
+      "paymentTitle":"Direct betalen",
+      "paymentCopy":"Na bevestiging van de beschikbaarheid betaal je de eigenaar rechtstreeks via Wave.",
+      "internationalNote":"🌍 Vanuit het buitenland: betalen kan ook via Sendwave naar Senegal.",
+      "owner":"Eigenaar: Jean Baptiste Beauville",
+      "sms":"SMS",
+      "secondPhone":"2e nummer",
+      "video":"Video bekijken",
+      "businessCard":"QR-visitekaartje",
+      "moreTitle":"Tarieven en werking",
+      "moreBody":"<strong>Indicatieve tarieven:</strong> 30 000 FCFA per nacht, 175 000 FCFA per week en 550 000 FCFA per maand. Elektriciteit wordt apart berekend op basis van het verbruik. De kalender stelt een aanvraag op; daarna bevestigt de eigenaar de beschikbaarheid en het definitieve bedrag.",
+      "footer":"Chez Baptiste — Saly · DIGIY LOC-vermelding · Direct contact · Direct betalen · 0 % commissie.",
+      "calendarTitle":"Data kiezen",
+      "calendarHelp":"Eerste klik: aankomst + 1 nacht. Tweede klik: verblijf verlengen.",
+      "confirmDates":"Deze data kiezen",
+      "guestTitle":"Gasten",
+      "adults":"Volwassenen",
+      "adultsNote":"13 jaar of ouder",
+      "children":"Kinderen",
+      "childrenNote":"0 tot 12 jaar",
+      "confirmGuests":"Bevestigen",
+      "adultOne":"volwassene",
+      "adultMany":"volwassenen",
+      "childOne":"kind",
+      "childMany":"kinderen",
+      "nightOne":"nacht",
+      "nightMany":"nachten",
+      "estimateFor":"Raming voor",
+      "stay":"Verblijf",
+      "travellers":"Gasten",
+      "whatsappIntro":"Hallo, ik wil graag de beschikbaarheid van Chez Baptiste in Saly controleren.",
+      "mobilePerNight":"per nacht",
+      "blockedListLabel":"📌 Bezette periodes:"},
+      "ar":{"pageTitle":"Chez Baptiste — شقة في سالي | DIGIY LOC",
+      "back":"DIGIY LOC",
+      "brandSub":"شقة في سالي · حجز مباشر",
+      "verified":"إعلان موثّق من DIGIY",
+      "score":"8.5",
+      "scoreLabel":"جيد جدًا",
+      "location":"سالي جوزيف · السنغال",
+      "intro":"شقة مريحة في حي هادئ في سالي، مناسبة للإقامة مع العائلة أو الأصدقاء.",
+      "capacity":"👥 4 أشخاص كحد أقصى",
+      "quiet":"🌿 حي هادئ",
+      "direct":"🤝 تواصل مباشر",
+      "from":"ابتداءً من",
+      "perNight":"/ ليلة",
+      "packages":"175 000 FCFA / أسبوع · 550 000 FCFA / شهر · الكهرباء إضافية",
+      "chooseDates":"اختر تواريخي",
+      "bookingTitle":"طلب التوفر",
+      "bookingSub":"اختر الليالي وعدد المسافرين. يؤكد المالك مباشرة.",
+      "commission":"عمولة DIGIY بنسبة 0٪",
+      "datesLabel":"تواريخ الإقامة",
+      "datesPlaceholder":"اختر الليالي",
+      "guestsLabel":"المسافرون",
+      "estimateEmpty":"اختر تواريخك للحصول على تقدير.",
+      "estimateNote":"السعر النهائي يؤكده المالك",
+      "requestWhatsApp":"اسأل عبر واتساب",
+      "call":"اتصال",
+      "availabilityNote":"هذا الطلب لا يحجز السكن تلقائيًا. يتم تأكيد التواريخ والسعر النهائي مباشرة مع المالك.",
+      "knowTitle":"معلومات مهمة",
+      "knowOne":"شقة لأربعة أشخاص كحد أقصى.",
+      "knowTwo":"حي هادئ ومن دون إزعاج.",
+      "knowThree":"تُحسب الكهرباء بشكل منفصل حسب الاستهلاك.",
+      "knowFour":"تأكيد مباشر عبر واتساب أو SMS أو الهاتف.",
+      "paymentTitle":"دفع مباشر",
+      "paymentCopy":"بعد تأكيد التوفر، ادفع مباشرة للمالك عبر Wave.",
+      "internationalNote":"🌍 من خارج السنغال: يمكن الدفع أيضًا عبر Sendwave إلى السنغال.",
+      "owner":"المالك: Jean Baptiste Beauville",
+      "sms":"SMS",
+      "secondPhone":"الرقم الثاني",
+      "video":"مشاهدة الفيديو",
+      "businessCard":"بطاقة زيارة QR",
+      "moreTitle":"الأسعار وطريقة العمل",
+      "moreBody":"<strong>الأسعار الإرشادية:</strong> 30 000 FCFA لليلة، و175 000 FCFA للأسبوع، و550 000 FCFA للشهر. تُحسب الكهرباء بشكل منفصل حسب الاستهلاك. يقوم التقويم بإعداد طلب، ثم يؤكد المالك التوفر والمبلغ النهائي.",
+      "footer":"Chez Baptiste — سالي · بطاقة DIGIY LOC · تواصل مباشر · دفع مباشر · عمولة 0٪.",
+      "calendarTitle":"اختر التواريخ",
+      "calendarHelp":"النقرة الأولى: الوصول + ليلة واحدة. النقرة الثانية: تمديد الإقامة.",
+      "confirmDates":"اختر هذه التواريخ",
+      "guestTitle":"المسافرون",
+      "adults":"البالغون",
+      "adultsNote":"13 سنة أو أكثر",
+      "children":"الأطفال",
+      "childrenNote":"من 0 إلى 12 سنة",
+      "confirmGuests":"تأكيد",
+      "adultOne":"بالغ",
+      "adultMany":"بالغين",
+      "childOne":"طفل",
+      "childMany":"أطفال",
+      "nightOne":"ليلة",
+      "nightMany":"ليالٍ",
+      "estimateFor":"تقدير لـ",
+      "stay":"الإقامة",
+      "travellers":"المسافرون",
+      "whatsappIntro":"مرحبًا، أود التحقق من توفر Chez Baptiste في سالي.",
+      "mobilePerNight":"لليلة",
+      "blockedListLabel":"📌 الفترات المحجوزة:"}
+
     };
 
     const $ = id => document.getElementById(id);
@@ -617,12 +1009,14 @@
     }
     function today(){const n=new Date();return dateAtNoon(n.getFullYear(),n.getMonth(),n.getDate())}
     function nights(){return selectedStart&&selectedEnd?Math.max(0,dayDiff(selectedStart,selectedEnd)):0}
-    function locale(){return currentLang==='fr'?'fr-FR':'en-GB'}
+    function locale(){
+      return ({fr:'fr-FR',en:'en-GB',es:'es-ES',pt:'pt-PT',de:'de-DE',it:'it-IT',nl:'nl-NL',ar:'ar-SA'})[currentLang] || 'fr-FR';
+    }
     function formatShort(date){return new Intl.DateTimeFormat(locale(),{weekday:'short',day:'numeric',month:'short'}).format(date).replace(/\.$/,'')}
     function formatLong(date){return new Intl.DateTimeFormat(locale(),{weekday:'short',day:'numeric',month:'short',year:'numeric'}).format(date).replace(/\.$/,'')}
     function monthName(date){return new Intl.DateTimeFormat(locale(),{month:'long',year:'numeric'}).format(date)}
     function plural(n,one,many){return `${n} ${n===1?one:many}`}
-    function money(value){return new Intl.NumberFormat('fr-FR').format(value)+' FCFA'}
+    function money(value){return new Intl.NumberFormat(locale()).format(value)+' FCFA'}
 
     function estimatePrice(n){
       let remaining=n,total=0;
@@ -698,7 +1092,17 @@
       const period=n>0?`${formatLong(selectedStart)} → ${formatLong(selectedEnd)} (${plural(n,t('nightOne'),t('nightMany'))})`:t('datesPlaceholder');
       const guestText=`${plural(adults,t('adultOne'),t('adultMany'))} · ${plural(children,t('childOne'),t('childMany'))}`;
       const total=n>0?money(estimatePrice(n)):'—';
-      const message=`${t('whatsappIntro')}\n📅 ${t('stay')}: ${period}\n👥 ${t('travellers')}: ${guestText}\n💰 ${t('estimateFor')}: ${total}\n\nMerci de me confirmer la disponibilité et le tarif final.`;
+      const confirmText=({
+        fr:"Merci de me confirmer la disponibilité et le tarif final.",
+        en:"Please confirm availability and the final price.",
+        es:"Gracias por confirmarme la disponibilidad y el precio final.",
+        pt:"Por favor, confirme a disponibilidade e o preço final.",
+        de:"Bitte bestätigen Sie mir die Verfügbarkeit und den Endpreis.",
+        it:"Grazie di confermarmi la disponibilità e il prezzo finale.",
+        nl:"Kunt u de beschikbaarheid en de definitieve prijs bevestigen?",
+        ar:"يرجى تأكيد التوفر والسعر النهائي."
+      })[currentLang] || "Merci de me confirmer la disponibilité et le tarif final.";
+      const message=`${t('whatsappIntro')}\n📅 ${t('stay')}: ${period}\n👥 ${t('travellers')}: ${guestText}\n💰 ${t('estimateFor')}: ${total}\n\n${confirmText}`;
       els.bookingWhatsApp.href=`https://wa.me/${OWNER_WA}?text=${encodeURIComponent(message)}`;
     }
 
@@ -757,7 +1161,7 @@
         });
       });
 
-      const blockedHtml = BLOCKED.map(b => `<span class="dot"></span> ${b.l}`).join('<br>');
+      const blockedHtml = BLOCKED.map(b => `<span class="dot"></span> ${formatLong(parseISO(b.s))} – ${formatLong(parseISO(b.e))}`).join('<br>');
       const blockedEl = document.createElement('div');
       blockedEl.className = 'blocked-list';
       blockedEl.innerHTML = `<strong>${t('blockedListLabel')}</strong><br>${blockedHtml}`;
@@ -780,9 +1184,27 @@
 
     function startOfMonth(date){return dateAtNoon(date.getFullYear(),date.getMonth(),1)}
 
+    const SUPPORTED_LANGS=['fr','en','es','pt','de','it','nl','ar'];
+
+    function preserveLangInInternalLinks(lang){
+      document.querySelectorAll('a[href]').forEach(link=>{
+        const raw=link.getAttribute('href');
+        if(!raw || raw.startsWith('#') || raw.startsWith('mailto:') || raw.startsWith('tel:') || raw.startsWith('sms:') || raw.startsWith('javascript:'))return;
+        try{
+          const url=new URL(raw,location.href);
+          if(url.origin!==location.origin)return;
+          if(/\.(png|jpe?g|webp|gif|svg|pdf|mp4|webm)$/i.test(url.pathname))return;
+          url.searchParams.set('lang',lang);
+          link.href=url.pathname+url.search+url.hash;
+        }catch(_e){}
+      });
+    }
+
     function applyLanguage(lang){
+      if(!SUPPORTED_LANGS.includes(lang))lang='fr';
       currentLang=lang;
       document.documentElement.lang=lang;
+      document.documentElement.dir=lang==='ar'?'rtl':'ltr';
       document.title=t('pageTitle');
       document.querySelectorAll('[data-i18n]').forEach(node=>{
         const key=node.dataset.i18n;
@@ -797,6 +1219,12 @@
         btn.classList.toggle('active',active);
         btn.setAttribute('aria-pressed',String(active));
       });
+      try{
+        const url=new URL(location.href);
+        url.searchParams.set('lang',lang);
+        history.replaceState(null,'',url.pathname+url.search+url.hash);
+      }catch(_e){}
+      preserveLangInInternalLinks(lang);
       updateGuests();
       renderCalendar();
       updateDates();
@@ -849,11 +1277,17 @@
     });
 
     let saved='fr';
-    try{saved=localStorage.getItem('chezBaptisteLang')||'fr'}catch(_e){}
-    applyLanguage(saved==='en'?'en':'fr');
+    try{
+      const requested=new URLSearchParams(location.search).get('lang');
+      const stored=localStorage.getItem('chezBaptisteLang');
+      saved=SUPPORTED_LANGS.includes(requested)?requested:(SUPPORTED_LANGS.includes(stored)?stored:'fr');
+    }catch(_e){}
+    applyLanguage(saved);
   })();
   </script>
   <script src="./mobile-compact.js?v=20260802-1" defer></script>
 </body>
 </html>
+
+
 
