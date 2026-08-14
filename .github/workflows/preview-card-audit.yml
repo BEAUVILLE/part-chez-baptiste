@@ -1,0 +1,22 @@
+name: Aperçu audit carte Chez Baptiste
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/preview-card-audit.yml'
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Préparer aperçu
+        run: |
+          sudo apt-get update >/dev/null
+          sudo apt-get install -y imagemagick >/dev/null
+          magick 'carte-chez-baptiste-qr.png' -resize 540x960 -quality 82 preview-chez-baptiste.jpg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview-chez-baptiste-card
+          path: preview-chez-baptiste.jpg
