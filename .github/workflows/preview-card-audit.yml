@@ -15,7 +15,7 @@ jobs:
         run: |
           sudo apt-get update >/dev/null
           sudo apt-get install -y imagemagick >/dev/null
-          magick 'carte-chez-baptiste-qr.png' -resize 540x960 -quality 82 preview-chez-baptiste.jpg
+          convert 'carte-chez-baptiste-qr.png' -resize 540x960 -quality 82 preview-chez-baptiste.jpg
       - uses: actions/upload-artifact@v4
         with:
           name: preview-chez-baptiste-card
