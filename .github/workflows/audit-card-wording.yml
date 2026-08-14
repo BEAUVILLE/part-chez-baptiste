@@ -1,0 +1,21 @@
+name: Audit cartes DIGIYLYFE
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/audit-card-wording.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: OCR cartes Chez Baptiste
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-fra
+          for f in 'carte-chez-baptiste-qr.png' 'carte de visite.png'; do
+            echo "=== $f ==="
+            tesseract "$f" stdout -l fra+eng 2>/dev/null || true
+          done
