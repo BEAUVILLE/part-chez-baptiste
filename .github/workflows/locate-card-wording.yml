@@ -1,0 +1,28 @@
+name: Localiser wording cartes
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/locate-card-wording.yml'
+permissions:
+  contents: read
+jobs:
+  locate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Localiser les textes
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-fra
+          python3 - <<'PY'
+          import subprocess, csv, io
+          for f in ['carte-chez-baptiste-qr.png','carte de visite.png']:
+              print('===',f,'===')
+              out=subprocess.check_output(['tesseract',f,'stdout','-l','fra+eng','tsv'],stderr=subprocess.DEVNULL,text=True)
+              rows=list(csv.DictReader(io.StringIO(out), delimiter='\t'))
+              for r in rows:
+                  txt=(r.get('text') or '').strip()
+                  if txt and any(k in txt.lower() for k in ['hébergement','sécur','meilleurs','prix','garanti','9,4','emplacement','idéal']):
+                      print(txt, 'left='+r['left'],'top='+r['top'],'width='+r['width'],'height='+r['height'])
+          PY
