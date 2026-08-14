@@ -1,0 +1,37 @@
+name: Corriger carte Chez Baptiste adhérent
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-card-doctrine-temp.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Corriger la carte
+        run: |
+          sudo apt-get update >/dev/null
+          sudo apt-get install -y imagemagick >/dev/null
+          convert 'carte-chez-baptiste-qr.png' \
+            -fill '#073c2b' -stroke none -draw 'rectangle 185,151 500,203' \
+            -fill '#f5c84c' -font DejaVu-Sans-Bold -pointsize 25 -gravity NorthWest -annotate +210+165 'ADHÉRENT DIGIYLYFE' \
+            -fill '#073c2b' -stroke none -draw 'rectangle 178,431 330,485' \
+            -fill '#ffffff' -font DejaVu-Sans-Bold -pointsize 20 -gravity NorthWest -annotate +190+439 'CALME &' \
+            -fill '#ffffff' -font DejaVu-Sans-Bold -pointsize 20 -gravity NorthWest -annotate +198+463 'CONFORT' \
+            'carte-chez-baptiste-qr-new.png'
+          mv 'carte-chez-baptiste-qr-new.png' 'carte-chez-baptiste-qr.png'
+          convert 'carte-chez-baptiste-qr.png' -resize 540x960 -quality 84 preview-chez-baptiste-corrigee.jpg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview-chez-baptiste-card-corrigee
+          path: preview-chez-baptiste-corrigee.jpg
+      - name: Publier la carte seulement
+        run: |
+          git config user.name 'DIGIYLYFE Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add carte-chez-baptiste-qr.png
+          git commit -m 'Carte Chez Baptiste : afficher adhérent et wording neutre' || exit 0
+          git push
