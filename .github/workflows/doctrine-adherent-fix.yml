@@ -43,20 +43,21 @@ jobs:
           s=s.replace('<span class="badge">✓ <span data-i18n="verified">Fiche vérifiée DIGIY</span></span>','<span class="badge">👤 <span data-i18n="verified">ADHÉRENT DIGIYLYFE</span></span>')
           s=s.replace('<span class="badge score-badge"><strong data-i18n="score">8,5</strong><span><b>DIGIYLYFE</b><br><span data-i18n="scoreLabel">Très bien</span></span></span>','')
 
-          member={
-            'fr':'ADHÉRENT DIGIYLYFE','en':'DIGIYLYFE MEMBER','es':'MIEMBRO DIGIYLYFE','pt':'MEMBRO DIGIYLYFE',
-            'de':'DIGIYLYFE-MITGLIED','it':'MEMBRO DIGIYLYFE','nl':'DIGIYLYFE-LID','ar':'عضو DIGIYLYFE'
-          }
-          for lang,val in member.items():
-              pat=rf'({lang}:\{{.*?verified:)"[^"]*"'
-              s,n=re.subn(pat,lambda m:m.group(1)+'"'+val+'"',s,count=1,flags=re.S)
-              print(lang,'verified replacements',n)
+          vals=iter(['ADHÉRENT DIGIYLYFE','DIGIYLYFE MEMBER','MIEMBRO DIGIYLYFE','MEMBRO DIGIYLYFE','DIGIYLYFE-MITGLIED','MEMBRO DIGIYLYFE','DIGIYLYFE-LID','عضو DIGIYLYFE'])
+          count=[0]
+          def repl(m):
+              try: v=next(vals)
+              except StopIteration: return m.group(0)
+              count[0]+=1
+              return 'verified:"'+v+'"'
+          s=re.sub(r'verified:"[^"]*"', repl, s)
+          print('verified replacements',count[0])
           p.write_text(s,encoding='utf-8')
           PY
-          echo '=== Références cartes ==='
-          grep -oE 'carte-[^"'"' ]+\.(png|webp)|carte-visite-adherent\.png' index.html | sort -u || true
+          echo '=== Cartes corrigées ==='
+          ls -lh carte-chez-baptiste-adherent.png carte-visite-adherent.png
           echo '=== Restes de vérification DIGIY ==='
-          grep -inoE 'Fiche vérifiée DIGIY|DIGIY verified|verificada DIGIY|verificado pela DIGIY|Von DIGIY geprüft|verificata DIGIY|DIGIY geverifieerd|تم التحقق' index.html | head -40 || true
+          grep -inoE 'Fiche vérifiée DIGIY|DIGIY verified|verificada DIGIY|verificado pela DIGIY|Von DIGIY geprüft|verificata DIGIY|DIGIY geverifieerd' index.html | head -40 || true
       - name: Commit
         run: |
           git config user.name 'DIGIYLYFE Bot'
