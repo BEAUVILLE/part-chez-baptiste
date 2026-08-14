@@ -1,0 +1,66 @@
+name: Doctrine adhérent Chez Baptiste
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/doctrine-adherent-fix.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Corriger les cartes et la fiche
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFont
+          import re
+
+          FONT='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+          def label(img, box, text, fontsize):
+              d=ImageDraw.Draw(img)
+              x1,y1,x2,y2=box
+              d.rounded_rectangle(box, radius=18, fill=(7,60,43,245), outline=(245,184,0,255), width=3)
+              f=ImageFont.truetype(FONT, fontsize)
+              bb=d.multiline_textbbox((0,0),text,font=f,spacing=3,align='center')
+              tw,th=bb[2]-bb[0],bb[3]-bb[1]
+              d.multiline_text(((x1+x2-tw)/2,(y1+y2-th)/2-2),text,font=f,fill='white',spacing=3,align='center')
+
+          a=Image.open('carte-chez-baptiste-qr.png').convert('RGBA')
+          label(a,(70,1020,720,1130),'ADHÉRENT DIGIYLYFE',38)
+          a.convert('RGB').save('carte-chez-baptiste-adherent.png',quality=96)
+
+          b=Image.open('carte de visite.png').convert('RGBA')
+          label(b,(350,1328,570,1425),'ADHÉRENT\nDIGIYLYFE',22)
+          b.convert('RGB').save('carte-visite-adherent.png',quality=96)
+
+          p=Path('index.html'); s=p.read_text(encoding='utf-8')
+          s=s.replace('carte-chez-baptiste-qr.png','carte-chez-baptiste-adherent.png')
+          s=s.replace('carte de visite.png','carte-visite-adherent.png')
+          s=s.replace('<span class="badge">✓ <span data-i18n="verified">Fiche vérifiée DIGIY</span></span>','<span class="badge">👤 <span data-i18n="verified">ADHÉRENT DIGIYLYFE</span></span>')
+          s=s.replace('<span class="badge score-badge"><strong data-i18n="score">8,5</strong><span><b>DIGIYLYFE</b><br><span data-i18n="scoreLabel">Très bien</span></span></span>','')
+
+          member={
+            'fr':'ADHÉRENT DIGIYLYFE','en':'DIGIYLYFE MEMBER','es':'MIEMBRO DIGIYLYFE','pt':'MEMBRO DIGIYLYFE',
+            'de':'DIGIYLYFE-MITGLIED','it':'MEMBRO DIGIYLYFE','nl':'DIGIYLYFE-LID','ar':'عضو DIGIYLYFE'
+          }
+          for lang,val in member.items():
+              pat=rf'({lang}:\{{.*?verified:)"[^"]*"'
+              s,n=re.subn(pat,lambda m:m.group(1)+'"'+val+'"',s,count=1,flags=re.S)
+              print(lang,'verified replacements',n)
+          p.write_text(s,encoding='utf-8')
+          PY
+          echo '=== Références cartes ==='
+          grep -oE 'carte-[^"'"' ]+\.(png|webp)|carte-visite-adherent\.png' index.html | sort -u || true
+          echo '=== Restes de vérification DIGIY ==='
+          grep -inoE 'Fiche vérifiée DIGIY|DIGIY verified|verificada DIGIY|verificado pela DIGIY|Von DIGIY geprüft|verificata DIGIY|DIGIY geverifieerd|تم التحقق' index.html | head -40 || true
+      - name: Commit
+        run: |
+          git config user.name 'DIGIYLYFE Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add index.html carte-chez-baptiste-adherent.png carte-visite-adherent.png
+          git commit -m 'Chez Baptiste : adhérent DIGIYLYFE sans garantie ni vérification' || exit 0
+          git push
