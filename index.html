@@ -79,6 +79,9 @@
     .brand{min-width:0;text-align:center}
     .brand strong{display:block;font-size:17px;line-height:1.05}
     .brand span{display:block;margin-top:3px;color:var(--muted);font-size:11px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .top-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;min-width:0}
+    .owner-link{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 10px;border-radius:11px;background:var(--green);color:#fff;text-decoration:none;font-size:11px;font-weight:950;white-space:nowrap}
+    .owner-link:hover{background:var(--green-dark)}
     .lang-switch{display:inline-flex;gap:3px;padding:3px;border:1px solid var(--line);border-radius:12px;background:#fff;max-width:100%;overflow-x:auto;scrollbar-width:none}.lang-switch::-webkit-scrollbar{display:none}
     .lang-btn{min-width:34px;min-height:36px;padding:0 7px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-size:11px;font-weight:950}
     .lang-btn.active{background:var(--green);color:#fff}
@@ -276,11 +279,21 @@
     .day:disabled{color:#b9c0bc;cursor:not-allowed}
     .day.blocked{
       color:#b91c1c;
+      background:#fde8e8;
       text-decoration:line-through;
       cursor:not-allowed;
-      opacity:0.7;
+      opacity:0.82;
+      border-radius:12px;
     }
     .day.blocked:hover{background:#fde8e8;border-radius:12px}
+    .day.closed{
+      color:#fff;
+      background:#323735;
+      text-decoration:line-through;
+      cursor:not-allowed;
+      opacity:.9;
+      border-radius:12px;
+    }
     .day.empty{visibility:hidden}
     .day.in-range{background:#e5f4ee;border-radius:0}
     .day.range-start,.day.range-end{background:linear-gradient(135deg,var(--green),var(--green-dark));color:#fff;border-radius:12px;z-index:1}
@@ -314,8 +327,172 @@
     }
     .blocked-list strong{color:#b91c1c;}
     .blocked-list .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#b91c1c;margin-right:6px;}
+    .blocked-list .closed-dot{background:#323735;}
 
-    .mobile-bar{display:none}
+
+    /* ===== CALENDRIER MASTER DIGIYLYFE ===== */
+    .master-calendar-wrap{
+      padding:16px 18px 120px;
+      overflow:auto;
+      max-height:calc(92vh - 126px);
+    }
+    .master-calendar-nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .master-calendar-nav button{
+      width:42px;
+      height:42px;
+      border:1px solid #d8e1dc;
+      border-radius:12px;
+      background:#fff;
+      color:var(--green-dark);
+      font-size:22px;
+      font-weight:1000;
+    }
+    .master-month-year{
+      flex:1;
+      text-align:center;
+      font-size:18px;
+      font-weight:1000;
+      text-transform:capitalize;
+      color:var(--ink);
+    }
+    .calendar-grid{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:3px;
+      text-align:center;
+    }
+    .calendar-grid .day-name{
+      font-size:11px;
+      font-weight:900;
+      color:#6e5845;
+      padding:4px 0;
+      text-transform:uppercase;
+    }
+    .calendar-grid .day{
+      min-height:42px;
+      padding:6px 0;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:14px;
+      border:2px solid transparent;
+      background:transparent;
+      color:#25190f;
+      transition:background .15s;
+      display:grid;
+      place-items:center;
+      aspect-ratio:auto;
+    }
+    .calendar-grid .day:hover:not(.disabled):not(.blocked):not(.closed){
+      background:#f7e9d5;
+    }
+    .calendar-grid .day.empty{
+      visibility:hidden;
+      cursor:default;
+    }
+    .calendar-grid .day.disabled{
+      opacity:.30;
+      cursor:not-allowed;
+    }
+    .calendar-grid .day.blocked{
+      background:#fce4e4;
+      color:#b91c1c;
+      border-color:#fecaca;
+      cursor:not-allowed;
+      text-decoration:line-through;
+      opacity:1;
+    }
+    .calendar-grid .day.closed{
+      background:#35302d;
+      color:#fff;
+      border-color:#35302d;
+      cursor:not-allowed;
+      text-decoration:line-through;
+      opacity:1;
+    }
+    .calendar-grid .day.selected-start,
+    .calendar-grid .day.selected-end{
+      background:#c99743;
+      color:#fff;
+      border-color:#c99743;
+    }
+    .calendar-grid .day.in-range{
+      background:#f7e9d5;
+      border-color:#c9974366;
+      border-radius:999px;
+    }
+    .calendar-grid .day.today{
+      border-color:#315b43;
+    }
+    .calendar-selection-info{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#f7e9d5;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:6px;
+      font-weight:900;
+    }
+    .calendar-selection-info .dates{color:#25190f}
+    .calendar-selection-info .nights{color:#315b43}
+    .calendar-legend{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid #e5d9c8;
+      font-size:11px;
+      font-weight:800;
+      color:#6e5845;
+    }
+    .calendar-legend span{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .calendar-legend .dot{
+      display:inline-block;
+      width:14px;
+      height:14px;
+      border-radius:999px;
+      border:1px solid rgba(65,43,25,.18);
+    }
+    .calendar-legend .dot.blocked-dot{
+      background:#fce4e4;
+      border-color:#fecaca;
+    }
+    .calendar-legend .dot.closed-dot{
+      background:#35302d;
+      border-color:#35302d;
+    }
+    .calendar-legend .dot.available-dot{
+      background:#fff;
+      border-color:#c99743;
+    }
+    .calendar-legend .dot.selected-dot{
+      background:#c99743;
+      border-color:#c99743;
+    }
+    .master-calendar-note{
+      margin-top:12px;
+      font-size:11px;
+      line-height:1.45;
+      color:var(--muted);
+      font-weight:750;
+      text-align:center;
+    }
+
+        .mobile-bar{display:none}
 
     @media(max-width:800px){
       .hero{grid-template-columns:1fr}
@@ -325,7 +502,7 @@
     }
     @media(max-width:620px){
       .page{padding-bottom:105px}
-      .topbar{padding:9px 10px;flex-wrap:wrap}.brand span{max-width:150px}.back-link{font-size:12px;padding:0 9px}.lang-switch{order:3;width:100%;justify-content:space-between}.lang-btn{flex:1;min-width:32px;padding:0 3px}
+      .topbar{padding:9px 10px;flex-wrap:wrap}.brand span{max-width:150px}.back-link{font-size:12px;padding:0 9px}.top-actions{order:3;width:100%;display:grid;grid-template-columns:auto 1fr;gap:6px}.owner-link{min-height:42px}.lang-switch{width:100%;justify-content:space-between}.lang-btn{flex:1;min-width:32px;padding:0 3px}
       main{padding:10px}
       .hero-media{min-height:315px}
       .hero-copy{padding:17px}
@@ -367,15 +544,18 @@
         <strong>CHEZ BAPTISTE</strong>
         <span data-i18n="brandSub">Appartement à Saly · Réservation directe</span>
       </div>
-      <div class="lang-switch" role="group" aria-label="Language">
-        <button class="lang-btn active" type="button" data-lang="fr" aria-pressed="true" title="Français">FR</button>
-        <button class="lang-btn" type="button" data-lang="en" aria-pressed="false" title="English">EN</button>
-        <button class="lang-btn" type="button" data-lang="es" aria-pressed="false" title="Español">ES</button>
-        <button class="lang-btn" type="button" data-lang="pt" aria-pressed="false" title="Português">PT</button>
-        <button class="lang-btn" type="button" data-lang="de" aria-pressed="false" title="Deutsch">DE</button>
-        <button class="lang-btn" type="button" data-lang="it" aria-pressed="false" title="Italiano">IT</button>
-        <button class="lang-btn" type="button" data-lang="nl" aria-pressed="false" title="Nederlands">NL</button>
-        <button class="lang-btn" type="button" data-lang="ar" aria-pressed="false" title="العربية">AR</button>
+      <div class="top-actions">
+        <a class="owner-link" href="https://part-chez-baptiste.digiylyfe.com/gestion.html" aria-label="Accès propriétaire">🔐 Propriétaire</a>
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button class="lang-btn active" type="button" data-lang="fr" aria-pressed="true" title="Français">FR</button>
+          <button class="lang-btn" type="button" data-lang="en" aria-pressed="false" title="English">EN</button>
+          <button class="lang-btn" type="button" data-lang="es" aria-pressed="false" title="Español">ES</button>
+          <button class="lang-btn" type="button" data-lang="pt" aria-pressed="false" title="Português">PT</button>
+          <button class="lang-btn" type="button" data-lang="de" aria-pressed="false" title="Deutsch">DE</button>
+          <button class="lang-btn" type="button" data-lang="it" aria-pressed="false" title="Italiano">IT</button>
+          <button class="lang-btn" type="button" data-lang="nl" aria-pressed="false" title="Nederlands">NL</button>
+          <button class="lang-btn" type="button" data-lang="ar" aria-pressed="false" title="العربية">AR</button>
+        </div>
       </div>
     </header>
 
@@ -498,22 +678,41 @@
 
   <div class="modal-overlay" id="calendarDialog" hidden role="dialog" aria-modal="true" aria-labelledby="calendarTitle">
     <section class="sheet">
-    <div class="sheet-head">
-      <h2 id="calendarTitle" data-i18n="calendarTitle">Choisir des dates</h2>
-      <button class="close-btn" id="calendarClose" type="button" aria-label="Fermer">×</button>
-    </div>
-    <div class="calendar-nav">
-      <button class="nav-btn" id="prevMonth" type="button" aria-label="Mois précédent">‹</button>
-      <div class="calendar-help" data-i18n="calendarHelp">Premier clic : arrivée + 1 nuit. Deuxième clic : prolongez le séjour.</div>
-      <button class="nav-btn" id="nextMonth" type="button" aria-label="Mois suivant">›</button>
-    </div>
-    <div class="calendar-scroll" id="calendarScroll">
-      <div id="calendarMonths"></div>
-    </div>
-    <div class="sheet-foot">
-      <div class="range-summary" id="rangeSummary" data-i18n="datesPlaceholder">Choisir les nuits</div>
-      <button class="confirm-btn" id="calendarConfirm" type="button" data-i18n="confirmDates">Choisir ces dates</button>
-    </div>
+      <div class="sheet-head">
+        <h2 id="calendarTitle" data-i18n="calendarTitle">Choisir des dates</h2>
+        <button class="close-btn" id="calendarClose" type="button" aria-label="Fermer">×</button>
+      </div>
+
+      <div class="master-calendar-wrap">
+        <div class="master-calendar-nav">
+          <button id="prevMonth" type="button" aria-label="Mois précédent">‹</button>
+          <div class="master-month-year" id="monthYear"></div>
+          <button id="nextMonth" type="button" aria-label="Mois suivant">›</button>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+
+        <div class="calendar-selection-info">
+          <span class="dates" id="dateRange">📅 Sélectionnez vos dates</span>
+          <span class="nights" id="nightsDisplay">🛏️ —</span>
+        </div>
+
+        <div class="calendar-legend">
+          <span><span class="dot available-dot"></span> Disponible</span>
+          <span><span class="dot blocked-dot"></span> Occupé</span>
+          <span><span class="dot closed-dot"></span> Fermé</span>
+          <span><span class="dot selected-dot"></span> Votre sélection</span>
+        </div>
+
+        <div class="master-calendar-note">
+          Les états viennent du calendrier MASTER DIGIYLYFE. Le propriétaire peut les modifier depuis son accès privé.
+        </div>
+      </div>
+
+      <div class="sheet-foot">
+        <div class="range-summary" id="rangeSummary" data-i18n="datesPlaceholder">Choisir les nuits</div>
+        <button class="confirm-btn" id="calendarConfirm" type="button" data-i18n="confirmDates">Choisir ces dates</button>
+      </div>
     </section>
   </div>
 
@@ -545,6 +744,7 @@
     <button id="mobileDateBtn" type="button" data-i18n="chooseDates">Choisir mes dates</button>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0"></script>
   <script>
   (() => {
     "use strict";
@@ -555,9 +755,17 @@
     const PRICE_WEEK = 175000;
     const PRICE_MONTH = 550000;
 
-    const BLOCKED = [
-      { s: "2026-07-01", e: "2026-07-31", l: "du 1er au 31 juillet 2026" }
-    ];
+    const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3";
+    const MASTER_UNIT_ID = "ae44152a-0e11-4c7e-8834-d5ff872b2fbd";
+    const masterDb = window.supabase ? window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY,
+      {auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}}
+    ) : null;
+
+    // Même source que la gestion propriétaire : absence de ligne = LIBRE.
+    const MASTER_STATES = new Map();
 
     const translations = {
       fr:{
@@ -988,7 +1196,7 @@
     const $ = id => document.getElementById(id);
     const els = {
       langButtons:[...document.querySelectorAll(".lang-btn")],
-      calendar:$('calendarDialog'),calendarClose:$('calendarClose'),calendarMonths:$('calendarMonths'),calendarScroll:$('calendarScroll'),prevMonth:$('prevMonth'),nextMonth:$('nextMonth'),rangeSummary:$('rangeSummary'),calendarConfirm:$('calendarConfirm'),
+      calendar:$('calendarDialog'),calendarClose:$('calendarClose'),calendarGrid:$('calendarGrid'),monthYear:$('monthYear'),dateRange:$('dateRange'),nightsDisplay:$('nightsDisplay'),prevMonth:$('prevMonth'),nextMonth:$('nextMonth'),rangeSummary:$('rangeSummary'),calendarConfirm:$('calendarConfirm'),
       dateTrigger:$('dateTrigger'),heroDateBtn:$('heroDateBtn'),mobileDateBtn:$('mobileDateBtn'),dateValue:$('dateValue'),
       guestDialog:$('guestDialog'),guestTrigger:$('guestTrigger'),guestClose:$('guestClose'),guestConfirm:$('guestConfirm'),guestSummary:$('guestSummary'),guestValue:$('guestValue'),adultMinus:$('adultMinus'),adultPlus:$('adultPlus'),childMinus:$('childMinus'),childPlus:$('childPlus'),adultValue:$('adultValue'),childValue:$('childValue'),
       estimateCopy:$('estimateCopy'),estimatePrice:$('estimatePrice'),bookingWhatsApp:$('bookingWhatsApp')
@@ -1033,9 +1241,13 @@
       return total;
     }
 
+    function masterState(date){
+      return MASTER_STATES.get(iso(date)) || "";
+    }
+
     function isBlocked(date){
-      const d = iso(date);
-      return BLOCKED.some(b => d >= b.s && d <= b.e);
+      const state = masterState(date);
+      return state === "occupied" || state === "closed";
     }
 
     function isPast(date){
@@ -1078,6 +1290,8 @@
     function updateDates(){
       const n=nights();
       if(!selectedStart||!selectedEnd||n<1){
+        if(els.dateRange) els.dateRange.textContent="📅 Sélectionnez vos dates";
+        if(els.nightsDisplay) els.nightsDisplay.textContent="🛏️ —";
         els.calendarConfirm.disabled=true;
         els.dateValue.textContent=t('datesPlaceholder');
         els.rangeSummary.textContent=t('datesPlaceholder');
@@ -1086,6 +1300,8 @@
       }else{
         els.calendarConfirm.disabled=false;
         const duration=plural(n,t('nightOne'),t('nightMany'));
+        if(els.dateRange) els.dateRange.textContent="📅 "+formatShort(selectedStart)+" → "+formatShort(selectedEnd);
+        if(els.nightsDisplay) els.nightsDisplay.textContent="🛏️ "+duration;
         els.dateValue.textContent=`${formatShort(selectedStart)} – ${formatShort(selectedEnd)} · ${duration}`;
         els.rangeSummary.textContent=`${formatLong(selectedStart)} – ${formatLong(selectedEnd)} · ${duration}`;
         els.estimateCopy.textContent=`${t('estimateFor')} ${duration}`;
@@ -1114,48 +1330,54 @@
     }
 
     function renderCalendar(){
-      const weekdayBase=dateAtNoon(2024,0,1);
-      const weekdays=Array.from({length:7},(_,i)=>new Intl.DateTimeFormat(locale(),{weekday:'short'}).format(addDays(weekdayBase,i)).replace(/\.$/,''));
+      const first=startOfMonth(cursorMonth);
+      const y=first.getFullYear(), m=first.getMonth();
+      const last=dateAtNoon(y,m+1,0);
+      const offset=(first.getDay()+6)%7;
       const min=today();
-      const startMonth=cursorMonth;
-      els.prevMonth.disabled=startMonth<=startOfMonth(min);
-      let html='';
-      for(let offset=0;offset<2;offset++){
-        const month=addMonths(startMonth,offset);
-        const first=month;
-        const last=dateAtNoon(month.getFullYear(),month.getMonth()+1,0);
-        const mondayOffset=(first.getDay()+6)%7;
-        html+=`<section class="month"><h3 class="month-title">${monthName(month)}</h3><div class="weekdays">${weekdays.map(w=>`<div class="weekday">${w}</div>`).join('')}</div><div class="days">`;
-        for(let i=0;i<mondayOffset;i++)html+='<span class="day empty"></span>';
-        for(let d=1;d<=last.getDate();d++){
-          const date=dateAtNoon(month.getFullYear(),month.getMonth(),d);
-          const disabled = isPast(date) || isBlocked(date);
-          const start=sameDay(date,selectedStart);
-          const end=sameDay(date,selectedEnd);
-          const between=selectedStart&&selectedEnd&&date>selectedStart&&date<selectedEnd;
-          const classes=['day',
-            start?'range-start':'',
-            end?'range-end':'',
-            between?'in-range':'',
-            sameDay(date,min)?'today':'',
-            disabled?'disabled':'',
-            isBlocked(date)?'blocked':''
-          ].filter(Boolean).join(' ');
-          html+=`<button class="${classes}" type="button" data-date="${iso(date)}" ${disabled?'disabled':''}>${d}</button>`;
-        }
-        html+='</div></section>';
-      }
-      els.calendarMonths.innerHTML=html;
 
-      els.calendarMonths.querySelectorAll('button[data-date]').forEach(btn=>{
+      els.prevMonth.disabled=first<=startOfMonth(min);
+      els.monthYear.textContent=monthName(first);
+
+      let html='';
+      ['Lu','Ma','Me','Je','Ve','Sa','Di'].forEach(d=>{
+        html+=`<div class="day-name">${d}</div>`;
+      });
+      for(let i=0;i<offset;i++) html+='<div class="day empty"></div>';
+
+      for(let d=1;d<=last.getDate();d++){
+        const date=dateAtNoon(y,m,d);
+        const state=masterState(date);
+        const disabled=isPast(date) || state==='occupied' || state==='closed';
+        const start=sameDay(date,selectedStart);
+        const end=sameDay(date,selectedEnd);
+        const between=selectedStart&&selectedEnd&&date>selectedStart&&date<selectedEnd;
+
+        const classes=['day',
+          start?'selected-start':'',
+          end?'selected-end':'',
+          between?'in-range':'',
+          sameDay(date,min)?'today':'',
+          disabled?'disabled':'',
+          state==='occupied'?'blocked':'',
+          state==='closed'?'closed':''
+        ].filter(Boolean).join(' ');
+
+        html+=`<button class="${classes}" type="button" data-date="${iso(date)}" ${disabled?'disabled':''}>${d}</button>`;
+      }
+
+      els.calendarGrid.innerHTML=html;
+
+      els.calendarGrid.querySelectorAll('button[data-date]:not(:disabled)').forEach(btn=>{
         btn.addEventListener('click',function(e){
           e.preventDefault();
           const date=parseISO(this.dataset.date);
-          if(!date || this.disabled)return;
-          if(!selectedStart || (selectedStart && selectedEnd)){
+          if(!date)return;
+
+          if(!selectedStart || (selectedStart&&selectedEnd)){
             selectedStart=date;
             selectedEnd=null;
-          }else if(selectedStart && !selectedEnd){
+          }else{
             if(date<selectedStart){
               selectedEnd=selectedStart;
               selectedStart=date;
@@ -1168,17 +1390,6 @@
         });
       });
 
-      const blockedHtml = BLOCKED.map(b => `<span class="dot"></span> ${formatLong(parseISO(b.s))} – ${formatLong(parseISO(b.e))}`).join('<br>');
-      const blockedEl = document.createElement('div');
-      blockedEl.className = 'blocked-list';
-      blockedEl.innerHTML = `<strong>${t('blockedListLabel')}</strong><br>${blockedHtml}`;
-      const container = els.calendarMonths.closest('.calendar-container');
-      if(container){
-        const existing = container.querySelector('.blocked-list');
-        if(existing) existing.remove();
-        container.appendChild(blockedEl);
-      }
-
       updateDates();
     }
 
@@ -1186,7 +1397,6 @@
       cursorMonth=startOfMonth(selectedStart||today());
       renderCalendar();
       openDialog(els.calendar);
-      requestAnimationFrame(()=>{els.calendarScroll.scrollTop=0});
     }
 
     function startOfMonth(date){return dateAtNoon(date.getFullYear(),date.getMonth(),1)}
@@ -1283,6 +1493,33 @@
       });
     });
 
+    async function loadMasterCalendar(){
+      if(!masterDb) return;
+      try{
+        const from = iso(today());
+        const toDate = addMonths(startOfMonth(today()), 18);
+        const to = iso(toDate);
+        const {data,error} = await masterDb
+          .from("digiy_loc_master_unit_calendar")
+          .select("day,status")
+          .eq("unit_id", MASTER_UNIT_ID)
+          .gte("day", from)
+          .lt("day", to)
+          .order("day");
+        if(error) throw error;
+        MASTER_STATES.clear();
+        (data || []).forEach(row => {
+          if(row && row.day && (row.status === "occupied" || row.status === "closed")){
+            MASTER_STATES.set(row.day,row.status);
+          }
+        });
+        renderCalendar();
+        updateDates();
+      }catch(error){
+        console.warn("[CHEZ BAPTISTE SALY] Calendrier MASTER indisponible :", error);
+      }
+    }
+
     let saved='fr';
     try{
       const requested=new URLSearchParams(location.search).get('lang');
@@ -1290,11 +1527,19 @@
       saved=SUPPORTED_LANGS.includes(requested)?requested:(SUPPORTED_LANGS.includes(stored)?stored:'fr');
     }catch(_e){}
     applyLanguage(saved);
+    loadMasterCalendar();
   })();
   </script>
   <script src="./mobile-compact.js?v=20260802-1" defer></script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 
