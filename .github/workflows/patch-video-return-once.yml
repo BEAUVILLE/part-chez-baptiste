@@ -1,0 +1,38 @@
+name: Patch Chez Baptiste video link once
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace direct Drive link with DIGIY video page
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '<a class="video-action" href="https://drive.google.com/file/d/1oEVpt1R7fWBAJnKZlPu_fp2gqS-Z1kni/view?usp=sharing" target="_blank" rel="noopener">'
+          new = '<a class="video-action" href="https://part-chez-baptiste.digiylyfe.com/video.html">'
+          if new in s:
+              print('Already patched')
+              raise SystemExit(0)
+          if old not in s:
+              raise SystemExit('Expected video link not found; refusing unrelated change')
+          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          PY
+      - name: Commit exact change
+        run: |
+          if git diff --quiet -- index.html; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "UI: route Chez Baptiste video through return page"
+          git push
