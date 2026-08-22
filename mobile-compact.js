@@ -257,3 +257,16 @@
   function init(){initMasterLoc();initMobile();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
+
+/* Chez Baptiste Saly — la vidéo reste dans l'univers DIGIYLYFE pour conserver les retours visibles. */
+(function(){
+  'use strict';
+  function routeVideoThroughDigiy(){
+    var link=document.querySelector('a.video-action');
+    if(!link)return;
+    link.href='https://part-chez-baptiste.digiylyfe.com/video.html';
+    link.removeAttribute('target');
+    link.removeAttribute('rel');
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',routeVideoThroughDigiy,{once:true});else routeVideoThroughDigiy();
+})();
