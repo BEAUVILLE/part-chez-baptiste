@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#087452">
   <title>Gestion calendrier — CHEZ BAPTISTE SALY</title>
   <style>
-    *{box-sizing:border-box}html{color-scheme:light}body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#13231c;background:linear-gradient(180deg,#f7fcf9,#dceee5);min-height:100vh}button,input,select{font:inherit}.wrap{width:min(760px,calc(100% - 24px));margin:auto;padding:18px 0 42px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.brand{font-weight:1000;letter-spacing:.04em}.brand small{display:block;color:#5d7167;font-size:11px;margin-top:3px}.back{color:#05593f;text-decoration:none;padding:9px 13px;border-radius:999px;background:#fff;border:1px solid #c9dfd4;font-weight:900;font-size:12px}.panel{background:#ffffffed;border:1px solid #c9dfd4;border-radius:26px;padding:clamp(18px,4vw,30px);box-shadow:0 16px 42px rgba(18,51,39,.12);margin-top:12px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:1000;color:#087452}h1,h2{margin:8px 0 6px;line-height:1}h1{font-size:clamp(32px,7vw,52px)}h2{font-size:30px}.muted{color:#5d7167;font-weight:700;line-height:1.5}.field{display:grid;gap:6px;margin-top:14px}.field label{font-size:11px;font-weight:1000;text-transform:uppercase;color:#5d7167}.field input,.field select{min-height:50px;border:1px solid #bdd5c9;border-radius:14px;padding:12px;background:#fff}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:999px;min-height:46px;padding:11px 17px;font-weight:1000;cursor:pointer}.primary{background:linear-gradient(135deg,#f8d45c,#22c55e,#087452);color:#06271b}.dark{background:#087452;color:#fff}.ghost{background:#fff;border:1px solid #bdd5c9;color:#13231c}.status{min-height:20px;margin-top:10px;font-size:12px;font-weight:900;color:#087452}.error{color:#a32626}.hidden{display:none!important}.calendar{margin-top:16px;border:1px solid #c9dfd4;border-radius:20px;padding:13px;background:#fff}.nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.nav button{border:1px solid #c9dfd4;background:#f3f8f5;border-radius:999px;padding:7px 13px;font-weight:1000;cursor:pointer}.month{font-weight:1000;text-transform:capitalize}.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.dow{text-align:center;color:#667970;font-size:10px;font-weight:1000;padding:5px 0}.day{aspect-ratio:1/1;border:1px solid transparent;border-radius:12px;background:#fff;display:grid;place-items:center;font-weight:900;cursor:pointer;position:relative;color:#13231c}.day:hover:not(:disabled){border-color:#087452}.day:disabled{opacity:.28;cursor:not-allowed}.day.occupied{background:#fde5e2;color:#a3231d;border-color:#f0b8b2}.day.closed{background:#323735;color:#fff;border-color:#323735}.day.selected{outline:3px solid #f5b800;outline-offset:1px}.day.today::after{content:"";position:absolute;bottom:5px;width:5px;height:5px;border-radius:50%;background:#087452}.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:11px;font-weight:850;color:#5d7167}.dot{display:inline-block;width:11px;height:11px;border-radius:4px;vertical-align:-1px;margin-right:4px;border:1px solid #bdd5c9}.dot.free{background:#fff}.dot.occ{background:#fde5e2}.dot.close{background:#323735}.selection{margin-top:14px;padding:12px 14px;border-radius:15px;background:#e8f5ef;font-weight:900}.state-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.state-actions button{border:0;border-radius:15px;padding:13px 7px;font-weight:1000;cursor:pointer}.freeBtn{background:#dff3e6;color:#245035}.occBtn{background:#fde5e2;color:#a3231d}.closeBtn{background:#323735;color:#fff}.sessionbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border-radius:15px;background:#08745212;margin-top:12px;font-size:12px;font-weight:850}.sessionbar button{border:0;background:#fff;border-radius:999px;padding:7px 11px;font-weight:900;cursor:pointer}@media(max-width:560px){.state-actions{grid-template-columns:1fr}.panel{border-radius:20px}.day{border-radius:9px;font-size:12px}.wrap{width:min(100% - 16px,760px)}}
+    *{box-sizing:border-box}html{color-scheme:light}body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#13231c;background:linear-gradient(180deg,#f7fcf9,#dceee5);min-height:100vh}button,input,select{font:inherit}.wrap{width:min(760px,calc(100% - 24px));margin:auto;padding:18px 0 42px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}.brand{font-weight:1000;letter-spacing:.04em}.brand small{display:block;color:#5d7167;font-size:11px;margin-top:3px}.back{color:#05593f;text-decoration:none;padding:9px 13px;border-radius:999px;background:#fff;border:1px solid #c9dfd4;font-weight:900;font-size:12px}.panel{background:#ffffffed;border:1px solid #c9dfd4;border-radius:26px;padding:clamp(18px,4vw,30px);box-shadow:0 16px 42px rgba(18,51,39,.12);margin-top:12px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:1000;color:#087452}h1,h2{margin:8px 0 6px;line-height:1}h1{font-size:clamp(32px,7vw,52px)}h2{font-size:30px}.muted{color:#5d7167;font-weight:700;line-height:1.5}.field{display:grid;gap:6px;margin-top:14px}.field label{font-size:11px;font-weight:1000;text-transform:uppercase;color:#5d7167}.field input,.field select{min-height:50px;border:1px solid #bdd5c9;border-radius:14px;padding:12px;background:#fff}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:999px;min-height:46px;padding:11px 17px;font-weight:1000;cursor:pointer}.primary{background:linear-gradient(135deg,#f8d45c,#22c55e,#087452);color:#06271b}.dark{background:#087452;color:#fff}.ghost{background:#fff;border:1px solid #bdd5c9;color:#13231c}.status{min-height:20px;margin-top:10px;font-size:12px;font-weight:900;color:#087452}.error{color:#a32626}.hidden{display:none!important}.calendar{margin-top:16px;border:1px solid #c9dfd4;border-radius:20px;padding:13px;background:#fff}.nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.nav button{border:1px solid #c9dfd4;background:#f3f8f5;border-radius:999px;padding:7px 13px;font-weight:1000;cursor:pointer}.month{font-weight:1000;text-transform:capitalize}.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.dow{text-align:center;color:#667970;font-size:10px;font-weight:1000;padding:5px 0}.day{aspect-ratio:1/1;border:1px solid transparent;border-radius:12px;background:#fff;display:grid;place-items:center;font-weight:900;cursor:pointer;position:relative;color:#13231c}.day:hover:not(:disabled){border-color:#087452}.day:disabled{opacity:.28;cursor:not-allowed}.day.occupied{background:#fde5e2;color:#a3231d;border-color:#f0b8b2}.day.closed{background:#323735;color:#fff;border-color:#323735}.day.selected{outline:3px solid #f5b800;outline-offset:1px}.day.today::after{content:"";position:absolute;bottom:5px;width:5px;height:5px;border-radius:50%;background:#087452}.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:11px;font-weight:850;color:#5d7167}.dot{display:inline-block;width:11px;height:11px;border-radius:4px;vertical-align:-1px;margin-right:4px;border:1px solid #bdd5c9}.dot.free{background:#fff}.dot.occ{background:#fde5e2}.dot.close{background:#323735}.selection{margin-top:14px;padding:12px 14px;border-radius:15px;background:#e8f5ef;font-weight:900}.state-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.state-actions button{border:0;border-radius:15px;padding:13px 7px;font-weight:1000;cursor:pointer}.freeBtn{background:#dff3e6;color:#245035}.occBtn{background:#fde5e2;color:#a3231d}.closeBtn{background:#323735;color:#fff}.sessionbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border-radius:15px;background:#08745212;margin-top:12px;font-size:12px;font-weight:850}.sessionbar button{border:0;background:#fff;border-radius:999px;padding:7px 11px;font-weight:900;cursor:pointer}.pricing{margin-top:14px;padding:14px;border:1px solid #c9dfd4;border-radius:18px;background:#f8fcfa}.pricing-title{font-weight:1000;font-size:15px}.pricing-note{margin:5px 0 0;color:#5d7167;font-size:12px;font-weight:750;line-height:1.45}.price-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end}.price-current{margin-top:8px;font-size:12px;font-weight:950;color:#087452}.price-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.day-price{display:block;font-size:8px;font-weight:1000;line-height:1;margin-top:2px}@media(max-width:560px){.state-actions{grid-template-columns:1fr}.panel{border-radius:20px}.day{border-radius:9px;font-size:12px}.wrap{width:min(100% - 16px,760px)}}
   </style>
 </head>
 <body>
@@ -20,7 +20,7 @@
   <section class="panel" id="loginPanel">
     <span class="eyebrow">Accès privé</span>
     <h1>Gérer mes dates.</h1>
-    <p class="muted">Votre calendrier public reste en lecture seule. Connectez-vous pour rendre une date disponible, occupée ou fermée.</p>
+    <p class="muted">Votre calendrier public reste en lecture seule. Connectez-vous pour gérer Libre / Occupé / Fermé et vos tarifs.</p>
     <div class="field">
       <label for="email">Email propriétaire</label>
       <input id="email" type="email" autocomplete="email" placeholder="votre@email.com">
@@ -39,11 +39,21 @@
   <section class="panel hidden" id="managerPanel">
     <span class="eyebrow">Calendrier propriétaire</span>
     <h2>CHEZ BAPTISTE SALY</h2>
-    <p class="muted">Cliquez une date pour la sélectionner. Cliquez une seconde date pour sélectionner toute la période. Puis choisissez son état.</p>
+    <p class="muted">Cliquez une date puis, si besoin, une seconde date pour une période. Ensuite choisissez son état ou son tarif.</p>
     <div class="sessionbar"><span id="sessionEmail"></span><button id="logout" type="button">Déconnexion</button></div>
     <div class="field hidden" id="unitField">
       <label for="unitSelect">Hébergement / chambre</label>
       <select id="unitSelect"></select>
+    </div>
+
+    <div class="pricing">
+      <div class="pricing-title">💰 Tarif de base</div>
+      <p class="pricing-note">Tarif public par nuit lorsqu’aucun prix spécial n’est défini.</p>
+      <div class="price-grid">
+        <div class="field"><label for="basePrice">Tarif de base / nuit</label><input id="basePrice" type="number" min="0" step="1" inputmode="numeric" placeholder="30000"></div>
+        <button class="btn dark" id="saveBasePrice" type="button">Enregistrer le tarif de base</button>
+      </div>
+      <div class="price-current" id="basePriceInfo"></div>
     </div>
 
     <div class="calendar">
@@ -58,6 +68,15 @@
       <button class="occBtn" id="makeOccupied" type="button">🔴 Occupé</button>
       <button class="closeBtn" id="makeClosed" type="button">⚫ Fermé</button>
     </div>
+    <div class="pricing">
+      <div class="pricing-title">🏷️ Prix de la sélection</div>
+      <p class="pricing-note">Un prix spécial remplace le tarif de base uniquement pour les dates sélectionnées.</p>
+      <div class="price-grid">
+        <div class="field"><label for="specialPrice">Prix spécial / nuit</label><input id="specialPrice" type="number" min="0" step="1" inputmode="numeric" placeholder="Ex. 35000"></div>
+        <button class="btn primary" id="applySpecialPrice" type="button">Appliquer ce prix</button>
+      </div>
+      <div class="price-actions"><button class="btn ghost" id="clearSpecialPrice" type="button">↩ Revenir au tarif de base</button></div>
+    </div>
     <p class="status" id="saveStatus" aria-live="polite"></p>
   </section>
 </div>
@@ -69,11 +88,12 @@
   const SUPABASE_URL = 'https://wesqmwjjtsefyjnluosj.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3';
   const SITE_SLUG = 'saly-chez-baptiste';
+  // DIGIY SALY OWNER MASTER V2 — même moteur de données que Sarlat.
   const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {auth:{persistSession:true,detectSessionInUrl:true}});
 
   const $ = id => document.getElementById(id);
   const loginPanel=$('loginPanel'), managerPanel=$('managerPanel'), loginStatus=$('loginStatus'), saveStatus=$('saveStatus');
-  let siteId=null, units=[], unitId=null, current=new Date(), states=new Map(), start=null, end=null;
+  let siteId=null, units=[], unitId=null, current=new Date(), states=new Map(), prices=new Map(), basePrice=30000, currency='XOF', start=null, end=null;
   current=new Date(current.getFullYear(), current.getMonth(), 1, 12);
 
   const iso = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -85,6 +105,9 @@
   function setMsg(el,msg,bad=false){el.textContent=msg||'';el.classList.toggle('error',bad);}
   function showManager(email){loginPanel.classList.add('hidden');managerPanel.classList.remove('hidden');$('sessionEmail').textContent='Connecté : '+email;}
   function showLogin(){managerPanel.classList.add('hidden');loginPanel.classList.remove('hidden');}
+  function currentUnit(){return units.find(u=>u.id===unitId)||null;}
+  function money(value){const n=Number(value);return Number.isFinite(n)?n.toLocaleString('fr-FR',{maximumFractionDigits:0})+' '+(currency==='XOF'?'FCFA':currency):'—';}
+  function syncBase(){const u=currentUnit();basePrice=Number(u&&u.base_price!=null?u.base_price:30000);currency=(u&&u.price_currency)||'XOF';$('basePrice').value=basePrice;$('basePriceInfo').textContent='Tarif de base actuel : '+money(basePrice);}
 
   async function sendCode(){
     const email=$('email').value.trim();
@@ -113,7 +136,7 @@
     if(error||!site){await db.auth.signOut(); showLogin(); return setMsg(loginStatus,'⚠️ Cet email n’est pas autorisé pour ce site.',true);}
 
     const {data:unitRows,error:unitError}=await db.from('digiy_loc_master_units')
-      .select('id,slug,display_name,unit_type,sort_order')
+      .select('id,slug,display_name,unit_type,sort_order,base_price,price_currency')
       .eq('site_id',site.id)
       .eq('is_active',true)
       .order('sort_order')
@@ -128,18 +151,28 @@
     units.forEach(unit=>{const option=document.createElement('option');option.value=unit.id;option.textContent=unit.display_name;select.appendChild(option);});
     select.value=unitId;
     $('unitField').classList.toggle('hidden',units.length<2);
+    syncBase();
     setMsg(loginStatus,'');
     showManager(session.user.email||'propriétaire');
-    await loadStates();
+    await loadData();
     render();
   }
 
-  async function loadStates(){
+  async function loadData(){
     if(!unitId)return;
     const from=iso(new Date(today().getFullYear(),today().getMonth(),1,12));
-    const {data,error}=await db.from('digiy_loc_master_unit_calendar').select('day,status').eq('unit_id',unitId).gte('day',from).order('day');
-    if(error){setMsg(saveStatus,'⚠️ Lecture calendrier impossible : '+error.message,true);return;}
-    states=new Map((data||[]).map(r=>[r.day,r.status]));
+
+    const stateResult=await db.from('digiy_loc_master_unit_calendar').select('day,status').eq('unit_id',unitId).gte('day',from).order('day');
+    if(stateResult.error){setMsg(saveStatus,'⚠️ Lecture calendrier impossible : '+stateResult.error.message,true);return;}
+    states=new Map((stateResult.data||[]).map(r=>[r.day,r.status]));
+
+    const priceResult=await db.from('digiy_loc_master_unit_prices').select('day,price_override').eq('unit_id',unitId).gte('day',from).order('day');
+    if(priceResult.error){
+      prices=new Map();
+      setMsg(saveStatus,'⚠️ États chargés, tarifs spéciaux indisponibles : '+priceResult.error.message,true);
+      return;
+    }
+    prices=new Map((priceResult.data||[]).map(r=>[r.day,Number(r.price_override)]));
   }
 
   function resetSelection(){start=null;end=null;updateSelection();}
@@ -164,7 +197,7 @@
     const sel=new Set(selectedDates());
     for(let d=1;d<=last;d++){
       const date=new Date(y,m,d,12), key=iso(date), b=document.createElement('button');
-      b.type='button';b.className='day';b.textContent=d;b.dataset.date=key;
+      b.type='button';b.className='day';b.dataset.date=key;const dayPrice=prices.has(key)?prices.get(key):basePrice;b.innerHTML='<span>'+d+'</span><small class="day-price">'+money(dayPrice)+'</small>';
       if(date<today())b.disabled=true;
       const state=states.get(key);if(state)b.classList.add(state);
       if(sel.has(key))b.classList.add('selected');
@@ -174,29 +207,74 @@
   }
 
   async function applyState(status){
-    const dates=selectedDates(); if(!dates.length)return setMsg(saveStatus,'⚠️ Sélectionnez une date ou une période.',true);
+    const dates=selectedDates();
+    if(!dates.length)return setMsg(saveStatus,'⚠️ Sélectionnez une date ou une période.',true);
     if(!unitId)return setMsg(saveStatus,'⚠️ Aucun hébergement sélectionné.',true);
+    const buttons=[$('makeAvailable'),$('makeOccupied'),$('makeClosed')].filter(Boolean);
+    buttons.forEach(button=>button.disabled=true);
     setMsg(saveStatus,'Enregistrement…');
-    let error=null;
-    if(status==='available'){
-      ({error}=await db.from('digiy_loc_master_unit_calendar').delete().eq('unit_id',unitId).in('day',dates));
-    } else {
-      const rows=dates.map(day=>({unit_id:unitId,day,status,updated_at:new Date().toISOString()}));
-      ({error}=await db.from('digiy_loc_master_unit_calendar').upsert(rows,{onConflict:'unit_id,day'}));
-    }
-    if(error)return setMsg(saveStatus,'⚠️ Enregistrement refusé : '+error.message,true);
-    await loadStates(); resetSelection(); render();
-    setMsg(saveStatus,'✓ Calendrier enregistré. La fiche publique utilise maintenant cet état.');
+    try{
+      const {data,error}=await db.rpc('digiy_loc_set_unit_calendar_state_v2',{p_unit_id:unitId,p_days:dates,p_status:status});
+      if(error)return setMsg(saveStatus,'⚠️ Enregistrement refusé : '+error.message,true);
+      const returned=Array.isArray(data)?data.map(row=>String(row.day||row)):[];
+      if(returned.length && !dates.every(day=>returned.includes(day))) return setMsg(saveStatus,'⚠️ Réponse incomplète du calendrier.',true);
+
+      const {data:verifyRows,error:verifyError}=await db.from('digiy_loc_master_unit_calendar').select('day,status').eq('unit_id',unitId).in('day',dates);
+      if(verifyError)return setMsg(saveStatus,'⚠️ Relecture du statut impossible : '+verifyError.message,true);
+      const verifyMap=new Map((verifyRows||[]).map(row=>[String(row.day),row.status]));
+      const persisted=status==='available'?dates.every(day=>!verifyMap.has(day)):dates.every(day=>verifyMap.get(day)===status);
+      if(!persisted)return setMsg(saveStatus,'⚠️ État non retrouvé après relecture. Aucun faux succès affiché.',true);
+
+      if(status==='available')dates.forEach(day=>states.delete(day));else dates.forEach(day=>states.set(day,status));
+      const label=status==='available'?'Disponible':status==='occupied'?'Occupé':'Fermé';
+      resetSelection();render();
+      setMsg(saveStatus,'✓ '+label+' confirmé en base sur '+dates.length+(dates.length===1?' date.':' dates.'));
+      const payload={type:'calendar-changed',unitId,dates,status,ts:Date.now()};
+      try{const channel=new BroadcastChannel('digiy-loc-saly');channel.postMessage(payload);channel.close();}catch(_e){}
+      try{localStorage.setItem('digiy-loc-saly-sync',JSON.stringify(payload));}catch(_e){}
+    }finally{buttons.forEach(button=>button.disabled=false);}
   }
+
+  async function saveBasePrice(){
+    const value=Number(String($('basePrice').value).replace(',','.'));
+    if(!Number.isFinite(value)||value<0)return setMsg(saveStatus,'⚠️ Tarif de base invalide.',true);
+    const {data,error}=await db.from('digiy_loc_master_units').update({base_price:value,price_currency:'XOF',updated_at:new Date().toISOString()}).eq('id',unitId).select('id,base_price,price_currency').maybeSingle();
+    if(error||!data)return setMsg(saveStatus,'⚠️ Tarif de base non enregistré'+(error?' : '+error.message:''),true);
+    const u=currentUnit();u.base_price=Number(data.base_price);u.price_currency=data.price_currency||'XOF';syncBase();render();setMsg(saveStatus,'✓ Tarif de base enregistré : '+money(basePrice)+'.');
+  }
+
+  async function applySpecialPrice(){
+    const dates=selectedDates();if(!dates.length)return setMsg(saveStatus,'⚠️ Sélectionnez une date ou une période.',true);
+    const value=Number(String($('specialPrice').value).replace(',','.'));if(!Number.isFinite(value)||value<0)return setMsg(saveStatus,'⚠️ Prix spécial invalide.',true);
+    const rows=dates.map(day=>({unit_id:unitId,day,price_override:value,updated_at:new Date().toISOString()}));
+    const {data,error}=await db.from('digiy_loc_master_unit_prices').upsert(rows,{onConflict:'unit_id,day'}).select('day,price_override');
+    if(error||!data||data.length!==dates.length)return setMsg(saveStatus,'⚠️ Prix non enregistré'+(error?' : '+error.message:''),true);
+    data.forEach(r=>prices.set(r.day,Number(r.price_override)));render();setMsg(saveStatus,'✓ Prix enregistré : '+money(value)+'.');
+  }
+
+  async function clearSpecialPrice(){
+    const dates=selectedDates();if(!dates.length)return setMsg(saveStatus,'⚠️ Sélectionnez une date ou une période.',true);
+    const {error}=await db.from('digiy_loc_master_unit_prices').delete().eq('unit_id',unitId).in('day',dates);
+    if(error)return setMsg(saveStatus,'⚠️ Retour tarif de base refusé : '+error.message,true);
+    dates.forEach(day=>prices.delete(day));render();setMsg(saveStatus,'✓ Tarif de base rétabli sur la sélection.');
+  }
+
+  let resyncBusy=false;
+  async function resyncOwner(){if(resyncBusy||!unitId||managerPanel.classList.contains('hidden'))return;resyncBusy=true;try{await loadData();render();}finally{resyncBusy=false;}}
+  window.addEventListener('focus',resyncOwner);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')resyncOwner();});
 
   $('sendCode').addEventListener('click',sendCode);$('verifyCode').addEventListener('click',verifyCode);
   $('prev').addEventListener('click',()=>{current=new Date(current.getFullYear(),current.getMonth()-1,1,12);render();});
   $('next').addEventListener('click',()=>{current=new Date(current.getFullYear(),current.getMonth()+1,1,12);render();});
-  $('unitSelect').addEventListener('change',async event=>{unitId=event.target.value;states.clear();resetSelection();setMsg(saveStatus,'');await loadStates();render();});
+  $('unitSelect').addEventListener('change',async event=>{unitId=event.target.value;states.clear();prices.clear();resetSelection();setMsg(saveStatus,'');syncBase();await loadData();render();});
   $('makeAvailable').addEventListener('click',()=>applyState('available'));
   $('makeOccupied').addEventListener('click',()=>applyState('occupied'));
   $('makeClosed').addEventListener('click',()=>applyState('closed'));
-  $('logout').addEventListener('click',async()=>{await db.auth.signOut();siteId=null;units=[];unitId=null;states.clear();resetSelection();$('unitSelect').innerHTML='';$('unitField').classList.add('hidden');showLogin();setMsg(loginStatus,'✓ Déconnecté.');});
+  $('saveBasePrice').addEventListener('click',saveBasePrice);
+  $('applySpecialPrice').addEventListener('click',applySpecialPrice);
+  $('clearSpecialPrice').addEventListener('click',clearSpecialPrice);
+  $('logout').addEventListener('click',async()=>{await db.auth.signOut();siteId=null;units=[];unitId=null;states.clear();prices.clear();resetSelection();$('unitSelect').innerHTML='';$('unitField').classList.add('hidden');showLogin();setMsg(loginStatus,'✓ Déconnecté.');});
 
   db.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_IN'&&session) setTimeout(()=>enter(session),0);if(event==='SIGNED_OUT')showLogin();});
   db.auth.getSession().then(({data})=>{if(data.session)enter(data.session);});

@@ -756,21 +756,18 @@
 
     const OWNER_WA = "221771342889";
     const MAX_GUESTS = 4;
-    const PRICE_NIGHT = 30000;
+    let PRICE_NIGHT = 30000;
     const PRICE_WEEK = 175000;
     const PRICE_MONTH = 550000;
 
     const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
     const SUPABASE_KEY = "sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3";
     const MASTER_UNIT_ID = "ae44152a-0e11-4c7e-8834-d5ff872b2fbd";
-    const masterDb = window.supabase ? window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY,
-      {auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}}
-    ) : null;
 
-    // Même source que la gestion propriétaire : absence de ligne = LIBRE.
+    // DIGIY SALY MASTER LOC V2 — absence de ligne calendrier = LIBRE.
+    // États + tarifs publics passent par REST natif du navigateur, sans dépendre du SDK/CDN.
     const MASTER_STATES = new Map();
+    const MASTER_PRICES = new Map();
 
     const translations = {
       fr:{
@@ -1239,6 +1236,16 @@
     function money(value){return new Intl.NumberFormat(locale()).format(value)+' FCFA'}
 
     function estimatePrice(n){
+      if(!n) return 0;
+      // Un prix spécial saisi par le propriétaire devient prioritaire pour les nuits concernées.
+      if(selectedStart && selectedEnd && MASTER_PRICES.size){
+        let total=0;
+        for(let d=new Date(selectedStart); d<selectedEnd; d=addDays(d,1)){
+          total+=priceForIso(iso(d));
+        }
+        return total;
+      }
+      // Sans prix spécial, conserver les forfaits commerciaux Saly existants.
       let remaining=n,total=0;
       const months=Math.floor(remaining/30);total+=months*PRICE_MONTH;remaining%=30;
       const weeks=Math.floor(remaining/7);total+=weeks*PRICE_WEEK;remaining%=7;
@@ -1248,6 +1255,11 @@
 
     function masterState(date){
       return MASTER_STATES.get(iso(date)) || "";
+    }
+
+    function priceForIso(day){
+      const value = MASTER_PRICES.has(day) ? Number(MASTER_PRICES.get(day)) : Number(PRICE_NIGHT);
+      return Number.isFinite(value) && value >= 0 ? value : Number(PRICE_NIGHT) || 0;
     }
 
     function isBlocked(date){
@@ -1368,7 +1380,9 @@
           state==='closed'?'closed':''
         ].filter(Boolean).join(' ');
 
-        html+=`<button class="${classes}" type="button" data-date="${iso(date)}" ${disabled?'disabled':''}>${d}</button>`;
+        const dateIso=iso(date);
+        const priceHtml=!disabled ? `<small style="display:block;font-size:9px;line-height:1;font-weight:950;margin-top:2px;white-space:nowrap">${money(priceForIso(dateIso))}</small>` : '';
+        html+=`<button class="${classes}" type="button" data-date="${dateIso}" ${disabled?'disabled':''}><span>${d}</span>${priceHtml}</button>`;
       }
 
       els.calendarGrid.innerHTML=html;
@@ -1498,30 +1512,66 @@
       });
     });
 
+    function refreshPublicBasePrice(){
+      const main=document.querySelector('.main-price');
+      if(main) main.innerHTML=`${money(PRICE_NIGHT)} <small data-i18n="perNight">${t('perNight')}</small>`;
+      const mobile=document.querySelector('.mobile-price');
+      if(mobile) mobile.innerHTML=`${money(PRICE_NIGHT)}<small data-i18n="mobilePerNight">${t('mobilePerNight')}</small>`;
+    }
+
+    async function restRows(table, params){
+      const response=await fetch(SUPABASE_URL+'/rest/v1/'+table+'?'+params.toString(),{
+        method:'GET',
+        headers:{apikey:SUPABASE_KEY,Accept:'application/json'},
+        cache:'no-store'
+      });
+      if(!response.ok) throw new Error('HTTP '+response.status+' '+(await response.text()));
+      const rows=await response.json();
+      return Array.isArray(rows)?rows:[];
+    }
+
     async function loadMasterCalendar(){
-      if(!masterDb) return;
+      const from=iso(today());
+      const to=iso(addMonths(startOfMonth(today()),18));
+
+      // 1) États : priorité absolue, indépendants des prix.
       try{
-        const from = iso(today());
-        const toDate = addMonths(startOfMonth(today()), 18);
-        const to = iso(toDate);
-        const {data,error} = await masterDb
-          .from("digiy_loc_master_unit_calendar")
-          .select("day,status")
-          .eq("unit_id", MASTER_UNIT_ID)
-          .gte("day", from)
-          .lt("day", to)
-          .order("day");
-        if(error) throw error;
+        const stateParams=new URLSearchParams({select:'day,status',unit_id:'eq.'+MASTER_UNIT_ID,day:'gte.'+from,order:'day.asc'});
+        stateParams.append('day','lt.'+to);
+        const rows=await restRows('digiy_loc_master_unit_calendar',stateParams);
         MASTER_STATES.clear();
-        (data || []).forEach(row => {
-          if(row && row.day && (row.status === "occupied" || row.status === "closed")){
-            MASTER_STATES.set(row.day,row.status);
-          }
+        rows.forEach(row=>{
+          if(row&&row.day&&(row.status==='occupied'||row.status==='closed')) MASTER_STATES.set(row.day,row.status);
         });
         renderCalendar();
         updateDates();
       }catch(error){
-        console.warn("[CHEZ BAPTISTE SALY] Calendrier MASTER indisponible :", error);
+        console.warn('[CHEZ BAPTISTE SALY] Calendrier MASTER REST indisponible :',error);
+      }
+
+      // 2) Tarifs : même route REST, sans jamais bloquer les états.
+      try{
+        const unitParams=new URLSearchParams({select:'base_price,price_currency',id:'eq.'+MASTER_UNIT_ID,limit:'1'});
+        const priceParams=new URLSearchParams({select:'day,price_override',unit_id:'eq.'+MASTER_UNIT_ID,day:'gte.'+from,order:'day.asc'});
+        priceParams.append('day','lt.'+to);
+        const [unitRows,priceRows]=await Promise.all([
+          restRows('digiy_loc_master_units',unitParams),
+          restRows('digiy_loc_master_unit_prices',priceParams)
+        ]);
+        const unit=unitRows[0]||null;
+        const liveBase=Number(unit&&unit.base_price);
+        if(Number.isFinite(liveBase)&&liveBase>=0) PRICE_NIGHT=liveBase;
+        MASTER_PRICES.clear();
+        priceRows.forEach(row=>{
+          const value=Number(row&&row.price_override);
+          if(row&&row.day&&Number.isFinite(value)&&value>=0) MASTER_PRICES.set(row.day,value);
+        });
+        refreshPublicBasePrice();
+        renderCalendar();
+        updateDates();
+      }catch(error){
+        console.warn('[CHEZ BAPTISTE SALY] Tarifs MASTER REST indisponibles :',error);
+        refreshPublicBasePrice();
       }
     }
 
