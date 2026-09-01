@@ -1,0 +1,33 @@
+name: Brancher Chez Baptiste Saly au MASTER LOC
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/patch-master-loc-saly.py'
+      - '.github/workflows/apply-master-loc-saly.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-master-loc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Raccorder états et tarifs au MASTER LOC
+        run: python3 tools/patch-master-loc-saly.py
+      - name: Publier le raccordement
+        run: |
+          if git diff --quiet -- index.html gestion.html; then
+            echo "Aucune modification à publier."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html gestion.html
+          git commit -m "Raccorder Chez Baptiste Saly au MASTER LOC"
+          git push
