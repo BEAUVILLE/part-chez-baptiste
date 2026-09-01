@@ -6,6 +6,7 @@ on:
     paths:
       - 'tools/patch-master-loc-saly.py'
       - 'tools/patch-owner-price-layout-saly.py'
+      - 'tools/patch-special-price-range-saly.py'
       - '.github/workflows/apply-master-loc-saly.yml'
   workflow_dispatch:
 
@@ -23,6 +24,8 @@ jobs:
         run: python3 tools/patch-master-loc-saly.py
       - name: Ajuster le rendu propriétaire
         run: python3 tools/patch-owner-price-layout-saly.py
+      - name: Préserver les forfaits hors prix spéciaux
+        run: python3 tools/patch-special-price-range-saly.py
       - name: Publier le raccordement
         run: |
           if git diff --quiet -- index.html gestion.html; then
@@ -32,5 +35,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html gestion.html
-          git commit -m "Finaliser Chez Baptiste Saly sur le MASTER LOC"
+          git commit -m "Verrouiller Chez Baptiste Saly sur le MASTER LOC"
           git push
