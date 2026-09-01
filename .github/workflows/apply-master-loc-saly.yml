@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'tools/patch-master-loc-saly.py'
+      - 'tools/patch-owner-price-layout-saly.py'
       - '.github/workflows/apply-master-loc-saly.yml'
   workflow_dispatch:
 
@@ -20,6 +21,8 @@ jobs:
           ref: main
       - name: Raccorder états et tarifs au MASTER LOC
         run: python3 tools/patch-master-loc-saly.py
+      - name: Ajuster le rendu propriétaire
+        run: python3 tools/patch-owner-price-layout-saly.py
       - name: Publier le raccordement
         run: |
           if git diff --quiet -- index.html gestion.html; then
@@ -29,5 +32,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html gestion.html
-          git commit -m "Raccorder Chez Baptiste Saly au MASTER LOC"
+          git commit -m "Finaliser Chez Baptiste Saly sur le MASTER LOC"
           git push
