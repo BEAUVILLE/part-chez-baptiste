@@ -1235,17 +1235,20 @@
     function plural(n,one,many){return `${n} ${n===1?one:many}`}
     function money(value){return new Intl.NumberFormat(locale()).format(value)+' FCFA'}
 
+    // DIGIY SALY SPECIAL PRICE RANGE V3 — un prix spécial n'affecte que la période qui le contient.
     function estimatePrice(n){
       if(!n) return 0;
-      // Un prix spécial saisi par le propriétaire devient prioritaire pour les nuits concernées.
-      if(selectedStart && selectedEnd && MASTER_PRICES.size){
-        let total=0;
+      if(selectedStart && selectedEnd){
+        let nightlyTotal=0;
+        let hasOverrideInStay=false;
         for(let d=new Date(selectedStart); d<selectedEnd; d=addDays(d,1)){
-          total+=priceForIso(iso(d));
+          const day=iso(d);
+          if(MASTER_PRICES.has(day)) hasOverrideInStay=true;
+          nightlyTotal+=priceForIso(day);
         }
-        return total;
+        if(hasOverrideInStay) return nightlyTotal;
       }
-      // Sans prix spécial, conserver les forfaits commerciaux Saly existants.
+      // Aucune date spéciale dans ce séjour : conserver exactement les forfaits Saly existants.
       let remaining=n,total=0;
       const months=Math.floor(remaining/30);total+=months*PRICE_MONTH;remaining%=30;
       const weeks=Math.floor(remaining/7);total+=weeks*PRICE_WEEK;remaining%=7;
