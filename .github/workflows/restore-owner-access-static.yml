@@ -1,0 +1,36 @@
+name: Restaurer accès propriétaire statique LOC Saly
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/restore-owner-access-static.yml']
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Poser accès propriétaire statique
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          if 'href="https://part-chez-baptiste.digiylyfe.com/gestion.html"' in s:
+              raise SystemExit('accès propriétaire déjà présent')
+          marker='<div class="lang-switch" role="group" aria-label="Language">'
+          if marker not in s:
+              raise SystemExit('marqueur langues introuvable')
+          link='<a class="owner-link" href="https://part-chez-baptiste.digiylyfe.com/gestion.html" rel="nofollow" aria-label="Accès propriétaire">🔐 Propriétaire</a>\n        '
+          p.write_text(s.replace(marker,link+marker,1))
+          PY
+      - name: Vérifier
+        run: |
+          grep -q 'https://part-chez-baptiste.digiylyfe.com/gestion.html' index.html
+      - name: Commit
+        run: |
+          git config user.name 'DIGIY LYFE'
+          git config user.email 'baptistejb24@gmail.com'
+          git add index.html
+          git commit -m 'Restaurer accès propriétaire discret LOC Saly'
+          git push
