@@ -1,0 +1,33 @@
+name: Rafraîchir cache mobile Saly
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/bust-mobile-cache.yml']
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Forcer nouveau JavaScript public
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          old='./mobile-compact.js?v=20260802-1'
+          new='./mobile-compact.js?v=20260902-2'
+          if old not in s:
+              raise SystemExit('version mobile-compact introuvable')
+          p.write_text(s.replace(old,new,1))
+          PY
+      - name: Vérifier
+        run: grep -q 'mobile-compact.js?v=20260902-2' index.html
+      - name: Commit
+        run: |
+          git config user.name 'DIGIY LYFE'
+          git config user.email 'baptistejb24@gmail.com'
+          git add index.html
+          git commit -m 'Forcer rafraîchissement JavaScript Saly'
+          git push
