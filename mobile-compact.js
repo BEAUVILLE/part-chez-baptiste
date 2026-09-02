@@ -203,7 +203,6 @@
 
   function initMasterLoc(){
     injectMasterStyles();
-    injectOwnerAccess();
     watchCalendar();
     fetchStates();
     new MutationObserver(syncLanguage).observe(document.documentElement,{attributes:true,attributeFilter:['lang','dir']});
