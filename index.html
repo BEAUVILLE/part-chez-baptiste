@@ -539,6 +539,13 @@
     .hero-media>picture.digiy-hero-picture>img{width:100%;height:100%;object-fit:cover;display:block}
   </style>
   <link rel="stylesheet" href="./mobile-compact.css?v=20260802-1">
+
+<link rel="manifest" href="/manifest.webmanifest?v=20260918-v3">
+<link rel="apple-touch-icon" sizes="192x192" href="https://digiylyfe.com/assets/pwa/digiy-fallback-192.png?v=20260918-v2">
+<meta name="application-name" content="Chez Baptiste · Saly">
+<meta name="apple-mobile-web-app-title" content="Chez Baptiste Saly">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
 <a data-digiy-return-home="1" href="https://digiylyfe.com/" aria-label="Retour à DIGIYLYFE" style="position:relative;z-index:9999;display:flex;align-items:center;justify-content:center;gap:10px;width:min(460px,calc(100% - 28px));min-height:58px;box-sizing:border-box;margin:14px auto;padding:12px 18px;border:2px solid #111;border-radius:14px;background:#fff;color:#111;text-decoration:none;font:950 17px/1.1 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 5px 16px rgba(0,0,0,.14);-webkit-tap-highlight-color:transparent"><span aria-hidden="true" style="font-size:26px;line-height:1">←</span><strong>RETOUR DIGIYLYFE</strong></a>
@@ -564,6 +571,57 @@
         </div>
       </div>
     </header>
+<section id="digiyPwaVisible" aria-label="Installer Chez Baptiste Saly" style="width:min(960px,calc(100% - 24px));margin:14px auto 18px;box-sizing:border-box;padding:10px;border:1px solid rgba(201,151,67,.68);border-radius:18px;background:rgba(255,255,255,.98);color:#111;box-shadow:0 12px 30px rgba(0,0,0,.16);font-family:system-ui,-apple-system,'Segoe UI',sans-serif;text-align:center;">
+  <div style="font-size:12px;font-weight:1000;margin-bottom:8px;">📲 CHEZ BAPTISTE · DIGIY PRO</div>
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;">
+    <button type="button" id="digiyPwaInstall" style="min-height:50px;padding:10px 14px;border-radius:999px;border:1px solid #c99743;background:linear-gradient(135deg,#fff1bd,#e6b94d,#22c55e);color:#07150f;font:1000 12px/1.2 system-ui;cursor:pointer;">Garder Chez Baptiste sur mon téléphone</button>
+    <button type="button" id="digiyPwaShare" style="min-height:50px;padding:10px 16px;border-radius:999px;border:1px solid #c99743;background:#fff;color:#111;font:1000 12px/1.2 system-ui;cursor:pointer;">↗ Partager</button>
+  </div>
+  <small id="digiyPwaNote" style="display:block;margin-top:7px;font-size:10px;line-height:1.35;font-weight:800;opacity:.75;">Votre accès direct reste sous votre doigt.</small>
+</section>
+<script>
+(function(){
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=20260918-v3').catch(function(){});});
+  }
+  var install=document.getElementById('digiyPwaInstall');
+  var share=document.getElementById('digiyPwaShare');
+  var note=document.getElementById('digiyPwaNote');
+  var promptEvent=null;
+  var installed=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+  var ua=navigator.userAgent||'';
+  var isIOS=/iPad|iPhone|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+
+  window.addEventListener('beforeinstallprompt',function(ev){
+    ev.preventDefault(); promptEvent=ev; note.textContent='Installation prête : touchez le bouton.';
+  });
+  window.addEventListener('appinstalled',function(){
+    installed=true; promptEvent=null; install.disabled=true; note.textContent='Chez Baptiste est installé sur cet appareil.';
+  });
+  install.addEventListener('click',function(){
+    if(installed){note.textContent='Chez Baptiste est déjà installé sur cet appareil.';return;}
+    if(promptEvent){
+      var ev=promptEvent; promptEvent=null; ev.prompt();
+      ev.userChoice.then(function(choice){
+        if(choice&&choice.outcome==='accepted'){installed=true;install.disabled=true;note.textContent='Chez Baptiste est installé sur cet appareil.';}
+        else note.textContent='Installation annulée. Vous pouvez réessayer.';
+      }).catch(function(){note.textContent='Ouvrez le menu du navigateur puis « Installer l’application ».';});
+      return;
+    }
+    note.textContent=isIOS
+      ? 'Sur iPhone : Safari → Partager ⬆︎ → Ajouter à l’écran d’accueil.'
+      : 'Ouvrez le menu du navigateur puis « Installer l’application » ou « Ajouter à l’écran d’accueil ».';
+  });
+  share.addEventListener('click',async function(){
+    var url='https://part-chez-baptiste.digiylyfe.com/';
+    try{
+      if(navigator.share){await navigator.share({title:'Chez Baptiste · Saly',text:'Chez Baptiste · DIGIYLYFE',url:url});return;}
+      if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(url);note.textContent='Lien copié. Vous pouvez le partager.';return;}
+    }catch(e){}
+    note.textContent=url;
+  });
+})();
+</script>
 
     <main>
       <section class="hero" aria-labelledby="pageTitle">
