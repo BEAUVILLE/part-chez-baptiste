@@ -540,7 +540,7 @@
   </style>
   <link rel="stylesheet" href="./mobile-compact.css?v=20260802-1">
 
-<link rel="manifest" href="/manifest.webmanifest?v=20260918-v3">
+<link rel="manifest" href="/manifest.webmanifest?v=20260918-v4">
 <link rel="apple-touch-icon" sizes="192x192" href="https://digiylyfe.com/assets/pwa/digiy-fallback-192.png?v=20260918-v2">
 <meta name="application-name" content="Chez Baptiste · Saly">
 <meta name="apple-mobile-web-app-title" content="Chez Baptiste Saly">
@@ -613,7 +613,7 @@
       : 'Ouvrez le menu du navigateur puis « Installer l’application » ou « Ajouter à l’écran d’accueil ».';
   });
   share.addEventListener('click',async function(){
-    var url='https://part-chez-baptiste.digiylyfe.com/';
+    var url='https://part-chez-baptiste.digiylyfe.com/?lang=fr';
     try{
       if(navigator.share){await navigator.share({title:'Chez Baptiste · Saly',text:'Chez Baptiste · DIGIYLYFE',url:url});return;}
       if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(url);note.textContent='Lien copié. Vous pouvez le partager.';return;}
