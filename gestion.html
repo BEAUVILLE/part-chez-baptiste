@@ -198,7 +198,7 @@ function currentUnit(){return units.find(u=>u.id===unitId)||null;}
     const email=$('email').value.trim();
     if(!email) return setMsg(loginStatus,'⚠️ Indiquez votre email.',true);
     $('sendCode').disabled=true; setMsg(loginStatus,'Envoi du code…');
-    const {error}=await db.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.origin+location.pathname}});
+    const {error}=await db.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:'https://part-chez-baptiste.digiylyfe.com/gestion.html'}});
     $('sendCode').disabled=false;
     if(error) return setMsg(loginStatus,'⚠️ '+error.message,true);
     $('otpBlock').classList.remove('hidden');
