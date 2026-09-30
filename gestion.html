@@ -51,23 +51,7 @@
     <h2>CHEZ BAPTISTE SALY</h2>
     <p class="muted">Cliquez une date puis, si besoin, une seconde date pour une période. Ensuite choisissez son état ou son tarif.</p>
     <div class="sessionbar"><span id="sessionEmail"></span><button id="logout" type="button">Déconnexion</button></div>
-<div class="voice-core" id="voiceCore">
-  <div class="voice-core-head">
-    <div>
-      <div class="voice-core-title">🎙️ DIGIY CORE · MON CALENDRIER</div>
-      <div class="pricing-note">Parlez ou écrivez : « J’ai une réservation aujourd’hui ? »</div>
-    </div>
-    <span class="eyebrow">V1</span>
-  </div>
-  <div class="voice-core-grid">
-    <input id="voiceQuery" type="text" autocomplete="off" placeholder="J’ai une réservation aujourd’hui ?">
-    <button class="btn ghost" id="voiceMicBtn" type="button" aria-label="Parler">🎙️</button>
-    <button class="btn dark voice-go" id="voiceAskBtn" type="button">VOIR</button>
-  </div>
-  <div class="voice-core-answer" id="voiceAnswer" aria-live="polite">Posez votre question au calendrier.</div>
-  <button class="btn ghost voice-core-listen" id="voiceListenBtn" type="button" hidden>🔊 ÉCOUTER</button>
-</div>
-    <div class="field hidden" id="unitField">
+<div class="field hidden" id="unitField">
       <label for="unitSelect">Hébergement / chambre</label>
       <select id="unitSelect"></select>
     </div>
@@ -154,51 +138,6 @@
   function showManager(email){loginPanel.classList.add('hidden');managerPanel.classList.remove('hidden');$('sessionEmail').textContent='Connecté : '+email;}
   function showLogin(){managerPanel.classList.add('hidden');loginPanel.classList.remove('hidden');}
   
-const voiceQuery=$('voiceQuery'),voiceMicBtn=$('voiceMicBtn'),voiceAskBtn=$('voiceAskBtn'),voiceAnswer=$('voiceAnswer'),voiceListenBtn=$('voiceListenBtn');
-let lastVoiceAnswer='';
-function voiceNorm(v){return String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’']/g,' ').replace(/\s+/g,' ').trim()}
-function voiceDayTarget(text){
-  const t=voiceNorm(text);
-  if(!/\b(reservation|resa|booking)\b/.test(t))return null;
-  const base=today();
-  if(/\b(apres demain|apres-demain|day after tomorrow)\b/.test(t)){
-    const d=new Date(base);d.setDate(d.getDate()+2);
-    return {day:iso(d),label:'après-demain'};
-  }
-  if(/\b(demain|tomorrow)\b/.test(t)){const d=new Date(base);d.setDate(d.getDate()+1);return {day:iso(d),label:'demain'};}
-  if(/\b(aujourd hui|aujourdhui|today|ce jour)\b/.test(t))return {day:iso(base),label:'aujourd’hui'};
-  return null;
-}
-function setVoiceAnswer(text){
-  lastVoiceAnswer=String(text||'');
-  if(voiceAnswer)voiceAnswer.textContent=lastVoiceAnswer;
-  if(voiceListenBtn)voiceListenBtn.hidden=!lastVoiceAnswer||!('speechSynthesis' in window);
-}
-function askVoiceCalendar(){
-  if(!unitId){setVoiceAnswer('Aucun hébergement sélectionné.');return;}
-  const target=voiceDayTarget(voiceQuery&&voiceQuery.value);
-  if(!target){setVoiceAnswer('Pour cette V1, demandez : « J’ai une réservation aujourd’hui ? » ou « J’ai une réservation demain ? »');return;}
-  const hits=(reservations||[]).filter(r=>String(r.start_day)<=target.day&&String(r.end_day)>=target.day);
-  const occupied=states.get(target.day)==='occupied';
-  if(!occupied && !hits.length){setVoiceAnswer('Non. Aucune réservation ne concerne '+target.label+'.');return;}
-  if(hits.length){
-    setVoiceAnswer('Oui. '+hits.length+' réservation'+(hits.length>1?'s':'')+' concerne'+(hits.length>1?'nt':'')+' '+target.label+'.');
-    return;
-  }
-  setVoiceAnswer('Oui. Le calendrier indique que le logement est occupé '+target.label+'.');
-}
-voiceAskBtn&&voiceAskBtn.addEventListener('click',askVoiceCalendar);
-voiceQuery&&voiceQuery.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();askVoiceCalendar();}});
-voiceListenBtn&&voiceListenBtn.addEventListener('click',()=>{if(!lastVoiceAnswer||!('speechSynthesis' in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(lastVoiceAnswer);u.lang='fr-FR';u.rate=.9;window.speechSynthesis.speak(u);});
-(()=>{
-  const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!Recognition){if(voiceMicBtn){voiceMicBtn.disabled=true;voiceMicBtn.title='Reconnaissance vocale non disponible sur ce navigateur';}return;}
-  const rec=new Recognition();rec.lang='fr-FR';rec.interimResults=false;rec.maxAlternatives=1;
-  voiceMicBtn&&voiceMicBtn.addEventListener('click',()=>{try{voiceMicBtn.disabled=true;voiceMicBtn.textContent='…';rec.start();}catch(_){voiceMicBtn.disabled=false;voiceMicBtn.textContent='🎙️';}});
-  rec.addEventListener('result',e=>{const t=e.results&&e.results[0]&&e.results[0][0]?e.results[0][0].transcript:'';if(voiceQuery)voiceQuery.value=t;askVoiceCalendar();});
-  rec.addEventListener('end',()=>{if(voiceMicBtn){voiceMicBtn.disabled=false;voiceMicBtn.textContent='🎙️';}});
-  rec.addEventListener('error',()=>setVoiceAnswer('Je n’ai pas bien entendu. Réessayez ou écrivez la question.'));
-})();
 function currentUnit(){return units.find(u=>u.id===unitId)||null;}
   function money(value){const n=Number(value);return Number.isFinite(n)?n.toLocaleString('fr-FR',{maximumFractionDigits:0})+' '+(currency==='XOF'?'FCFA':currency):'—';}
   function syncBase(){const u=currentUnit();basePrice=Number(u&&u.base_price!=null?u.base_price:30000);currency=(u&&u.price_currency)||'XOF';$('basePrice').value=basePrice;$('basePriceInfo').textContent='Tarif de base actuel : '+money(basePrice);}
