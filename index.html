@@ -329,6 +329,27 @@
     .blocked-list .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#b91c1c;margin-right:6px;}
     .blocked-list .closed-dot{background:#323735;}
 
+    .availability-overview{
+      margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:18px;background:#fff;
+    }
+    .availability-overview h3{margin:0 0 4px;font-size:20px}
+    .availability-overview p{margin:0 0 12px;color:var(--muted);font-size:12px;font-weight:760;line-height:1.45}
+    .availability-overview-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .availability-overview-nav button{width:40px;height:40px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--green-dark);font-size:21px;font-weight:950}
+    .availability-overview-month{flex:1;text-align:center;font-size:17px;font-weight:1000;text-transform:capitalize}
+    .availability-overview-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+    .availability-overview-grid .ov-dow{padding:5px 0;color:var(--muted);font-size:10px;font-weight:950;text-align:center}
+    .availability-overview-grid .ov-day{min-height:36px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);background:#fff;font-size:12px;font-weight:900}
+    .availability-overview-grid .ov-day.past{opacity:.35}
+    .availability-overview-grid .ov-day.occupied{background:#fde8e8;border-color:#fecaca;color:#b91c1c;text-decoration:line-through}
+    .availability-overview-grid .ov-day.closed{background:#323735;border-color:#323735;color:#fff;text-decoration:line-through}
+    .availability-overview-grid .ov-day.today{outline:2px solid var(--gold)}
+    .availability-overview-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;color:var(--muted);font-size:11px;font-weight:850}
+    .availability-overview-legend span{display:inline-flex;align-items:center;gap:5px}
+    .availability-overview-legend i{width:10px;height:10px;border-radius:50%;display:inline-block;border:1px solid var(--line);background:#fff}
+    .availability-overview-legend i.occ{background:#fde8e8;border-color:#fecaca}
+    .availability-overview-legend i.cls{background:#323735;border-color:#323735}
+
 
     /* ===== CALENDRIER MASTER DIGIYLYFE ===== */
     .master-calendar-wrap{
@@ -651,6 +672,22 @@
             <div class="package-line" data-i18n="packages">175 000 FCFA / semaine · 550 000 FCFA / mois · Sénélec en sus</div>
             <button class="primary-btn" id="heroDateBtn" type="button">📅 <span data-i18n="chooseDates">Choisir mes dates</span></button>
           </div>
+        </div>
+      </section>
+
+      <section class="availability-overview" id="availabilityOverview" aria-labelledby="availabilityOverviewTitle">
+        <h3 id="availabilityOverviewTitle">📅 Disponibilités</h3>
+        <p>Consultez les dates avant votre demande. Les jours occupés ou fermés ne peuvent pas être réservés.</p>
+        <div class="availability-overview-nav">
+          <button id="availabilityPrev" type="button" aria-label="Mois précédent">‹</button>
+          <div class="availability-overview-month" id="availabilityMonth"></div>
+          <button id="availabilityNext" type="button" aria-label="Mois suivant">›</button>
+        </div>
+        <div class="availability-overview-grid" id="availabilityGrid"></div>
+        <div class="availability-overview-legend">
+          <span><i></i> Disponible</span>
+          <span><i class="occ"></i> Occupé</span>
+          <span><i class="cls"></i> Fermé</span>
         </div>
       </section>
 
@@ -1260,7 +1297,8 @@
       calendar:$('calendarDialog'),calendarClose:$('calendarClose'),calendarGrid:$('calendarGrid'),monthYear:$('monthYear'),dateRange:$('dateRange'),nightsDisplay:$('nightsDisplay'),prevMonth:$('prevMonth'),nextMonth:$('nextMonth'),rangeSummary:$('rangeSummary'),calendarConfirm:$('calendarConfirm'),
       dateTrigger:$('dateTrigger'),heroDateBtn:$('heroDateBtn'),mobileDateBtn:$('mobileDateBtn'),dateValue:$('dateValue'),
       guestDialog:$('guestDialog'),guestTrigger:$('guestTrigger'),guestClose:$('guestClose'),guestConfirm:$('guestConfirm'),guestSummary:$('guestSummary'),guestValue:$('guestValue'),adultMinus:$('adultMinus'),adultPlus:$('adultPlus'),childMinus:$('childMinus'),childPlus:$('childPlus'),adultValue:$('adultValue'),childValue:$('childValue'),
-      estimateCopy:$('estimateCopy'),estimatePrice:$('estimatePrice'),bookingWhatsApp:$('bookingWhatsApp')
+      estimateCopy:$('estimateCopy'),estimatePrice:$('estimatePrice'),bookingWhatsApp:$('bookingWhatsApp'),
+      availabilityGrid:$('availabilityGrid'),availabilityMonth:$('availabilityMonth'),availabilityPrev:$('availabilityPrev'),availabilityNext:$('availabilityNext')
     };
 
     let currentLang = 'fr';
@@ -1268,6 +1306,7 @@
     let selectedEnd = null;
     let cursorMonth = new Date();
     cursorMonth.setDate(1);
+    let availabilityCursor = startOfMonth(today());
     let adults = 2;
     let children = 0;
 
@@ -1341,6 +1380,25 @@
       const d = new Date(date);
       d.setHours(0,0,0,0);
       return d < today();
+    }
+
+    function renderAvailabilityOverview(){
+      if(!els.availabilityGrid||!els.availabilityMonth)return;
+      const first=startOfMonth(availabilityCursor);
+      const y=first.getFullYear(),m=first.getMonth();
+      const last=dateAtNoon(y,m+1,0);
+      const offset=(first.getDay()+6)%7;
+      els.availabilityMonth.textContent=monthName(first);
+      if(els.availabilityPrev) els.availabilityPrev.disabled=first<=startOfMonth(today());
+      let html='';
+      ['Lu','Ma','Me','Je','Ve','Sa','Di'].forEach(d=>{html+='<div class="ov-dow">'+d+'</div>';});
+      for(let i=0;i<offset;i++) html+='<div></div>';
+      for(let d=1;d<=last.getDate();d++){
+        const date=dateAtNoon(y,m,d),state=masterState(date);
+        const classes=['ov-day',isPast(date)?'past':'',state==='occupied'?'occupied':'',state==='closed'?'closed':'',sameDay(date,today())?'today':''].filter(Boolean).join(' ');
+        html+='<div class="'+classes+'" title="'+(state==='occupied'?'Occupé':state==='closed'?'Fermé':'Disponible')+'">'+d+'</div>';
+      }
+      els.availabilityGrid.innerHTML=html;
     }
 
     function openDialog(dialog){
@@ -1578,6 +1636,15 @@
       renderCalendar();
     });
 
+    if(els.availabilityPrev) els.availabilityPrev.addEventListener('click',()=>{
+      const candidate=addMonths(availabilityCursor,-1);
+      if(candidate>=startOfMonth(today())){availabilityCursor=candidate;renderAvailabilityOverview();}
+    });
+    if(els.availabilityNext) els.availabilityNext.addEventListener('click',()=>{
+      availabilityCursor=addMonths(availabilityCursor,1);
+      renderAvailabilityOverview();
+    });
+
     els.guestTrigger.addEventListener('click',()=>{updateGuests();openDialog(els.guestDialog)});
     els.guestClose.addEventListener('click',()=>closeDialog(els.guestDialog));
     els.guestConfirm.addEventListener('click',()=>{updateGuests();closeDialog(els.guestDialog)});
@@ -1633,6 +1700,7 @@
           if(row&&row.day&&(row.status==='occupied'||row.status==='closed')) MASTER_STATES.set(row.day,row.status);
         });
         renderCalendar();
+        renderAvailabilityOverview();
         updateDates();
       }catch(error){
         console.warn('[CHEZ BAPTISTE SALY] Calendrier MASTER REST indisponible :',error);
@@ -1671,6 +1739,7 @@
       saved=SUPPORTED_LANGS.includes(requested)?requested:(SUPPORTED_LANGS.includes(stored)?stored:'fr');
     }catch(_e){}
     applyLanguage(saved);
+    renderAvailabilityOverview();
     loadMasterCalendar();
   })();
   </script>
