@@ -1329,6 +1329,14 @@
       return state === "occupied" || state === "closed";
     }
 
+    function stayHasBlockedNight(){
+      if(!selectedStart||!selectedEnd||selectedEnd<=selectedStart)return false;
+      for(let d=new Date(selectedStart); d<selectedEnd; d=addDays(d,1)){
+        if(isBlocked(d))return true;
+      }
+      return false;
+    }
+
     function isPast(date){
       const d = new Date(date);
       d.setHours(0,0,0,0);
@@ -1377,8 +1385,14 @@
         els.estimateCopy.textContent=t('estimateEmpty');
         els.estimatePrice.innerHTML=`—<small>${t('estimateNote')}</small>`;
       }else{
-        els.calendarConfirm.disabled=false;
+        const unavailable=stayHasBlockedNight();
+        els.calendarConfirm.disabled=unavailable;
         const duration=plural(n,t('nightOne'),t('nightMany'));
+        if(unavailable){
+          els.rangeSummary.textContent='Indisponible pour ces dates — choisissez une autre période.';
+          els.estimateCopy.textContent='Indisponible pour ces dates';
+          els.estimatePrice.innerHTML='—<small>Choisissez une autre période</small>';
+        }
         if(els.dateRange) els.dateRange.textContent="📅 "+formatShort(selectedStart)+" → "+formatShort(selectedEnd);
         if(els.nightsDisplay) els.nightsDisplay.textContent="🛏️ "+duration;
         els.dateValue.textContent=`${formatShort(selectedStart)} – ${formatShort(selectedEnd)} · ${duration}`;
@@ -1391,6 +1405,19 @@
 
     function updateWhatsApp(){
       const n=nights();
+      const unavailable=stayHasBlockedNight();
+      if(els.bookingWhatsApp){
+        if(unavailable){
+          els.bookingWhatsApp.removeAttribute('href');
+          els.bookingWhatsApp.setAttribute('aria-disabled','true');
+          els.bookingWhatsApp.style.pointerEvents='none';
+          els.bookingWhatsApp.style.opacity='.48';
+        }else{
+          els.bookingWhatsApp.removeAttribute('aria-disabled');
+          els.bookingWhatsApp.style.pointerEvents='';
+          els.bookingWhatsApp.style.opacity='';
+        }
+      }
       const period=n>0?`${formatLong(selectedStart)} → ${formatLong(selectedEnd)} (${plural(n,t('nightOne'),t('nightMany'))})`:t('datesPlaceholder');
       const guestText=`${plural(adults,t('adultOne'),t('adultMany'))} · ${plural(children,t('childOne'),t('childMany'))}`;
       const total=n>0?money(estimatePrice(n)):'—';
