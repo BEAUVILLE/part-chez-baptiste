@@ -130,6 +130,7 @@
 
   const iso = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
   const today = () => { const n=new Date(); return new Date(n.getFullYear(),n.getMonth(),n.getDate(),12); };
+  const parse = value => { const [year,month,day] = String(value).split('-').map(Number); return new Date(year,month-1,day,12); };
   const fmt = d => d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
   const between = (a,b) => { const out=[]; for(let d=new Date(a); d<=b; d.setDate(d.getDate()+1)) out.push(iso(d)); return out; };
   const selectedDates = () => start ? between(start,end||start) : [];
