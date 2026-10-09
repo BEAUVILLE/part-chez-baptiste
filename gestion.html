@@ -125,11 +125,12 @@
 
   const $ = id => document.getElementById(id);
   const loginPanel=$('loginPanel'), managerPanel=$('managerPanel'), loginStatus=$('loginStatus'), saveStatus=$('saveStatus');
-  let siteId=null, units=[], unitId=null, current=new Date(), states=new Map(), prices=new Map(), reservations=[], basePrice=30000, currency='XOF', start=null, end=null;
+  let siteId=null, units=[], unitId=null, current=new Date(), states=new Map(), prices=new Map(), reservations=[],ownerCancelV30Enabled=false, basePrice=30000, currency='XOF', start=null, end=null;
   current=new Date(current.getFullYear(), current.getMonth(), 1, 12);
 
   const iso = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
   const today = () => { const n=new Date(); return new Date(n.getFullYear(),n.getMonth(),n.getDate(),12); };
+  const parse = value => { const [year,month,day] = String(value).split('-').map(Number); return new Date(year,month-1,day,12); };
   const fmt = d => d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
   const between = (a,b) => { const out=[]; for(let d=new Date(a); d<=b; d.setDate(d.getDate()+1)) out.push(iso(d)); return out; };
   const selectedDates = () => start ? between(start,end||start) : [];
@@ -210,22 +211,32 @@ function currentUnit(){return units.find(u=>u.id===unitId)||null;}
     await loadReservationCarnet();
   }
 
-  async function loadReservationCarnet(){
-    const count=$('reservationCount');
-    if(count)count.textContent='Chargement du carnet…';
-    if(!unitId){reservations=[];renderReservations();return false;}
-    const {data,error}=await db.rpc('digiy_loc_master_list_reservations_v1',{p_unit_id:unitId});
-    if(error){
-      reservations=[];
-      if(count)count.textContent='⚠️ Carnet indisponible';
-      console.warn('[SALY OWNER] Carnet réservations indisponible',error);
-      renderReservations();
-      return false;
-    }
-    reservations=Array.isArray(data)?data:[];
-    renderReservations();
-    return true;
+async function loadReservationCarnet(){
+  const count=$('reservationCount');
+  if(count)count.textContent='Chargement du carnet…';
+  if(!unitId){reservations=[];ownerCancelV30Enabled=false;renderReservations();return false;}
+  // V30 metadata is required for reliable cancellation; on an older
+  // server, show the legacy carnet WITHOUT ever enabling Cancel.
+  let response=await db.rpc('digiy_loc_master_list_reservations_v2',{p_unit_id:unitId});
+  let v30Ready=!response.error;
+  const unavailable=response.error &&
+    (response.error.code==='PGRST202' ||
+     /could not find the function|schema cache/i.test(response.error.message||''));
+  if(unavailable){
+    response=await db.rpc('digiy_loc_master_list_reservations_v1',{p_unit_id:unitId});
+    v30Ready=false;
   }
+  if(response.error){
+    ownerCancelV30Enabled=false;
+    reservations=[];
+    if(count)count.textContent='⚠️ Carnet indisponible';
+    console.warn('[LOC V30 OWNER] Carnet indisponible',response.error);
+    renderReservations();return false;
+  }
+  ownerCancelV30Enabled=v30Ready;
+  reservations=Array.isArray(response.data)?response.data:[];
+  renderReservations();return true;
+}
 
   function resetSelection(){start=null;end=null;updateSelection();}
   function updateSelection(){
@@ -252,7 +263,7 @@ function currentUnit(){return units.find(u=>u.id===unitId)||null;}
     const sel=new Set(selectedDates());
     for(let d=1;d<=last;d++){
       const date=new Date(y,m,d,12), key=iso(date), b=document.createElement('button');
-      b.type='button';b.className='day';b.dataset.date=key;const dayPrice=prices.has(key)?prices.get(key):basePrice;const booking=reservations.find(r=>key>=r.start_day&&key<=r.end_day);b.innerHTML='<span>'+d+'</span><small class="day-price">'+money(dayPrice)+'</small>'+(booking?'<small class="guest-mark">👤</small>':'');if(booking)b.title=booking.guest_name+' · '+booking.guest_phone;
+      b.type='button';b.className='day';b.dataset.date=key;const dayPrice=prices.has(key)?prices.get(key):basePrice;const booking=reservations.find(r=>r.status!=='cancelled'&&key>=r.start_day&&key<=r.end_day);b.innerHTML='<span>'+d+'</span><small class="day-price">'+money(dayPrice)+'</small>'+(booking?'<small class="guest-mark">👤</small>':'');if(booking)b.title=booking.guest_name+' · '+booking.guest_phone;
       if(date<today())b.disabled=true;
       const state=states.get(key);if(state)b.classList.add(state);
       if(sel.has(key))b.classList.add('selected');
@@ -277,7 +288,7 @@ function currentUnit(){return units.find(u=>u.id===unitId)||null;}
       const card=document.createElement('article');card.className='reservation-card'+(upcoming?'':' history');
       const head=document.createElement('div');head.className='reservation-card-head';
       const name=document.createElement('strong');name.textContent='👤 '+r.guest_name;head.appendChild(name);
-      const badge=document.createElement('span');badge.className='reservation-badge';badge.textContent=upcoming?'À venir':'Historique';head.appendChild(badge);
+      const badge=document.createElement('span');badge.className='reservation-badge';badge.textContent=r.status==='cancelled'?'Annulée':(upcoming?'À venir':'Historique');head.appendChild(badge);
       card.appendChild(head);
       const startDate=fmt(parse(r.start_day)),endDate=fmt(parse(r.end_day));
       const meta=document.createElement('div');meta.className='reservation-meta';meta.textContent=(r.start_day===r.end_day?startDate:startDate+' → '+endDate)+' · '+r.guest_phone+(r.source?' · '+r.source:'');card.appendChild(meta);
@@ -286,11 +297,51 @@ function currentUnit(){return units.find(u=>u.id===unitId)||null;}
       const sms=document.createElement('a');sms.className='sms-action';sms.textContent='📩 SMS';sms.href='sms:'+r.guest_phone+'?body='+encodeURIComponent(reservationMessage(r));actions.appendChild(sms);
       const digits=String(r.guest_phone||'').replace(/\D/g,'');
       if(digits){const wa=document.createElement('a');wa.className='wa-action';wa.textContent='💬 WhatsApp';wa.href='https://wa.me/'+digits+'?text='+encodeURIComponent(reservationMessage(r));wa.target='_blank';wa.rel='noopener';actions.appendChild(wa);}
-      card.appendChild(actions);box.appendChild(card);
+      
+       // No cancellation action on old v1 backend or already cancelled row.
+       if(ownerCancelV30Enabled && r.status==='active'){
+         const cancelButton=document.createElement('button');
+         cancelButton.type='button';cancelButton.className='btn ghost';
+         cancelButton.textContent='✕ Annuler cette réservation';
+         cancelButton.setAttribute('aria-label','Annuler la réservation de '+r.guest_name);
+         cancelButton.addEventListener('click',()=>cancelPrivateReservation(r,cancelButton));
+         actions.appendChild(cancelButton);
+       }
+       card.appendChild(actions);box.appendChild(card);
     });
   }
 
-  async function savePrivateReservation(){
+  async function cancelPrivateReservation(r,button){
+  if(!ownerCancelV30Enabled||r.status!=='active'||!r.id)return;
+  if(!window.confirm(
+    'Annuler la réservation de '+r.guest_name+' ('+r.start_day+' → '+r.end_day+') ?\n\n'+
+    'La fiche sera conservée dans l’historique et seules les dates libérables seront ouvertes. '+ 
+    'Aucun message automatique ne sera envoyé au client.'
+  ))return;
+  button.disabled=true;
+  setMsg(saveStatus,'Annulation de cette réservation…');
+  try{
+    const {data,error}=await db.rpc('digiy_loc_master_cancel_reservation_v1',{
+      p_reservation_id:r.id,p_reason:'Annulation confirmée par le propriétaire'
+    });
+    if(error){setMsg(saveStatus,'⚠️ Annulation refusée : '+error.message,true);return;}
+    if(!data||data.ok!==true||data.status!=='cancelled'){
+      setMsg(saveStatus,'⚠️ Annulation non confirmée par le serveur.',true);return;
+    }
+    await loadData();render();renderReservations();
+    const payload={type:'calendar-changed',unitId,dates:[],status:'available',ts:Date.now()};
+    try{const channel=new BroadcastChannel('digiy-loc-saly');channel.postMessage(payload);channel.close();}catch(_e){}
+    try{localStorage.setItem('digiy-loc-saly-sync',JSON.stringify(payload));}catch(_e){}
+    const kept=Number(data.retained_blocked_days||0);
+    setMsg(saveStatus,kept
+      ?'✓ Réservation annulée, historique conservé. ⚠️ '+kept+' date(s) restent bloquées : vérification manuelle nécessaire.'
+      :'✓ Réservation annulée, historique conservé, disponibilités synchronisées.');
+  }catch(e){
+    setMsg(saveStatus,'⚠️ Annulation non confirmée : '+(e?.message||'erreur'),true);
+  }finally{button.disabled=false;}
+}
+
+async function savePrivateReservation(){
     const dates=selectedDates();
     if(!dates.length)return setMsg(saveStatus,'⚠️ Sélectionnez d’abord une date ou une période.',true);
     const guestName=$('guestName').value.trim(),guestPhone=$('guestPhone').value.trim();
