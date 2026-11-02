@@ -1,0 +1,16 @@
+name: Chez Baptiste Saly — WO et 中文
+on:
+  pull_request:
+    paths:
+      - index.html
+      - tests/test_locale_wo_zh.py
+      - .github/workflows/loc-10-languages.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test full locale, owner reservations and direct payment
+        run: python3 -m unittest discover -s tests -p 'test_locale_wo_zh.py' -v
