@@ -605,6 +605,8 @@
           <button class="lang-btn" type="button" data-lang="it" aria-pressed="false" title="Italiano">IT</button>
           <button class="lang-btn" type="button" data-lang="nl" aria-pressed="false" title="Nederlands">NL</button>
           <button class="lang-btn" type="button" data-lang="ar" aria-pressed="false" title="العربية">AR</button>
+          <button class="lang-btn" type="button" data-lang="wo" lang="wo" aria-pressed="false" title="Wolof">WO</button>
+          <button class="lang-btn" type="button" data-lang="zh" lang="zh-CN" aria-pressed="false" title="简体中文">中文</button>
         </div>
       </div>
     </header>
@@ -882,6 +884,8 @@
     const MASTER_PRICES = new Map();
 
     const translations = {
+      wo:{"pageTitle":"Chez Baptiste — Appartement ci Saly | DIGIY LOC","back":"DIGIY LOC","brandSub":"Appartement ci Saly · Réservation bu jub","verified":"BOKK CI DIGIYLYFE","score":"8,5","scoreLabel":"Baax na","location":"Saly Joseph · Senegaal","intro":"Appartement bu neex ci gox bu dal ci Saly, ngir nekk ak sa njaboot walla say xarit.","capacity":"👥 4 nit gën a bari","quiet":"🌿 Gox bu dal","direct":"🤝 Jokkoo ci sa bopp","from":"Tambalee ci","perNight":"/ guddi","packages":"175 000 FCFA / ayu-bés · 550 000 FCFA / weer · Sénélec yépp yu njëkk ci kaw","chooseDates":"Tànn samay bis","bookingTitle":"Laaj disponibilité","bookingSub":"Tànnal guddi yi ak ñaata nit. Boroom kër gi mooy wóoral ci sa bopp.","commission":"0 % commission DIGIY","datesLabel":"Bis yi nga nekk","datesPlaceholder":"Tànn guddi yi","guestsLabel":"Gan yi","estimateEmpty":"Tànnal bis yi ngir gis xayma njëg bi.","estimateNote":"boroom kër gi mooy wóoral njëg bu mujj","requestWhatsApp":"Laaj ci WhatsApp","call":"Woo","availabilityNote":"Laaj bii du tëj appartement bi ci sa tur. Boroom kër gi mooy wóoral bis yi ak njëg bu mujj.","knowTitle":"Li nga war a xam","knowOne":"Appartement bi : 4 nit gën a bari.","knowTwo":"Gox bu dal, amul coow.","knowThree":"Sénélec ci kaw lañu koy fay, ni nga ko jëfandikoo.","knowFour":"Wóoral ci WhatsApp, SMS walla woo.","videoTitle":"Xoolal appartement bi","videoCopy":"Xoolal vidéo Chez Baptiste bala nga wóoral sa laaj.","paymentTitle":"Fay ci sa bopp","paymentCopy":"Bu disponibilité bi leerée, fayal boroom kër gi ci Wave ci sa bopp.","internationalNote":"🌍 Bu nga nekkee bitim réew : mën nga fay ci Sendwave ngir Senegaal.","owner":"Boroom kër : Jean Baptiste Beauville","sms":"SMS","secondPhone":"Ñaareelu nimero","video":"Xoolal vidéo bi","businessCard":"Carte visite QR","moreTitle":"Njëg ak ni muy doxee","moreBody":"<strong>Njëg yu jëkk :</strong> 30 000 FCFA guddi, 175 000 FCFA ayu-bés, 550 000 FCFA weer. Sénélec ci kaw, ni nga ko jëfandikoo. Calendrier bi dafay waajal laaj; boroom kër gi mooy wóoral disponibilité ak xaalis bu mujj.","footer":"Chez Baptiste — Saly · Fiche DIGIY LOC · Jokkoo ci sa bopp · Fay ci sa bopp · 0 % commission.","calendarTitle":"Tànn bis yi","calendarHelp":"Bës bu njëkk : ñëw + 1 guddi. Ñaareelu bës : yokk bis yi.","confirmDates":"Tànn bis yii","guestTitle":"Gan yi","adults":"Mag yi","adultsNote":"13 at walla lu ko ëpp","children":"Xale yi","childrenNote":"0 ba 12 at","confirmGuests":"Wóoral","adultOne":"mag","adultMany":"mag yi","childOne":"xale","childMany":"xale yi","nightOne":"guddi","nightMany":"guddi yi","estimateFor":"Xayma ngir","stay":"Nekk","travellers":"Gan yi","whatsappIntro":"Salaam, bëgg naa xam disponibilité Chez Baptiste ci Saly.","mobilePerNight":"ci guddi","blockedListLabel":"📌 Bis yi ñu jëfandikoo :"},
+      zh:{"pageTitle":"Chez Baptiste — 萨利公寓 | DIGIY LOC","back":"DIGIY LOC","brandSub":"塞内加尔萨利公寓 · 直接预约","verified":"DIGIYLYFE 入驻业主","score":"8.5","scoreLabel":"很好","location":"塞内加尔 · Saly Joseph","intro":"位于萨利安静街区的舒适公寓，适合亲友共同入住。","capacity":"👥 最多 4 人","quiet":"🌿 安静的街区","direct":"🤝 直接联系","from":"起价","perNight":"/ 晚","packages":"175,000 西非法郎 / 周 · 550,000 西非法郎 / 月 · 电费另计","chooseDates":"选择入住日期","bookingTitle":"查询空房","bookingSub":"请选择入住晚数和旅客人数，业主将亲自确认。","commission":"DIGIY 佣金 0%","datesLabel":"入住日期","datesPlaceholder":"选择入住晚数","guestsLabel":"旅客","estimateEmpty":"请选择日期以计算预估费用。","estimateNote":"最终价格由业主直接确认","requestWhatsApp":"通过 WhatsApp 咨询","call":"致电","availabilityNote":"此咨询不会自动锁定房源。入住日期和最终价格须由业主直接确认。","knowTitle":"入住须知","knowOne":"公寓最多接待 4 位旅客。","knowTwo":"街区宁静，适合休息。","knowThree":"电费按实际使用量另外计算。","knowFour":"通过 WhatsApp、短信或电话直接确认。","videoTitle":"查看公寓","videoCopy":"确认咨询前，可以观看 Chez Baptiste 公寓视频。","paymentTitle":"直接付款","paymentCopy":"确认空房后，通过 Wave 直接向业主支付。","internationalNote":"🌍 从国外也可通过 Sendwave 向塞内加尔付款。","owner":"业主：Jean Baptiste Beauville","sms":"短信","secondPhone":"备用号码","video":"观看视频","businessCard":"二维码电子名片","moreTitle":"价格与预订流程","moreBody":"<strong>参考价格：</strong>每晚 30,000 西非法郎、每周 175,000、西非法郎每月 550,000。电费按实际用量另计。日历仅用于准备咨询，空房情况和最终金额由业主确认。","footer":"Chez Baptiste — 萨利 · DIGIY LOC 房源 · 直接联系 · 直接付款 · 佣金 0%。","calendarTitle":"选择日期","calendarHelp":"第一次点击：入住日期 + 1 晚。第二次点击：延长住宿。","confirmDates":"确认这些日期","guestTitle":"旅客人数","adults":"成人","adultsNote":"13 岁及以上","children":"儿童","childrenNote":"0 至 12 岁","confirmGuests":"确定","adultOne":"位成人","adultMany":"位成人","childOne":"位儿童","childMany":"位儿童","nightOne":"晚","nightMany":"晚","estimateFor":"费用估算：","stay":"住宿","travellers":"旅客","whatsappIntro":"您好，我想了解塞内加尔萨利 Chez Baptiste 公寓的空房情况。","mobilePerNight":"每晚","blockedListLabel":"📌 已占用日期："},
       fr:{
         pageTitle:"Chez Baptiste — Appartement à Saly | DIGIY LOC",
         back:"DIGIY LOC",brandSub:"Appartement à Saly · Réservation directe",
@@ -1583,7 +1587,7 @@
 
     function startOfMonth(date){return dateAtNoon(date.getFullYear(),date.getMonth(),1)}
 
-    const SUPPORTED_LANGS=['fr','en','es','pt','de','it','nl','ar'];
+    const SUPPORTED_LANGS=['fr','en','es','pt','de','it','nl','ar','wo','zh'];
 
     function preserveLangInInternalLinks(lang){
       document.querySelectorAll('a[href]').forEach(link=>{
@@ -1602,7 +1606,7 @@
     function applyLanguage(lang){
       if(!SUPPORTED_LANGS.includes(lang))lang='fr';
       currentLang=lang;
-      document.documentElement.lang=lang;
+      document.documentElement.lang=lang==="zh"?"zh-CN":lang;
       document.documentElement.dir=lang==='ar'?'rtl':'ltr';
       document.title=t('pageTitle');
       document.querySelectorAll('[data-i18n]').forEach(node=>{
