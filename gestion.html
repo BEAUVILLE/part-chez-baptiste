@@ -208,6 +208,19 @@
     $('guestName').removeAttribute('placeholder');
     $('specialPrice').placeholder='35000';
   }
+  const errorLanguages={
+    en: "Could not send the code.|Email and code are required.|This email cannot access this site.|No active accommodation is configured.|Could not load the calendar.|Cancellation could not be confirmed.|Enter the guest’s name.|Enter the guest’s phone number.|Booking could not be saved or confirmed.|Select an accommodation.|Calendar change could not be confirmed.|Enter a valid rate.|Rate change could not be saved.",
+    es: "No se pudo enviar el código.|Se necesitan el correo y el código.|Este correo no tiene acceso al sitio.|No hay alojamientos activos configurados.|No se pudo cargar el calendario.|No se pudo confirmar la cancelación.|Indica el nombre del huésped.|Indica el teléfono del huésped.|No se pudo guardar o confirmar la reserva.|Selecciona un alojamiento.|No se pudo confirmar el cambio en el calendario.|Indica un precio válido.|No se pudo guardar el cambio de precio.",
+    pt: "Não foi possível enviar o código.|E-mail e código são obrigatórios.|Este e-mail não tem acesso ao site.|Nenhum alojamento ativo configurado.|Não foi possível carregar o calendário.|Não foi possível confirmar o cancelamento.|Informe o nome do hóspede.|Informe o telefone do hóspede.|Não foi possível salvar ou confirmar a reserva.|Selecione um alojamento.|Não foi possível confirmar a alteração no calendário.|Informe um preço válido.|Não foi possível salvar a alteração do preço.",
+    it: "Impossibile inviare il codice.|Email e codice sono obbligatori.|Questa email non ha accesso al sito.|Nessun alloggio attivo configurato.|Impossibile caricare il calendario.|Impossibile confermare l’annullamento.|Inserisci il nome dell’ospite.|Inserisci il telefono dell’ospite.|Impossibile salvare o confermare la prenotazione.|Seleziona un alloggio.|Impossibile confermare la modifica del calendario.|Inserisci una tariffa valida.|Impossibile salvare la modifica della tariffa.",
+    de: "Code konnte nicht gesendet werden.|E-Mail und Code sind erforderlich.|Diese E-Mail-Adresse hat keinen Zugriff auf die Website.|Keine aktive Unterkunft eingerichtet.|Kalender konnte nicht geladen werden.|Stornierung konnte nicht bestätigt werden.|Gib den Namen des Gastes ein.|Gib die Telefonnummer des Gastes ein.|Buchung konnte nicht gespeichert oder bestätigt werden.|Wähle eine Unterkunft.|Kalenderänderung konnte nicht bestätigt werden.|Gib einen gültigen Preis ein.|Preisänderung konnte nicht gespeichert werden.",
+    nl: "Code kon niet worden verzonden.|E-mailadres en code zijn verplicht.|Dit e-mailadres heeft geen toegang tot de site.|Geen actief verblijf ingesteld.|Kalender kon niet worden geladen.|Annulering kon niet worden bevestigd.|Vul de naam van de gast in.|Vul het telefoonnummer van de gast in.|Reservering kon niet worden opgeslagen of bevestigd.|Kies een verblijf.|Kalenderwijziging kon niet worden bevestigd.|Voer een geldig tarief in.|Tariefwijziging kon niet worden opgeslagen.",
+    ar: "تعذّر إرسال الرمز.|البريد الإلكتروني والرمز مطلوبان.|هذا البريد غير مخوّل بالدخول إلى الموقع.|لم يُضبط أي مكان إقامة نشط.|تعذّر تحميل التقويم.|تعذّر تأكيد الإلغاء.|أدخل اسم الضيف.|أدخل رقم هاتف الضيف.|تعذّر حفظ الحجز أو تأكيده.|اختر مكان إقامة.|تعذّر تأكيد تعديل التقويم.|أدخل سعرًا صالحًا.|تعذّر حفظ تغيير السعر.",
+    wo: "Mënuñu yónnee kood bi.|Imeel ak kood dañu koy soxla.|Imeel bii amul sañ-sañu dugg ci sit bii.|Amul dalukaay buy dox ci sit bii.|Mënuñu ubbi arminaat bi.|Mënuñu dëggal neenal gi.|Dugal turu gan bi.|Dugal nimero telefonu gan bi.|Mënuñu denc walla dëggal ndaje bi.|Tànnal dalukaay.|Mënuñu dëggal soppi gi ci arminaat bi.|Dugal njëg bu baax.|Mënuñu denc njëg bu bees bi.",
+    zh: "无法发送验证码。|请输入邮箱和验证码。|此邮箱无权访问本网站。|尚未配置有效的住宿。|无法加载日历。|无法确认取消。|请输入客人姓名。|请输入客人电话号码。|无法保存或确认预订。|请选择住宿。|无法确认日历更改。|请输入有效价格。|无法保存价格更改。",
+  };
+  const errorCopy=errorLanguages[ownerLang]?.split('|');
+  const errorText=(index,french)=>errorCopy?'⚠️ '+errorCopy[index]:french;
   const loginPanel=$('loginPanel'), managerPanel=$('managerPanel'), loginStatus=$('loginStatus'), saveStatus=$('saveStatus');
   let siteId=null, units=[], unitId=null, current=new Date(), states=new Map(), prices=new Map(), reservations=[],ownerCancelV30Enabled=false, basePrice=30000, currency='XOF', start=null, end=null;
   current=new Date(current.getFullYear(), current.getMonth(), 1, 12);
@@ -233,14 +246,14 @@ function currentUnit(){return units.find(u=>u.id===unitId)||null;}
     $('sendCode').disabled=true; setMsg(loginStatus,'Envoi du code…');
     const {error}=await db.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:'https://part-chez-baptiste.digiylyfe.com/gestion.html'}});
     $('sendCode').disabled=false;
-    if(error) return setMsg(loginStatus,'⚠️ '+error.message,true);
+    if(error) return setMsg(loginStatus,errorText(0,'⚠️ '+error.message),true);
     $('otpBlock').classList.remove('hidden');
     setMsg(loginStatus,detailText(19,'✓ Email envoyé. Entrez le code reçu.'));
   }
 
   async function verifyCode(){
     const email=$('email').value.trim(), token=$('otp').value.trim();
-    if(!email||!token) return setMsg(loginStatus,'⚠️ Email et code nécessaires.',true);
+    if(!email||!token) return setMsg(loginStatus,errorText(1,'⚠️ Email et code nécessaires.'),true);
     $('verifyCode').disabled=true; setMsg(loginStatus,'Vérification…');
     const {data,error}=await db.auth.verifyOtp({email,token,type:'email'});
     $('verifyCode').disabled=false;
@@ -251,7 +264,7 @@ function currentUnit(){return units.find(u=>u.id===unitId)||null;}
   async function enter(session){
     if(!session) return showLogin();
     const {data:site,error}=await db.from('digiy_loc_master_sites').select('id,slug,display_name').eq('slug',SITE_SLUG).maybeSingle();
-    if(error||!site){await db.auth.signOut(); showLogin(); return setMsg(loginStatus,'⚠️ Cet email n’est pas autorisé pour ce site.',true);}
+    if(error||!site){await db.auth.signOut(); showLogin(); return setMsg(loginStatus,errorText(2,'⚠️ Cet email n’est pas autorisé pour ce site.'),true);}
 
     const {data:unitRows,error:unitError}=await db.from('digiy_loc_master_units')
       .select('id,slug,display_name,unit_type,sort_order,base_price,price_currency')
@@ -259,7 +272,7 @@ function currentUnit(){return units.find(u=>u.id===unitId)||null;}
       .eq('is_active',true)
       .order('sort_order')
       .order('display_name');
-    if(unitError||!unitRows||!unitRows.length){await db.auth.signOut(); showLogin(); return setMsg(loginStatus,'⚠️ Aucun hébergement actif n’est configuré pour ce site.',true);}
+    if(unitError||!unitRows||!unitRows.length){await db.auth.signOut(); showLogin(); return setMsg(loginStatus,errorText(3,'⚠️ Aucun hébergement actif n’est configuré pour ce site.'),true);}
 
     siteId=site.id;
     units=unitRows;
@@ -281,7 +294,7 @@ function currentUnit(){return units.find(u=>u.id===unitId)||null;}
     const from=iso(new Date(today().getFullYear(),today().getMonth(),1,12));
 
     const stateResult=await db.from('digiy_loc_master_unit_calendar').select('day,status').eq('unit_id',unitId).gte('day',from).order('day');
-    if(stateResult.error){setMsg(saveStatus,'⚠️ Lecture calendrier impossible : '+stateResult.error.message,true);return;}
+    if(stateResult.error){setMsg(saveStatus,errorText(4,'⚠️ Lecture calendrier impossible : '+stateResult.error.message),true);return;}
     states=new Map((stateResult.data||[]).map(r=>[r.day,r.status]));
 
     const priceResult=await db.from('digiy_loc_master_unit_prices').select('day,price_override').eq('unit_id',unitId).gte('day',from).order('day');
@@ -408,9 +421,9 @@ async function loadReservationCarnet(){
     const {data,error}=await db.rpc('digiy_loc_master_cancel_reservation_v1',{
       p_reservation_id:r.id,p_reason:'Annulation confirmée par le propriétaire'
     });
-    if(error){setMsg(saveStatus,'⚠️ Annulation refusée : '+error.message,true);return;}
+    if(error){setMsg(saveStatus,errorText(5,'⚠️ Annulation refusée : '+error.message),true);return;}
     if(!data||data.ok!==true||data.status!=='cancelled'){
-      setMsg(saveStatus,'⚠️ Annulation non confirmée par le serveur.',true);return;
+      setMsg(saveStatus,errorText(5,'⚠️ Annulation non confirmée par le serveur.'),true);return;
     }
     await loadData();render();renderReservations();
     const payload={type:'calendar-changed',unitId,dates:[],status:'available',ts:Date.now()};
@@ -421,7 +434,7 @@ async function loadReservationCarnet(){
       ?'✓ Réservation annulée, historique conservé. ⚠️ '+kept+' date(s) restent bloquées : vérification manuelle nécessaire.'
       :'✓ Réservation annulée, historique conservé, disponibilités synchronisées.');
   }catch(e){
-    setMsg(saveStatus,'⚠️ Annulation non confirmée : '+(e?.message||'erreur'),true);
+    setMsg(saveStatus,errorText(5,'⚠️ Annulation non confirmée : '+(e?.message||'erreur')),true);
   }finally{button.disabled=false;}
 }
 
@@ -429,15 +442,15 @@ async function savePrivateReservation(){
     const dates=selectedDates();
     if(!dates.length)return setMsg(saveStatus,detailText(21,'⚠️ Sélectionnez d’abord une date ou une période.'),true);
     const guestName=$('guestName').value.trim(),guestPhone=$('guestPhone').value.trim();
-    if(!guestName)return setMsg(saveStatus,'⚠️ Indiquez le nom du client.',true);
-    if(!guestPhone)return setMsg(saveStatus,'⚠️ Indiquez le téléphone du client.',true);
+    if(!guestName)return setMsg(saveStatus,errorText(6,'⚠️ Indiquez le nom du client.'),true);
+    if(!guestPhone)return setMsg(saveStatus,errorText(7,'⚠️ Indiquez le téléphone du client.'),true);
     const button=$('saveReservation');button.disabled=true;setMsg(saveStatus,detailText(22,'Enregistrement de la réservation…'));
     try{
       const {data,error}=await db.rpc('digiy_loc_master_save_reservation_v1',{
         p_unit_id:unitId,p_start_day:dates[0],p_end_day:dates[dates.length-1],p_guest_name:guestName,p_guest_phone:guestPhone,p_source:$('reservationSource').value,p_note:$('reservationNote').value.trim()||null
       });
-      if(error)return setMsg(saveStatus,'⚠️ Réservation non enregistrée : '+error.message,true);
-      if(!data||!data.length)return setMsg(saveStatus,'⚠️ Réservation non retrouvée après écriture.',true);
+      if(error)return setMsg(saveStatus,errorText(8,'⚠️ Réservation non enregistrée : '+error.message),true);
+      if(!data||!data.length)return setMsg(saveStatus,errorText(8,'⚠️ Réservation non retrouvée après écriture.'),true);
       await loadData();
       resetSelection();render();renderReservations();
       $('guestName').value='';$('guestPhone').value='';$('reservationNote').value='';
@@ -448,21 +461,21 @@ async function savePrivateReservation(){
   async function applyState(status){
     const dates=selectedDates();
     if(!dates.length)return setMsg(saveStatus,detailText(21,'⚠️ Sélectionnez une date ou une période.'),true);
-    if(!unitId)return setMsg(saveStatus,'⚠️ Aucun hébergement sélectionné.',true);
+    if(!unitId)return setMsg(saveStatus,errorText(9,'⚠️ Aucun hébergement sélectionné.'),true);
     const buttons=[$('makeAvailable'),$('makeOccupied'),$('makeClosed')].filter(Boolean);
     buttons.forEach(button=>button.disabled=true);
     setMsg(saveStatus,detailText(22,'Enregistrement…'));
     try{
       const {data,error}=await db.rpc('digiy_loc_set_unit_calendar_state_v2',{p_unit_id:unitId,p_days:dates,p_status:status});
-      if(error)return setMsg(saveStatus,'⚠️ Enregistrement refusé : '+error.message,true);
+      if(error)return setMsg(saveStatus,errorText(10,'⚠️ Enregistrement refusé : '+error.message),true);
       const returned=Array.isArray(data)?data.map(row=>String(row.day||row)):[];
-      if(returned.length && !dates.every(day=>returned.includes(day))) return setMsg(saveStatus,'⚠️ Réponse incomplète du calendrier.',true);
+      if(returned.length && !dates.every(day=>returned.includes(day))) return setMsg(saveStatus,errorText(10,'⚠️ Réponse incomplète du calendrier.'),true);
 
       const {data:verifyRows,error:verifyError}=await db.from('digiy_loc_master_unit_calendar').select('day,status').eq('unit_id',unitId).in('day',dates);
-      if(verifyError)return setMsg(saveStatus,'⚠️ Relecture du statut impossible : '+verifyError.message,true);
+      if(verifyError)return setMsg(saveStatus,errorText(10,'⚠️ Relecture du statut impossible : '+verifyError.message),true);
       const verifyMap=new Map((verifyRows||[]).map(row=>[String(row.day),row.status]));
       const persisted=status==='available'?dates.every(day=>!verifyMap.has(day)):dates.every(day=>verifyMap.get(day)===status);
-      if(!persisted)return setMsg(saveStatus,'⚠️ État non retrouvé après relecture. Aucun faux succès affiché.',true);
+      if(!persisted)return setMsg(saveStatus,errorText(10,'⚠️ État non retrouvé après relecture. Aucun faux succès affiché.'),true);
 
       if(status==='available')dates.forEach(day=>states.delete(day));else dates.forEach(day=>states.set(day,status));
       const label=status==='available'?ownerText(15,'Disponible'):status==='occupied'?ownerText(16,'Occupé'):ownerText(17,'Fermé');
@@ -476,25 +489,25 @@ async function savePrivateReservation(){
 
   async function saveBasePrice(){
     const value=Number(String($('basePrice').value).replace(',','.'));
-    if(!Number.isFinite(value)||value<0)return setMsg(saveStatus,'⚠️ Tarif de base invalide.',true);
+    if(!Number.isFinite(value)||value<0)return setMsg(saveStatus,errorText(11,'⚠️ Tarif de base invalide.'),true);
     const {data,error}=await db.from('digiy_loc_master_units').update({base_price:value,price_currency:'XOF',updated_at:new Date().toISOString()}).eq('id',unitId).select('id,base_price,price_currency').maybeSingle();
-    if(error||!data)return setMsg(saveStatus,'⚠️ Tarif de base non enregistré'+(error?' : '+error.message:''),true);
+    if(error||!data)return setMsg(saveStatus,errorText(12,'⚠️ Tarif de base non enregistré'+(error?' : '+error.message:'')),true);
     const u=currentUnit();u.base_price=Number(data.base_price);u.price_currency=data.price_currency||'XOF';syncBase();render();setMsg(saveStatus,detailText(24,'✓ Tarif de base enregistré')+' '+money(basePrice));
   }
 
   async function applySpecialPrice(){
     const dates=selectedDates();if(!dates.length)return setMsg(saveStatus,detailText(21,'⚠️ Sélectionnez une date ou une période.'),true);
-    const value=Number(String($('specialPrice').value).replace(',','.'));if(!Number.isFinite(value)||value<0)return setMsg(saveStatus,'⚠️ Prix spécial invalide.',true);
+    const value=Number(String($('specialPrice').value).replace(',','.'));if(!Number.isFinite(value)||value<0)return setMsg(saveStatus,errorText(11,'⚠️ Prix spécial invalide.'),true);
     const rows=dates.map(day=>({unit_id:unitId,day,price_override:value,updated_at:new Date().toISOString()}));
     const {data,error}=await db.from('digiy_loc_master_unit_prices').upsert(rows,{onConflict:'unit_id,day'}).select('day,price_override');
-    if(error||!data||data.length!==dates.length)return setMsg(saveStatus,'⚠️ Prix non enregistré'+(error?' : '+error.message:''),true);
+    if(error||!data||data.length!==dates.length)return setMsg(saveStatus,errorText(12,'⚠️ Prix non enregistré'+(error?' : '+error.message:'')),true);
     data.forEach(r=>prices.set(r.day,Number(r.price_override)));render();setMsg(saveStatus,detailText(24,'✓ Prix enregistré')+' '+money(value));
   }
 
   async function clearSpecialPrice(){
     const dates=selectedDates();if(!dates.length)return setMsg(saveStatus,detailText(21,'⚠️ Sélectionnez une date ou une période.'),true);
     const {error}=await db.from('digiy_loc_master_unit_prices').delete().eq('unit_id',unitId).in('day',dates);
-    if(error)return setMsg(saveStatus,'⚠️ Retour tarif de base refusé : '+error.message,true);
+    if(error)return setMsg(saveStatus,errorText(12,'⚠️ Retour tarif de base refusé : '+error.message),true);
     dates.forEach(day=>prices.delete(day));render();setMsg(saveStatus,'✓ Tarif de base rétabli sur la sélection.');
   }
 
