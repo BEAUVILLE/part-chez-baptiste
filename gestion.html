@@ -27,6 +27,18 @@
     <a class="back" href="https://part-chez-baptiste.digiylyfe.com/">← Voir la fiche publique</a>
   </header>
 
+  <nav aria-label="Langue / Language" style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
+    <button class="btn ghost" type="button" data-owner-lang="fr">FR</button>
+    <button class="btn ghost" type="button" data-owner-lang="en">EN</button>
+    <button class="btn ghost" type="button" data-owner-lang="es">ES</button>
+    <button class="btn ghost" type="button" data-owner-lang="pt">PT</button>
+    <button class="btn ghost" type="button" data-owner-lang="it">IT</button>
+    <button class="btn ghost" type="button" data-owner-lang="de">DE</button>
+    <button class="btn ghost" type="button" data-owner-lang="nl">NL</button>
+    <button class="btn ghost" type="button" data-owner-lang="ar">AR</button>
+    <button class="btn ghost" type="button" data-owner-lang="wo">WO</button>
+    <button class="btn ghost" type="button" data-owner-lang="zh">ZH</button>
+  </nav>
   <section class="panel" id="loginPanel">
     <span class="eyebrow">Accès privé</span>
     <h1>Gérer mes dates.</h1>
@@ -124,6 +136,50 @@
   const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {auth:{persistSession:true,detectSessionInUrl:true}});
 
   const $ = id => document.getElementById(id);
+  const ownerLanguages={
+    en: "View public page|Private access|Manage my dates|Sign in to manage availability and rates.|Owner email|Send my code|Code received by email|Open my calendar|Owner calendar|Select one date or a range, then choose its status or rate.|Sign out|Accommodation / room|Base rate|Base rate per night|Save base rate|Available|Occupied|Closed|Booking records|Private booking|Save booking",
+    es: "Ver ficha pública|Acceso privado|Gestionar mis fechas|Inicia sesión para gestionar disponibilidad y tarifas.|Correo del propietario|Recibir mi código|Código recibido por correo|Abrir mi calendario|Calendario del propietario|Selecciona una fecha o un intervalo y elige el estado o precio.|Cerrar sesión|Alojamiento / habitación|Tarifa base|Tarifa base por noche|Guardar tarifa base|Disponible|Ocupado|Cerrado|Registro de reservas|Reserva privada|Guardar reserva",
+    pt: "Ver página pública|Acesso privado|Gerenciar minhas datas|Entre para gerenciar disponibilidade e tarifas.|E-mail do proprietário|Receber meu código|Código recebido por e-mail|Abrir meu calendário|Calendário do proprietário|Selecione uma data ou período e escolha o estado ou preço.|Sair|Alojamento / quarto|Tarifa base|Tarifa base por noite|Salvar tarifa base|Disponível|Ocupado|Fechado|Registro de reservas|Reserva privada|Salvar reserva",
+    it: "Vedi la pagina pubblica|Accesso privato|Gestisci le mie date|Accedi per gestire disponibilità e tariffe.|Email del proprietario|Ricevi il codice|Codice ricevuto via email|Apri il mio calendario|Calendario del proprietario|Seleziona una data o un periodo e scegli stato o tariffa.|Esci|Alloggio / camera|Tariffa base|Tariffa base per notte|Salva tariffa base|Disponibile|Occupato|Chiuso|Registro prenotazioni|Prenotazione privata|Salva prenotazione",
+    de: "Öffentliches Profil ansehen|Privater Zugang|Meine Termine verwalten|Melde dich an, um Verfügbarkeit und Preise zu verwalten.|E-Mail des Eigentümers|Code anfordern|Code aus der E-Mail|Kalender öffnen|Eigentümerkalender|Wähle ein Datum oder einen Zeitraum und dann Status oder Preis.|Abmelden|Unterkunft / Zimmer|Grundpreis|Grundpreis pro Nacht|Grundpreis speichern|Verfügbar|Belegt|Geschlossen|Buchungsverzeichnis|Private Buchung|Buchung speichern",
+    nl: "Bekijk openbare pagina|Privétoegang|Mijn datums beheren|Meld je aan om beschikbaarheid en prijzen te beheren.|E-mailadres van eigenaar|Stuur mijn code|Code ontvangen per e-mail|Open mijn kalender|Eigenaarskalender|Kies een datum of periode en stel status of prijs in.|Afmelden|Verblijf / kamer|Basistarief|Basistarief per nacht|Basistarief opslaan|Beschikbaar|Bezet|Gesloten|Reserveringsoverzicht|Privéreservering|Reservering opslaan",
+    ar: "عرض الصفحة العامة|دخول خاص|إدارة تواريخي|سجّل الدخول لإدارة التوفر والأسعار.|بريد المالك الإلكتروني|إرسال الرمز|الرمز الوارد بالبريد الإلكتروني|فتح تقويمي|تقويم المالك|اختر تاريخًا أو فترة ثم حدد الحالة أو السعر.|تسجيل الخروج|مكان الإقامة / الغرفة|السعر الأساسي|السعر الأساسي لكل ليلة|حفظ السعر الأساسي|متاح|مشغول|مغلق|سجل الحجوزات|حجز خاص|حفظ الحجز",
+    wo: "Xool kart bu ñépp di gis|Duggukaay bu nëbbu|Saytu sama bés yi|Dugg ngir saytu bés yu féex ak njëg yi.|Imeelu boroom bi|Yónneel ma sama kood|Kood bi ñu yónnee ci imeel|Ubbi sama arminaat|Arminaatu boroom bi|Tànnal bés walla diir, te tànn tolluwaay bi walla njëg bi.|Génn|Dalukaay / néeg|Njëg bu njëkk|Njëg bu njëkk ci guddi|Denc njëg bu njëkk bi|Féex na|Am na ku ko jël|Tëju na|Téereb ndaje yi|Ndaje bu nëbbu|Denc ndaje bi",
+    zh: "查看公开档案|私人入口|管理我的日期|登录以管理空房状态和价格。|房东邮箱|获取验证码|邮件中的验证码|打开我的日历|房东日历|选择单个日期或日期范围，再设置状态或价格。|退出登录|住宿 / 房间|基础价格|每晚基础价格|保存基础价格|可订|已占用|关闭|预订记录|私人预订|保存预订",
+  };
+  const currentUrl=new URL(location.href);
+  const storageKey='digiy_loc_saly_owner_language';
+  let preferredLang=currentUrl.searchParams.get('lang')?.toLowerCase();
+  try{
+    if(preferredLang==='fr'||Object.hasOwn(ownerLanguages,preferredLang))localStorage.setItem(storageKey,preferredLang);
+    else if(!preferredLang)preferredLang=localStorage.getItem(storageKey);
+  }catch{}
+  const ownerLang=Object.hasOwn(ownerLanguages,preferredLang)?preferredLang:'fr';
+  const ownerCopy=ownerLanguages[ownerLang]?.split('|');
+  const ownerText=(index,french)=>ownerCopy?.[index]??french;
+  const ownerLocale=ownerLang==='fr'?'fr-FR':ownerLang;
+  document.documentElement.lang=ownerLang;
+  document.documentElement.dir=ownerLang==='ar'?'rtl':'ltr';
+  if(ownerCopy){
+    const selectors=[".top .back","#loginPanel .eyebrow","#loginPanel h1","#loginPanel .muted","label[for=email]","#sendCode","label[for=otp]","#verifyCode","#managerPanel .eyebrow","#managerPanel > .muted","#logout","label[for=unitSelect]",".pricing-title","label[for=basePrice]","#saveBasePrice","#makeAvailable","#makeOccupied","#makeClosed","#reservationCarnet h3",".reservation-box:not(.reservation-carnet) h3","#saveReservation"];
+    const icons={12:'💰 ',15:'🟢 ',16:'🔴 ',17:'⚫ ',18:'📒 ',19:'👤 ',20:'🔒 '};
+    selectors.forEach((selector,index)=>{
+      const element=document.querySelector(selector);
+      if(element)element.textContent=(icons[index]||'')+ownerCopy[index];
+    });
+    document.querySelectorAll('.legend span').forEach((element,index)=>{
+      const dot=element.querySelector('.dot');
+      if(dot)element.replaceChildren(dot,document.createTextNode(ownerCopy[15+index]));
+    });
+  }
+  document.querySelectorAll('[data-owner-lang]').forEach(button=>{
+    button.setAttribute('aria-pressed',String(button.dataset.ownerLang===ownerLang));
+    button.addEventListener('click',()=>{
+      const target=new URL(location.href);
+      target.searchParams.set('lang',button.dataset.ownerLang);
+      location.assign(target.href);
+    });
+  });
   const loginPanel=$('loginPanel'), managerPanel=$('managerPanel'), loginStatus=$('loginStatus'), saveStatus=$('saveStatus');
   let siteId=null, units=[], unitId=null, current=new Date(), states=new Map(), prices=new Map(), reservations=[],ownerCancelV30Enabled=false, basePrice=30000, currency='XOF', start=null, end=null;
   current=new Date(current.getFullYear(), current.getMonth(), 1, 12);
@@ -131,7 +187,7 @@
   const iso = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
   const today = () => { const n=new Date(); return new Date(n.getFullYear(),n.getMonth(),n.getDate(),12); };
   const parse = value => { const [year,month,day] = String(value).split('-').map(Number); return new Date(year,month-1,day,12); };
-  const fmt = d => d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  const fmt = d => d.toLocaleDateString(ownerLocale,{day:'numeric',month:'long',year:'numeric'});
   const between = (a,b) => { const out=[]; for(let d=new Date(a); d<=b; d.setDate(d.getDate()+1)) out.push(iso(d)); return out; };
   const selectedDates = () => start ? between(start,end||start) : [];
 
@@ -140,7 +196,7 @@
   function showLogin(){managerPanel.classList.add('hidden');loginPanel.classList.remove('hidden');}
   
 function currentUnit(){return units.find(u=>u.id===unitId)||null;}
-  function money(value){const n=Number(value);return Number.isFinite(n)?n.toLocaleString('fr-FR',{maximumFractionDigits:0})+' '+(currency==='XOF'?'FCFA':currency):'—';}
+  function money(value){const n=Number(value);return Number.isFinite(n)?n.toLocaleString(ownerLocale,{maximumFractionDigits:0})+' '+(currency==='XOF'?'FCFA':currency):'—';}
   function syncBase(){const u=currentUnit();basePrice=Number(u&&u.base_price!=null?u.base_price:30000);currency=(u&&u.price_currency)||'XOF';$('basePrice').value=basePrice;$('basePriceInfo').textContent='Tarif de base actuel : '+money(basePrice);}
 
   async function sendCode(){
@@ -255,7 +311,7 @@ async function loadReservationCarnet(){
 
   function render(){
     const y=current.getFullYear(),m=current.getMonth();
-    $('monthLabel').textContent=current.toLocaleDateString('fr-FR',{month:'long',year:'numeric'});
+    $('monthLabel').textContent=current.toLocaleDateString(ownerLocale,{month:'long',year:'numeric'});
     const grid=$('calendarGrid');grid.innerHTML='';
     ['Lu','Ma','Me','Je','Ve','Sa','Di'].forEach(x=>{const e=document.createElement('div');e.className='dow';e.textContent=x;grid.appendChild(e);});
     const first=new Date(y,m,1,12), offset=(first.getDay()+6)%7, last=new Date(y,m+1,0,12).getDate();
@@ -381,7 +437,7 @@ async function savePrivateReservation(){
       if(!persisted)return setMsg(saveStatus,'⚠️ État non retrouvé après relecture. Aucun faux succès affiché.',true);
 
       if(status==='available')dates.forEach(day=>states.delete(day));else dates.forEach(day=>states.set(day,status));
-      const label=status==='available'?'Disponible':status==='occupied'?'Occupé':'Fermé';
+      const label=status==='available'?ownerText(15,'Disponible'):status==='occupied'?ownerText(16,'Occupé'):ownerText(17,'Fermé');
       resetSelection();render();
       setMsg(saveStatus,'✓ '+label+' confirmé en base sur '+dates.length+(dates.length===1?' date.':' dates.'));
       const payload={type:'calendar-changed',unitId,dates,status,ts:Date.now()};
